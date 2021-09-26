@@ -30,22 +30,33 @@ import { } from "os";
                 <label for="play_pdf">Play PDF:</label>
                 <input type="file" id="play_pdf" name="play_pdf" accept="application/pdf">
                 <br>
+
                 <label for="title">Title:</label>
                 <input type="text" id="title" name="title">
                 <br>
+
                 <label for="actor_count">Actors:</label>
                 <input type="number" id="actor_count" name="actor_count">
                 <br>
+
                 <label for="actor_explain">Actor Count Explanation:</label>
                 <br>
                 <textarea id="actor_explain" name="actor_explain" cols="30%" rows="10" placeholder="Please explain why this many actors can perform this play."></textarea>
                 <br>
-                <label for="meet_preference">Meeting Preference</label>
+
+                <label for="meet_preference">Meeting Preference: </label>
                 <select name="meet_preferences" id="meet_preferences">
                     <option value="physical">In person</option>
                     <option value="online">Online</option>
                 </select>
                 <br>
+
+                <label for="tone">Tone of the Play: </label>
+                <select name="tone" id="tone">
+                    <option value="drama">Drama</option>
+                    <option value="comedy">Comedy</option>
+                </select>
+
             </td>
             <td>
             
@@ -66,6 +77,9 @@ import { } from "os";
                 <label for="play_future">Play Improvements:</label>
                 <br>
                 <textarea name="play_future" id="play_future" cols="30%" rows="6" placeholder="Where do you think you can improve this play and why?"></textarea>
+                <br>
+                <label for="email">Email: </label>
+                <input id="email" type="email">
                 <br>
                 <button type="submit">Submit</button>
             </td>
