@@ -4,7 +4,6 @@
 </svelte:head>
 
 <div class="loginPortal">
-    
     <form action="POST">
         <h2>Login</h2>
         <div class="field">
