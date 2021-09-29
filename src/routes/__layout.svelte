@@ -33,6 +33,9 @@
         margin: auto;
         margin-bottom: 50px;
     }
+    :global(textarea::placeholder){
+        font-family: 'Roboto', sans-serif;
+    }
     img{
         display: block;
         margin: auto;

@@ -19,10 +19,10 @@
     </form>
 
     <!-- (To whoever works on admin page) Change placeholder link/href to /admin -->
-    <a href="PLACEHOLDER/PUT-NEXT-PAGE-HERE">Temporary Link to another page (So that others can advance)</a> <br>
+    <a href="/administrator/main">Temporary Link to another page (So that others can advance)</a> <br>
     
     <!-- (To whoever works on evaluator page) Change placeholder link/href to /evaluator-->
-    <a href="PLACEHOLDER/PUT-NEXT-PAGE-HERE">2nd Temporary Link to another page (So that others can advance)</a>
+    <a href="/evaluator/main">2nd Temporary Link to another page (So that others can advance)</a>
 
 </div>
 
