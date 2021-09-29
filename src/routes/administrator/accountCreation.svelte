@@ -1,1 +1,60 @@
-<h1>Account cration page placeholder</h1>
+<script>
+    import { } from "os";
+    
+</script>
+
+    <svelte:head>
+        <title>Reviewer Account Creation</title>
+    </svelte:head>
+
+    <form>
+        <table align="center" style="width: 90%;" >
+
+            <colgroup>
+                <col span="1" style="width: 30%;">
+                <col span="1" style="width: 30%;">
+                <col span="1" style="width: 30%;">
+            </colgroup>
+
+            <th align="left">
+                <h4>Evaluator Account Creation</h4>
+            </th>
+
+            <tr>
+                <td>
+                    <label for="Last Name">Last Name:</label>
+                    <input type="text" id="Last Name" name="Last Name" required>
+                    <br>
+
+                    <label for="First Name">First Name:</label>
+                    <input type="text" id="First Name" name="First Name" required>
+                    <br>
+
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+                    <small>Ex: 123-456-7890</small>
+                    <br>
+
+                    <label for="Email">Email:</label>
+                    <input type="email" id="Email" name="Email" require>
+                    <br>
+
+                    <label for="uname">Username:</label>
+                    <input type="text" id="uname" name="uname" required>
+                    <br>
+
+                    <label for="pword">Password:</label>
+                    <input type="password" id="pword" name="pword" required>
+                    <br>
+
+                    <label for="pword_confrm">Confirm Password:</label>
+                    <input type="password" id="pword_confrm" name="pword_confrm" required>
+                    <br>
+
+                </td>
+            </tr> 
+    </form>
+
+    <style>
+        
+    </style>
