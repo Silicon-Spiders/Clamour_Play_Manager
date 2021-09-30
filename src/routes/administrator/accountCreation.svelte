@@ -33,7 +33,7 @@
                     <br>
 
                     <label for="phone">Phone Number:</label>
-                    <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+                    <input type="tel" id="phone" name="phone" required>
                     <small>Ex: 123-456-7890</small>
                     <br>
                     <br>
@@ -51,6 +51,9 @@
                     <label for="pword">Password:</label>
                     <input type="password" id="pword" name="pword" required>
                     <br>
+                    <br>
+
+                    <input type="submit" value="Create Account">
 
                 </td>
             </tr> 
