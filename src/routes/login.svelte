@@ -1,27 +1,51 @@
+<script>
+    import { goto } from '$app/navigation';
+    let rec = { user: "", pass: "" };
+    async function submit(e) {
+        const form = e.target;
+        const {action, method} = form;
+        const res = await fetch(action, {
+        method,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rec),
+        });
+        if(res.ok) {
+            const json = await res.json();
+            console.log("json", json);
+            if(json == true){
+                console.log("In json true if");
+                goto("/administrator/main");
+            }
+            else{
+                window.alert("Invalid Username/Password Credentials!");
+            }
+        }
+  }
+</script>
+
 <svelte:head>
+
     <title>Login</title>
     <!-- Login Page for Admins & Evaluators -->
 </svelte:head>
-
 <div class="loginPortal">
-    <form action="POST">
+    <form on:submit|preventDefault={submit} action="/api/login" method="POST">
         <h2>Login</h2>
         <div class="field">
             <label for="user">Username:</label>
-            <input name="user" id="user">
+            <input type="text" id="user" bind:value={rec.user}>
         </div>
         <div class="field">
             <label for="pass">Password:</label>
-            <input type="password" name="pass" id="pass">
+            <input type="password" id="pass" bind:value={rec.pass}>
         </div>
         <button type="submit">Login</button>
     </form>
 
-    <!-- (To whoever works on admin page) Change placeholder link/href to /admin -->
-    <a href="/administrator/main">Temporary Link to another page (So that others can advance)</a> <br>
-    
     <!-- (To whoever works on evaluator page) Change placeholder link/href to /evaluator-->
-    <a href="/evaluator/main">2nd Temporary Link to another page (So that others can advance)</a>
+    <a href="/evaluator/main">Temporary Link to another page (So that others can advance)</a>
 
 </div>
 
