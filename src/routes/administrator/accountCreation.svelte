@@ -25,30 +25,31 @@
                     <label for="Last Name">Last Name:</label>
                     <input type="text" id="Last Name" name="Last Name" required>
                     <br>
+                    <br>
 
                     <label for="First Name">First Name:</label>
                     <input type="text" id="First Name" name="First Name" required>
+                    <br>
                     <br>
 
                     <label for="phone">Phone Number:</label>
                     <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
                     <small>Ex: 123-456-7890</small>
                     <br>
+                    <br>
 
                     <label for="Email">Email:</label>
                     <input type="email" id="Email" name="Email" require>
+                    <br>
                     <br>
 
                     <label for="uname">Username:</label>
                     <input type="text" id="uname" name="uname" required>
                     <br>
+                    <br>
 
                     <label for="pword">Password:</label>
                     <input type="password" id="pword" name="pword" required>
-                    <br>
-
-                    <label for="pword_confrm">Confirm Password:</label>
-                    <input type="password" id="pword_confrm" name="pword_confrm" required>
                     <br>
 
                 </td>
@@ -56,5 +57,5 @@
     </form>
 
     <style>
-        
+
     </style>
