@@ -18,12 +18,7 @@
     <slot></slot>
 </main>
 
-<footer>
-    <nav id="footer">
-        <!-- Add links in footer in the future -->
-        <p>© Copyright 2017 - 2021 Clamour Theatre Company, Inc. | CTC. All Rights Reserved.</p>
-    </nav>
-</footer>
+
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
@@ -31,7 +26,6 @@
         font-family: 'Roboto', sans-serif;
         width: 100%;
         margin: auto;
-        margin-bottom: 50px;
     }
     :global(textarea::placeholder){
         font-family: 'Roboto', sans-serif;
