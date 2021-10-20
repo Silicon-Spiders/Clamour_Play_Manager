@@ -1,5 +1,8 @@
 <script>
   import Content from "$lib/components/content.svelte";
+  import Play from "$lib/components/play.svelte";
+  import Playheading from "$lib/components/playheading.svelte";
+  import PlayHeading from "$lib/components/playheading.svelte";
 </script>
 
 <Content>
@@ -12,10 +15,21 @@
     </select>
   </div>
   <div slot="content">
-    <div class="play-listing">asd</div>
-    <div class="play-listing">asd</div>
-    <div class="play-listing">asd</div>
-    <div class="play-listing">asd</div>
+    <Playheading>
+      <span>Great Gatsby</span>
+    </Playheading>
+    <Play checkbox>
+      <span slot="title">Great Gatsby</span>
+      <span slot="rating">9/10</span>
+      <span slot="tone">Drama</span>
+      <span slot="actors">3</span>
+      <span slot="pages">37pg</span>
+      <span slot="authorFirstName">Leonardo</span>
+      <span slot="authorLastName">Dicaprio</span>
+      <span slot="authorGender">Male</span>
+      <span slot="authorEthnicity">Caucasian</span>
+      <span slot="authorRegion">(US)Florida</span>
+    </Play>
   </div>
 </Content>
 
@@ -29,11 +43,5 @@
     padding: 6px;
     border: none;
     border-radius: 4px;
-  }
-  .play-listing {
-    padding-left: 10px;
-    padding-top: 15px;
-    height: 50px;
-    border-bottom: thin solid var(--secondary-color-dark);
   }
 </style>
