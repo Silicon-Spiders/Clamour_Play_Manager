@@ -1,90 +1,98 @@
-    <svelte:head>
-    <title>Apply</title>
-    <!-- Main Script Submission Page -->
+<svelte:head>
+  <title>Apply</title>
+  <!-- Main Script Submission Page -->
 </svelte:head>
 
-<form class="applcationform">
-    <h3>Play Info</h3>
-    <label><span> Play PDF:</span><input type="file" name="play_pdf" accept="application/pdf"></label>
+<form>
+  <table align="center" style="width: 90%;">
+    <colgroup>
+      <col span="1" style="width: 30%;" />
+      <col span="1" style="width: 30%;" />
+      <col span="1" style="width: 30%;" />
+    </colgroup>
 
-    <label><span>Title:</span><input type="text" name="title"></label>
-    <label><span>Tone of the Play:</span>
-        <select name="tone">
-            <option value="drama">Drama</option>
-            <option value="comedy">Comedy</option>
+    <th align="left">
+      <h4>Play Info</h4>
+    </th>
+    <th align="left">
+      <h4>Personal Details</h4>
+    </th>
+    <th align="left">
+      <h4>Finish & Submit</h4>
+    </th>
+    <tr>
+      <td>
+        <label for="play_pdf">Play PDF:</label>
+        <input type="file" id="play_pdf" name="play_pdf" accept="application/pdf" />
+        <br />
+
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" />
+        <br />
+
+        <label for="actor_count">Actors:</label>
+        <input type="number" id="actor_count" name="actor_count" />
+        <br />
+
+        <label for="actor_explain">Actor Count Explanation:</label>
+        <br />
+        <textarea
+          id="actor_explain"
+          name="actor_explain"
+          cols="30%"
+          rows="10"
+          placeholder="Please explain why this many actors can perform this play."
+        />
+        <br />
+
+        <label for="meet_preference">Meeting Preference: </label>
+        <select name="meet_preferences" id="meet_preferences">
+          <option value="physical">In person</option>
+          <option value="online">Online</option>
         </select>
-    </label>
-    <label><span>Characters:</span>
-        <textarea name="characters" cols="30%" rows="10" 
-        placeholder="Please list all main characters"></textarea>
-    </label>
-    <label><span>Male Characters:</span><input type="number" name="title"></label>
-    <label><span>Female Characters:</span><input type="number" name="title"></label>
-    <label><span>Gender Non-Specifc Characters:</span><input type="number" name="title"></label>
-    
-    <label><span>Minimum Actors Needed:</span><input type="number" name="actor_count"></label>
-    
-    <label><span>Actor Count Explanation:</span>
-        <textarea name="actor_explain" cols="30%" rows="10" 
-        placeholder="Please explain which characters can be double casted by the same actor"></textarea>
-    </label>
-    
-    <label><span>Synopsis:</span>
-        <textarea name="synopsis" cols="30%" rows="6" placeholder="Write a brief synopsis of you play."></textarea>
-    </label>
-    
-    <label><span>Play Improvements:</span>
-        <textarea name="play_future" cols="30%" rows="6" placeholder="Where do you think you can improve this play and why?"></textarea>
-    </label>
-    <label><span>Next Steps in Development:</span>
-        <textarea name="play_future" cols="30%" rows="6" placeholder="How do you plan to develop this play in the future?"></textarea>
-    </label>
-    
-    
-    <h3>Personal Details</h3>
+        <br />
 
-    <label><span>Professional Introduction:</span> 
-        <textarea name="prof_intro"cols="30%" rows="7" placeholder="What is you professional background?"></textarea>
-    </label>
-    <label><span>Personal Introduction:</span>
-        <textarea name="person_intro" cols="30%" rows="7" placeholder="Tell us about yourself."></textarea>
-    </label>
-    
-    <h3>Contact Information</h3>
-    <label><span>First Name:</span><input type="text" name="title"></label>
-    <label><span>Last Name:</span><input type="text" name="title"></label>
-    <label><span>Country:</span><input type="text" name="title"></label>
-    <label><span>Street Address:</span><input type="text" name="title"></label>
-    <label><span>City:</span><input type="text" name="title"></label>
-    <label><span>Zip:</span><input type="text" name="title"></label>
-    <label><span>Primary Phone Number:</span><input type="text" name="title"></label>
-    <label><span>Email:</span><input name="email" type="email"></label>
-    <label><span>Meeting Preference:</span>
-        <select name="meet_preferences">
-            <option value="physical">In person</option>
-            <option value="online">Online</option>
+        <label for="tone">Tone of the Play: </label>
+        <select name="tone" id="tone">
+          <option value="drama">Drama</option>
+          <option value="comedy">Comedy</option>
         </select>
-    </label>
-
-    <button type="submit"> <h3>Finish & Submit</h3></button>
+      </td>
+      <td>
+        <label for="prof_intro">Professional Introduction:</label>
+        <br />
+        <textarea
+          name="prof_intro"
+          id="prof_intro"
+          cols="30%"
+          rows="7"
+          placeholder="What is you professional background?"
+        />
+        <br />
+        <label for="person_intro">Personal Introduction:</label>
+        <br />
+        <textarea name="person_intro" id="person_intro" cols="30%" rows="7" placeholder="Tell us about yourself." />
+      </td>
+      <td>
+        <label for="synopsis">Synopsis:</label>
+        <br />
+        <textarea name="synopsis" id="synopsis" cols="30%" rows="6" placeholder="Write a brief synopsis of you play." />
+        <br />
+        <label for="play_future">Play Improvements:</label>
+        <br />
+        <textarea
+          name="play_future"
+          id="play_future"
+          cols="30%"
+          rows="6"
+          placeholder="Where do you think you can improve this play and why?"
+        />
+        <br />
+        <label for="email">Email: </label>
+        <input id="email" type="email" />
+        <br />
+        <button type="submit">Submit</button>
+      </td>
+    </tr>
+  </table>
 </form>
-
-<style>
-    .applcationform{
-        width: 600px;
-        margin: auto;
-    }
-    label {
-        display:block;
-        position:relative;
-        padding-left:240px; /* adjust if necessary */
-        padding-bottom: 5px;
-    }
-    label > span {
-        position:absolute;
-        left:0;
-    }
-    button{
-        margin-top: 20px;
-    }
-</style>
