@@ -7,6 +7,8 @@
         <title>Reviewer Account Creation</title>
     </svelte:head>
 
+    <div class="loginPortal"></div>
+    <!--<form on:submit|preventDefault={submit} action="/api/login" method="POST">-->
     <form>
         <table align="center" style="width: 90%;" >
 
