@@ -16,7 +16,7 @@
             console.log("json", json);
             if(json == true){
                 console.log("In json true if");
-                goto("/administrator/main");
+                goto("/portal/administrator/view-plays");
             }
             else{
                 window.alert("Invalid Username/Password Credentials!");
