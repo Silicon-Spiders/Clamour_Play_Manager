@@ -1,8 +1,9 @@
 <script>
   import Content from "$lib/components/content.svelte";
-  import Play from "$lib/components/play.svelte";
-  import Playheading from "$lib/components/playheading.svelte";
   import PlayHeading from "$lib/components/playheading.svelte";
+  import Play from "$lib/components/play.svelte";
+  let selectedPlays;
+  $: console.log(selectedPlays);
 </script>
 
 <Content>
@@ -14,21 +15,29 @@
       <option value="drama">Drama</option>
     </select>
   </div>
-  <div slot="content">
-    <Playheading>
-      <span>Great Gatsby</span>
-    </Playheading>
-    <Play checkbox>
-      <span slot="title">Great Gatsby</span>
-      <span slot="rating">9/10</span>
-      <span slot="tone">Drama</span>
-      <span slot="actors">3</span>
-      <span slot="pages">37pg</span>
-      <span slot="authorFirstName">Leonardo</span>
-      <span slot="authorLastName">Dicaprio</span>
-      <span slot="authorGender">Male</span>
-      <span slot="authorEthnicity">Caucasian</span>
-      <span slot="authorRegion">(US)Florida</span>
+  <PlayHeading slot="headers" />
+  <div slot="data">
+    <Play bind:value={selectedPlays} id="one" checkbox>
+      <div slot="title">Great Gatsby</div>
+      <div slot="rating">9/10</div>
+      <div slot="tone">Drama</div>
+      <div slot="actors">3</div>
+      <div slot="pages">37pg</div>
+      <div slot="authorName">Leonardo</div>
+      <div slot="authorGender">Male</div>
+      <div slot="authorEthnicity">Caucasian</div>
+      <div slot="authorRegion">(US)Florida</div>
+    </Play>
+    <Play id="two" checkbox>
+      <div slot="title">Great Gatsby</div>
+      <div slot="rating">9/10</div>
+      <div slot="tone">Drama</div>
+      <div slot="actors">3</div>
+      <div slot="pages">37pg</div>
+      <div slot="authorName">Leonardo</div>
+      <div slot="authorGender">Male</div>
+      <div slot="authorEthnicity">Caucasian</div>
+      <div slot="authorRegion">(US)Florida</div>
     </Play>
   </div>
 </Content>
