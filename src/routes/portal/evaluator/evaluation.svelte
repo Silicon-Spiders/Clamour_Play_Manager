@@ -1,5 +1,26 @@
 <script>
 
+function handleSubmit(e) {
+
+let formArray = [];
+let formObj = {
+
+numOfPages: '',
+numOfFemale: '',
+numofMale: '',
+numOf
+
+}
+
+for(let i = 0; i < e.target.length - 1; i++) {
+
+
+    formArray.push(e.target[i].value);
+}
+
+console.log(formArray);
+
+};
 
 </script>
 
@@ -8,7 +29,7 @@
 
 </svelte:head>
 
-    <form>
+    <form on:submit|preventDefault={handleSubmit}>
         <table align="center" style="width: 60%;" >
             <colgroup>
                 <col span="1" style="width: 60%;">
