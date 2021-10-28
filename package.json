@@ -2,7 +2,7 @@
     "name": "clamour-play-manager",
     "version": "0.0.1",
     "scripts": {
-        "start": "node build/index.js",
+        "start": "svelte-kit dev",
         "dev": "svelte-kit dev",
         "build": "svelte-kit build",
         "preview": "svelte-kit preview"
