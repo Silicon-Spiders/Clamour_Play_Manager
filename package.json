@@ -2,7 +2,7 @@
     "name": "clamour-play-manager",
     "version": "0.0.1",
     "engines": {
-        "node": "14.x"
+        "node": "16.x"
     },
     "scripts": {
         "start": "node build/index.js",
