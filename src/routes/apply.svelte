@@ -1,9 +1,41 @@
+<script>
+  import { bind } from "svelte/internal";
+  async function fileUpload(file) {
+    const fileResponse = await fetch("/submission/file.json", {
+      method: "POST",
+      headers: {
+        "Content-Type": file.type,
+      },
+      body: file,
+    });
+    const json = await fileResponse.json();
+    console.log(json.id)
+
+    const mailResponse = await fetch("/submission.json", {
+      method: "POST",
+      headers: {
+        "Content-Type": json.title,
+      },
+      body: file,
+    });
+    const {path} = json; 
+    console.log({ json });
+  }
+  async function submit(e) {
+    const form = e.target;
+    const fileInput = form.querySelector("input[type=file]");
+    const [file] = fileInput.files;
+    const path = file ? await fileUpload(file) : null;
+    // save "path" with form-data
+  }
+</script>
+
 <svelte:head>
   <title>Apply</title>
   <!-- Main Script Submission Page -->
 </svelte:head>
 
-<form>
+<form on:submit|preventDefault={submit}>
   <table align="center" style="width: 90%;">
     <colgroup>
       <col span="1" style="width: 30%;" />
@@ -23,7 +55,10 @@
     <tr>
       <td>
         <label for="play_pdf">Play PDF:</label>
-        <input type="file" id="play_pdf" name="play_pdf" accept="application/pdf" />
+        <input
+          type="file"
+          accept="application/pdf"
+        />
         <br />
 
         <label for="title">Title:</label>
@@ -71,12 +106,24 @@
         <br />
         <label for="person_intro">Personal Introduction:</label>
         <br />
-        <textarea name="person_intro" id="person_intro" cols="30%" rows="7" placeholder="Tell us about yourself." />
+        <textarea
+          name="person_intro"
+          id="person_intro"
+          cols="30%"
+          rows="7"
+          placeholder="Tell us about yourself."
+        />
       </td>
       <td>
         <label for="synopsis">Synopsis:</label>
         <br />
-        <textarea name="synopsis" id="synopsis" cols="30%" rows="6" placeholder="Write a brief synopsis of you play." />
+        <textarea
+          name="synopsis"
+          id="synopsis"
+          cols="30%"
+          rows="6"
+          placeholder="Write a brief synopsis of you play."
+        />
         <br />
         <label for="play_future">Play Improvements:</label>
         <br />
