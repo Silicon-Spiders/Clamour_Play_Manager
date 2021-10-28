@@ -1,7 +1,7 @@
 <!-- This is the default layout, see here: https://kit.svelte.dev/docs#layouts -->
 
 <script>
-    let src="../../public/clamour-logo-600.jpg"
+    let src="/public/clamour-logo-600.jpg"
     // Getting file path for logo image
 </script>
 
