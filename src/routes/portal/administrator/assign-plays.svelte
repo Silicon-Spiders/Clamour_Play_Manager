@@ -6,7 +6,10 @@
   $: console.log(selectedPlays);
 </script>
 
-<Content>
+<Content half first>
+  <div slot="data" />
+</Content>
+<Content half>
   <div class="toolbar" slot="toolbar">
     <label>Search: <input class="search-bar" type="search" /></label>
     <label for="toneFilter">Tone:</label>
@@ -15,30 +18,20 @@
       <option value="drama">Drama</option>
     </select>
   </div>
-  <PlayHeading slot="headers" />
+  <PlayHeading half slot="headers" />
   <div slot="data">
-    <Play bind:value={selectedPlays} id="one" checkbox>
-      <div slot="title">Great Gatsby</div>
-      <div slot="rating">9/10</div>
-      <div slot="tone">Drama</div>
-      <div slot="actors">3</div>
-      <div slot="pages">37pg</div>
-      <div slot="authorName">Leonardo</div>
-      <div slot="authorGender">Male</div>
-      <div slot="authorEthnicity">Caucasian</div>
-      <div slot="authorRegion">(US)Florida</div>
-    </Play>
-    <Play id="two" checkbox>
-      <div slot="title">Great Gatsby</div>
-      <div slot="rating">9/10</div>
-      <div slot="tone">Drama</div>
-      <div slot="actors">3</div>
-      <div slot="pages">37pg</div>
-      <div slot="authorName">Leonardo</div>
-      <div slot="authorGender">Male</div>
-      <div slot="authorEthnicity">Caucasian</div>
-      <div slot="authorRegion">(US)Florida</div>
-    </Play>
+    <label for="id">
+      <Play half checkbox>
+        <span slot="checkbox">
+          <input name="assignedPlays" id="id" type="checkbox" />
+        </span>
+        <span slot="title">Great Gatsby</span>
+        <span slot="tone">Drama</span>
+        <span slot="actors">3</span>
+        <span slot="pages">37pg</span>
+        <span slot="authorName">Leonardo</span>
+      </Play>
+    </label>
   </div>
 </Content>
 
