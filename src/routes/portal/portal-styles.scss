@@ -1,10 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap");
 
 html {
+  margin: 0px;
   height: 100%;
   background-color: var(--primary-color);
 }
 body {
+  margin: 0px;
   height: 100%;
   font-family: "Courier Prime", monospace;
 }
