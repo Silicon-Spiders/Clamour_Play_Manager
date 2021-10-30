@@ -1,3 +1,4 @@
+<!-- RICARDO CARRASCO | USE CASE: VIEW PLAYS -->
 <script>
 </script>
 
@@ -7,9 +8,20 @@
 </h1>
 
 <div class="profile-bar">
-  <span>View</span>
-  <span>Evaluation</span>
+  <a href="./view-plays">
+    <span class="profile-bar-button">
+      <span class="material-icons">open_in_new</span>
+      View
+    </span>
+  </a>
+  <a href="./view-plays">
+    <span class="profile-bar-button">
+      <span class="material-icons">rate_review</span>
+      Evaluate
+    </span>
+  </a>
 </div>
+
 <div class="profile-content">
   <h2>Play Info</h2>
   <hr />

@@ -24,6 +24,7 @@ body {
 a:link,
 a:visited,
 a:active {
+  color: black;
   text-decoration: none;
 }
 
@@ -139,4 +140,18 @@ input[type="checkbox"] {
   background-color: var(--primary-color);
   height: 10%;
   border-radius: 15px;
+  vertical-align: bottom;
+  padding-right: 2%;
+  &-button {
+    margin-top: 1%;
+    margin-right: 1%;
+    float: right;
+    border-radius: 10px;
+    padding: 1%;
+    height: 25%;
+    background-color: white;
+  }
+  .material-icons {
+    vertical-align: middle;
+  }
 }
