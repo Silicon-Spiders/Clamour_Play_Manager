@@ -28,7 +28,7 @@
     const path = file ? await fileUpload(file) : null;
     // save "path" with form-data
   }
-  let src = "public/clamour-logo-600.jpg";
+  let src = "images/clamour-logo-600.jpg";
 </script>
 
 <svelte:head>

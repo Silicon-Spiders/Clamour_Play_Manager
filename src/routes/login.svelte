@@ -22,7 +22,6 @@
       }
     }
   }
-  const src = "/public/red-low-poly.png";
   // https://cojdev.github.io/lowpoly/
 </script>
 
@@ -52,7 +51,7 @@
 <style>
   body {
     margin: 0px;
-    background-image: url("/public/red-low-poly.png");
+    background-image: url("images\red-low-poly.png");
     background-size: cover;
   }
   .login-container {

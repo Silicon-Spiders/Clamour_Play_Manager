@@ -1,19 +1,19 @@
 {
-    "name": "clamour-play-manager",
-    "version": "0.0.1",
-    "scripts": {
-        "dev": "svelte-kit dev",
-        "build": "svelte-kit build",
-        "preview": "svelte-kit preview"
-    },
-    "devDependencies": {
-        "@sveltejs/kit": "next",
-        "svelte": "^3.42.6"
-    },
-    "type": "module",
-    "dependencies": {
-        "nodemailer": "^6.7.0",
-        "sass": "^1.43.2",
-        "uuid": "^8.3.2"
-    }
+  "name": "clamour-play-manager",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "svelte-kit dev",
+    "build": "svelte-kit build",
+    "preview": "svelte-kit preview"
+  },
+  "devDependencies": {
+    "@sveltejs/kit": "next",
+    "svelte": "^3.44"
+  },
+  "type": "module",
+  "dependencies": {
+    "nodemailer": "^6.7.0",
+    "sass": "^1.43.2",
+    "uuid": "^8.3.2"
+  }
 }
