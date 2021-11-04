@@ -8,9 +8,14 @@ let formObj = {
 numOfPages: '',
 numOfFemale: '',
 numofMale: '',
-numOf
+numOfFemale: '',
+numOfNonSpecific: '',
+toneOfPlay: '',
+synopsis: '',
+evaluatorComment: '',
+rating: ''
 
-}
+};
 
 for(let i = 0; i < e.target.length - 1; i++) {
 
