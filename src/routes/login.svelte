@@ -51,7 +51,7 @@
 <style>
   body {
     margin: 0px;
-    background-image: url("images\red-low-poly.png");
+    background-image: url("public\images\red-low-poly.png");
     background-size: cover;
   }
   .login-container {
