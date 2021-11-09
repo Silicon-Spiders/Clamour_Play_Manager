@@ -9,7 +9,7 @@
       body: file,
     });
     const json = await fileResponse.json();
-    console.log(json.id)
+    console.log(json.body)
 
     const mailResponse = await fetch("/submission.json", {
       method: "POST",

@@ -14,6 +14,8 @@ export async function post(req) {
   console.log("path", path);
   fs.writeFileSync(path, req.body);
   return {
-    
-  }
+    body: {
+      path: path
+    }
+  };
 }
