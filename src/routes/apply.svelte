@@ -38,9 +38,10 @@
 <form on:submit|preventDefault={submit}>
   <table align="center" style="width: 90%;">
     <colgroup>
-      <col span="1" style="width: 30%;" />
-      <col span="1" style="width: 30%;" />
-      <col span="1" style="width: 30%;" />
+      <col span="1" style="width: 25%;" />
+      <col span="1" style="width: 25%;" />
+      <col span="1" style="width: 25%;" />
+      <col span="1" style="width: 25%;" />
     </colgroup>
 
     <th align="left">
@@ -50,27 +51,30 @@
       <h4>Personal Details</h4>
     </th>
     <th align="left">
+      <h4>Contact Information</h4>
+    </th>
+    <th align="left">
       <h4>Finish & Submit</h4>
     </th>
     <tr>
-      <td>
+      <td class="card">
         <label for="play_pdf">Play PDF:</label>
         <input
           type="file"
           accept="application/pdf"
         />
-        <br />
+        <br>
 
-        <label for="title">Title:</label>
+        <label for="title">Title:</label><br>
         <input type="text" id="title" name="title" />
-        <br />
+        <br>
 
-        <label for="actor_count">Actors:</label>
+        <label for="actor_count">Actors:</label><br>
         <input type="number" id="actor_count" name="actor_count" />
-        <br />
+        <br>
 
         <label for="actor_explain">Actor Count Explanation:</label>
-        <br />
+        <br>
         <textarea
           id="actor_explain"
           name="actor_explain"
@@ -78,14 +82,7 @@
           rows="10"
           placeholder="Please explain why this many actors can perform this play."
         />
-        <br />
-
-        <label for="meet_preference">Meeting Preference: </label>
-        <select name="meet_preferences" id="meet_preferences">
-          <option value="physical">In person</option>
-          <option value="online">Online</option>
-        </select>
-        <br />
+        <br>
 
         <label for="tone">Tone of the Play: </label>
         <select name="tone" id="tone">
@@ -93,7 +90,7 @@
           <option value="comedy">Comedy</option>
         </select>
       </td>
-      <td>
+      <td class="card">
         <label for="prof_intro">Professional Introduction:</label>
         <br />
         <textarea
@@ -114,7 +111,23 @@
           placeholder="Tell us about yourself."
         />
       </td>
-      <td>
+      <td class="card">
+        <label><span>First Name:</span><br><input type="text" name="fname"></label><br>
+        <label><span>Last Name:</span><br><input type="text" name="lname"></label><br>
+        <label><span>Country:</span><br><input type="text" name="counrty"></label><br>
+        <label><span>Street Address:</span><br><input type="text" name="address"></label><br>
+        <label><span>City:</span><br><input type="text" name="city"></label><br>
+        <label><span>Zip:</span><br><input type="text" name="zip"></label><br>
+        <label><span>Primary Phone Number:</span><br><input type="text" name="phone"></label><br>
+        <label><span>Email:</span><br><input name="email" type="email"></label><br>
+        <label><span>Meeting Preference:</span><br>
+        <select name="meet_preferences">
+          <option value="physical">In person</option>
+          <option value="online">Online</option>
+        </select>
+        </label>
+      </td>
+      <td class="card">
         <label for="synopsis">Synopsis:</label>
         <br />
         <textarea
@@ -143,3 +156,16 @@
     </tr>
   </table>
 </form>
+
+<style>
+  .card {
+    border-radius: 25px;
+    background: #ffadad;
+    padding: 20px;
+    width: 25%;
+    height: 150px;
+  }
+  .card input{
+    padding-left: 20pt;
+  }
+</style>
