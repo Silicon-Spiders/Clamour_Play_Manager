@@ -3,4 +3,7 @@
     <!-- Landing Page -->
 </svelte:head>
 
-<h4>//Placeholder// You are in the: root page (index.svelte)</h4>
+<h4>
+    //Placeholder// You are in the: root page (index.svelte) Place some content
+    here
+</h4>
