@@ -1,6 +1,6 @@
 <script>
   import { bind } from "svelte/internal";
-  async function fileUpload(file) {
+  async function fileUpload(file, form) {
     const fileResponse = await fetch("/submission/file.json", {
       method: "POST",
       headers: {
@@ -9,24 +9,39 @@
       body: file,
     });
     const json = await fileResponse.json();
-    console.log(json.body)
+    return json.path;
 
-    const mailResponse = await fetch("/submission.json", {
-      method: "POST",
-      headers: {
-        "Content-Type": json.title,
-      },
-      body: file,
-    });
+    
     const {path} = json; 
     console.log({ json });
+  }
+  async function formUpload(form) {
+    const formResponse = await fetch("/submission.json", {
+      method: "POST",
+      headers: {
+        "Content-Type": form.type,
+      },
+      body: form,
+    });
+
+    const json = await formResponse.json();
+
+    return json.req;
   }
   async function submit(e) {
     const form = e.target;
     const fileInput = form.querySelector("input[type=file]");
     const [file] = fileInput.files;
-    const path = file ? await fileUpload(file) : null;
+    const path = file ? await fileUpload(file, form) : null;
     // save "path" with form-data
+    console.log(path);
+    console.log(form);
+    var newForm = new FormData(form.value);
+    newForm.append("path", path);
+    newForm.delete("play_pdf");
+    console.log(newForm.get("path"));
+    const alert = await formUpload(newForm);
+    console.log(alert);
   }
 </script>
 
@@ -39,21 +54,21 @@
   <table align="center" style="width: 90%;">
     <colgroup>
       <col span="1" style="width: 25%;" />
-      <col span="1" style="width: 25%;" />
+      <col span="" style="width: 25%;" />
       <col span="1" style="width: 25%;" />
       <col span="1" style="width: 25%;" />
     </colgroup>
 
-    <th align="left">
+    <th align="center">
       <h4>Play Info</h4>
     </th>
-    <th align="left">
+    <th align="center">
       <h4>Personal Details</h4>
     </th>
-    <th align="left">
+    <th align="center">
       <h4>Contact Information</h4>
     </th>
-    <th align="left">
+    <th align="center">
       <h4>Finish & Submit</h4>
     </th>
     <tr>
@@ -120,7 +135,7 @@
         <label><span>Zip:</span><br><input type="text" name="zip"></label><br>
         <label><span>Primary Phone Number:</span><br><input type="text" name="phone"></label><br>
         <label><span>Email:</span><br><input name="email" type="email"></label><br>
-        <label><span>Meeting Preference:</span><br>
+        <label><span>Meeting Preference:</span>
         <select name="meet_preferences">
           <option value="physical">In person</option>
           <option value="online">Online</option>
@@ -148,9 +163,6 @@
           placeholder="Where do you think you can improve this play and why?"
         />
         <br />
-        <label for="email">Email: </label>
-        <input id="email" type="email" />
-        <br />
         <button type="submit">Submit</button>
       </td>
     </tr>
@@ -166,6 +178,7 @@
     height: 150px;
   }
   .card input{
-    padding-left: 20pt;
+    margin-left: 20pt;
+    width: 80%;
   }
 </style>

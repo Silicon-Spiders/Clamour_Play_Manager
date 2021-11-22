@@ -11,7 +11,6 @@ export async function post(req) {
   // chunk is the Uint8Array object
   const id = v4();
   const path = `./${config.uploadDir}/${id}.pdf`;
-  console.log("path", path);
   fs.writeFileSync(path, req.body);
   return {
     body: {
