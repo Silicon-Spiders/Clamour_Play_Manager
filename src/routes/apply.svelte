@@ -43,12 +43,20 @@
     const alert = await formUpload(newForm);
     console.log(alert);
   }
+  let src = "images/clamour-logo-600.jpg";
 </script>
 
 <svelte:head>
   <title>Apply</title>
   <!-- Main Script Submission Page -->
 </svelte:head>
+<header>
+  <a href="/"><img {src} alt="Something" /></a>
+  <nav>
+    <a href="/apply">APPLY</a>
+    <a href="/login">LOGIN</a>
+  </nav>
+</header>
 
 <form on:submit|preventDefault={submit}>
   <table align="center" style="width: 90%;">
