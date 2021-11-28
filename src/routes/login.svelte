@@ -51,28 +51,31 @@
 <style>
   body {
     margin: 0px;
-    background-image: url("public\images\red-low-poly.png");
+    background-image: url("/src/images/red-low-poly.png");
     background-size: cover;
   }
   .login-container {
     position: absolute;
+    display: block;
     top: 15%;
     left: 30%;
+    padding: 20px;
     background-color: rgba(0, 0, 0, 0.65);
     border-radius: 20px;
     box-shadow: 0px 0px 100px black;
-    width: 40%;
-    height: 70%;
+    width: 30%;
+    height: fit-content;
   }
   .loginPortal {
     margin: auto;
     width: 50%;
     color: white;
     text-align: left;
-    font-size: 3em;
+    font-size: 100%;
   }
   .loginPortal h1 {
     margin: 20% auto 5%;
+    text-align: center;
   }
   .loginPortal label {
     display: block;
