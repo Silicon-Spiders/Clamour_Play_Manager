@@ -1,8 +1,9 @@
 import os from "os";
 import nodemailer from "nodemailer";
-import { FormData } from 'formdata-node';
+import fs from "fs";
 
 import config from "$lib/config";
+import { fstat } from "fs";
 
 let transporter = nodemailer.createTransport({
   host: config.smtp,
@@ -21,14 +22,13 @@ message = {
 };
 
 export async function post(req) {
-  // const form = new FormData(req.body)
-  // console.log(request.body.get("path"));
-  // let form = new FormData();
-  // // // console.log(req.body.entries())
-  // for (const [key, value] of req.body) {
-	// 	form.append(key, value);
-  //   console.log("key= " + key + " value= " + value)
-	// }
+  let path = req.body.get("path");
+
+  // fs.readFileSync(path);
+
+  console.log(req.body.get("path"))
+  // let json = JSON.stringify(req.body)
+  // console.log(json)
   return {req}
   if (req.body.title != null) {
     

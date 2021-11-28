@@ -18,9 +18,6 @@
   async function formUpload(form) {
     const formResponse = await fetch("/submission.json", {
       method: "POST",
-      headers: {
-        "Content-Type": form.type,
-      },
       body: form,
     });
 
@@ -33,13 +30,16 @@
     const fileInput = form.querySelector("input[type=file]");
     const [file] = fileInput.files;
     const path = file ? await fileUpload(file, form) : null;
-    // save "path" with form-data
-    console.log(path);
+    console.log("below here");
     console.log(form);
-    var newForm = new FormData(form.value);
+    console.log("above here");
+    var newForm = new FormData(form);
     newForm.append("path", path);
     newForm.delete("play_pdf");
     console.log(newForm.get("path"));
+    var formJSON = {};
+    newForm.forEach((value, key) => formJSON[key] = value);
+    console.log(formJSON);
     const alert = await formUpload(newForm);
     console.log(alert);
   }
