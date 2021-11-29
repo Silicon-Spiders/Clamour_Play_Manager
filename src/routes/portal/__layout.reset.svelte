@@ -11,7 +11,7 @@
     <a href="./account-creation"
       ><span class="material-icons">manage_accounts</span>Manage Evaluators</a
     >
-    <a id="logout" href="./account-creation">
+    <a id="logout" href="/">
       <span class="material-icons"> logout </span>Logout</a
     >
   </div>
@@ -27,3 +27,9 @@
     <slot />
   </div>
 </div>
+
+<style>
+  html {
+    background-color: #f44336;
+  }
+</style>

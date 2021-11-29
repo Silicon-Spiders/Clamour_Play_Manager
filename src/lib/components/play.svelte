@@ -71,6 +71,10 @@
     text-align: left;
     padding: 5px;
   }
+  .play-container-half:hover {
+    background-color: lightgray;
+    border-radius: 5px;
+  }
   .play-container-half span {
     margin: 0.7% 1.4% 1.4% 0%;
   }

@@ -1,6 +1,9 @@
+<script>
+  import OutsideLayout from "./Outside-layout.svelte";
+</script>
 <svelte:head>
   <title>Welcome</title>
   <!-- Landing Page -->
 </svelte:head>
-<a href="/apply">Apply</a> <br />
-<a href="/login">Login</a>
+
+<OutsideLayout />
