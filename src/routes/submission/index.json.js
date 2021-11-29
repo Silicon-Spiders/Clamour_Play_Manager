@@ -3,7 +3,6 @@ import nodemailer from "nodemailer";
 import fs from "fs";
 
 import config from "$lib/config";
-import { fstat } from "fs";
 
 let transporter = nodemailer.createTransport({
   host: config.smtp,
@@ -23,13 +22,44 @@ message = {
 
 export async function post(req) {
   let path = req.body.get("path");
+  let fileTitle = req.body.get("title") +"_by_"+ req.body.get("fname")+`_`+ req.body.get("lname");
+  fileTitle = fileTitle.split(' ').join('_');
+  let oldFilePath = `./${config.uploadDir}/${path}` ;
+  let newFilePath = `./${config.playSubmissionDir}/${fileTitle}`;
+  let filenames = fs.readdirSync(`./${config.playSubmissionDir}/`);
 
-  // fs.readFileSync(path);
+//   for(var pair of req.body.entries()) {
+//     console.log(pair[0]+ ', '+ pair[1]);
+//  }
 
-  console.log(req.body.get("path"))
-  // let json = JSON.stringify(req.body)
-  // console.log(json)
-  return {req}
+//read data from upload folder then write to play folder
+const data = fs.readFileSync(
+  oldFilePath
+);
+
+// checks for same file name
+  var i = 0;
+  filenames.forEach( file => {
+    console.log(`fileName = ${file} | i = ${i}`);
+    let fileName = file.split(".")[0];
+    fileName = fileName.split("(")[0];
+    console.log(fileName+"="+fileTitle);
+    if(fileName == fileTitle){
+      i++;
+    }
+  });
+
+  if(i == 0){
+    fs.writeFileSync(newFilePath + `.pdf`, data);
+    console.log("wrote file.");
+  } else {
+    fs.writeFileSync(newFilePath + `(${i}).pdf`, data);
+    console.log("copy found.");
+  }
+
+  fs.unlinkSync(oldFilePath);
+
+  return {message: "Play stored."}
   if (req.body.title != null) {
     
     
