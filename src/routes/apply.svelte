@@ -1,7 +1,7 @@
 <script>
   import { bind } from "svelte/internal";
   async function fileUpload(file, form) {
-    const fileResponse = await fetch("/submission/file.json", {
+    const fileResponse = await fetch("server/submission/file.json", {
       method: "POST",
       headers: {
         "Content-Type": file.type,
@@ -16,7 +16,7 @@
     console.log({ json });
   }
   async function formUpload(form) {
-    const formResponse = await fetch("/submission.json", {
+    const formResponse = await fetch("server/submission.json", {
       method: "POST",
       body: form,
     });
@@ -43,7 +43,7 @@
     const alert = await formUpload(newForm);
     console.log(alert);
   }
-  import OutsideLayout from "./outside-layout.svelte";
+  import OutsideLayout from "../lib/components/layouts/Outside-layout.svelte";
 </script>
 
 <svelte:head>
