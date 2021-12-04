@@ -72,7 +72,7 @@
     padding: 5px;
   }
   .play-container-half:hover {
-    background-color: lightgray;
+    background-color: rgb(240, 178, 178);
     border-radius: 5px;
   }
   .play-container-half span {

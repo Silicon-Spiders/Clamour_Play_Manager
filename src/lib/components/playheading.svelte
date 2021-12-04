@@ -32,6 +32,7 @@
     text-align: left;
     padding-right: 4.2%;
     border-bottom: thin solid var(--secondary-color-dark);
+    border-radius: 15px;
     background-color: var(--primary-color-dark);
   }
   .play-heading-container-half span {
