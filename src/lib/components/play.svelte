@@ -11,11 +11,11 @@
 </script>
 
 {#if half}
-  <label for={playid}>
+  <label class="checkbox" for={playid}>
+    <input class="checkbox" name="assignedPlays" id={playid} type="checkbox" />
     <div class="play-container-half" style="display: {visibility};">
-      <span>
-        <input class="checkbox" name="assignedPlays" id={playid} type="checkbox" />
-      </span>
+      
+
       <span>
         {title}
       </span>
@@ -77,19 +77,33 @@
   }
   .play-container-half {
     display: grid;
-    grid-template-columns: 5% 35% 35% 15% 10%;
+    grid-template-columns: 36% 36% 15% 10%;
     text-align: left;
     padding: 5px;
     margin-top: 2px;
+    margin-left: 15px;
   }
   .play-container-half:hover {
     background-color: rgb(240, 178, 178);
     border-radius: 5px;
+    transform: scale(1.05);
   }
   .play-container-half span {
     margin: 0.7% 1.4% 1.4% 0%;
   }
   .checkbox {
     text-align: right;
+  }
+  input {
+    display: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+  :checked + .play-container-half{
+    background-color: rgb(240, 178, 178);
+    border-radius: 5px;
+    margin-left: 0px;
   }
 </style>

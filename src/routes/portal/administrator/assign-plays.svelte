@@ -93,55 +93,55 @@
   }
 </script>
 
-<div class="toolbar">
-  <label>Search: <input class="search-bar" type="search" bind:value={search} on:input={() => filterPlays()} /></label>
-  <label for="tone">Tone:</label>
-  <select class="dropdown-field" name="tone" id="tone" bind:value={dropdown} on:change={() => filterPlays()}>
-    <option value="All">All</option>
-    <option value="Comedy">Comedy</option>
-    <option value="Drama">Drama</option>
-  </select>
-</div>
-
-
-<div class="top-container">
-  <div class="half-container">
-    <h2>Plays</h2>
-    <PlayHeading half />
-
-    {#each data.plays as play}
-      <Play half checkbox 
-        visibility={playVis[play.playid]}
-        playid={play.playid} 
-        title={play.title} 
-        tone={play.tone} 
-        actors={play.actors} 
-        pages={play.pages} 
-        author={play.authorName} />
-    {/each}
+<body>
+  <div class="toolbar">
+    <label>Search: <input class="search-bar" type="search" bind:value={search} on:input={() => filterPlays()} /></label>
+    <label for="tone">Tone:</label>
+    <select class="dropdown-field" name="tone" id="tone" bind:value={dropdown} on:change={() => filterPlays()}>
+      <option value="All">All</option>
+      <option value="Comedy">Comedy</option>
+      <option value="Drama">Drama</option>
+    </select>
   </div>
-
-
-  <div class="half-container">
-    <h2>Evaluators</h2>
-    <PlayHeading half />
-
-    {#each data.plays as play}
-    <label for={play.playid}>
-      <Play half checkbox>
-        <span slot="checkbox">
-          <input name="assignedPlays" id={play.playid} type="checkbox" />
-        </span>
-        <span slot="title">{play.title}</span>
-        <span slot="tone">{play.tone}</span>
-        <span slot="actors">{play.actors}</span>
-        <span slot="pages">{play.pages}</span>
-        <span slot="authorName">{play.authorName}</span>
-      </Play>
-    </label>
-    {/each}
+  
+  <div class="full-container">
+    <div class="half-container">
+      <h2>Plays</h2>
+      <PlayHeading half />
+  
+      {#each data.plays as play}
+        <Play half checkbox 
+          visibility={playVis[play.playid]}
+          playid={play.playid} 
+          title={play.title} 
+          tone={play.tone} 
+          actors={play.actors} 
+          pages={play.pages} 
+          author={play.authorName} />
+      {/each}
+    </div>
+  
+    <div class="half-container">
+      <h2>Evaluators</h2>
+      <PlayHeading half />
+  
+      {#each data.plays as play}
+      <label for={play.playid}>
+        <Play half checkbox>
+          <span slot="checkbox">
+            <input name="assignedPlays" id={play.playid} type="checkbox" />
+          </span>
+          <span slot="title">{play.title}</span>
+          <span slot="tone">{play.tone}</span>
+          <span slot="actors">{play.actors}</span>
+          <span slot="pages">{play.pages}</span>
+          <span slot="authorName">{play.authorName}</span>
+        </Play>
+      </label>
+      {/each}
+    </div>
   </div>
-</div>
+</body>
 
 <style>
 
@@ -149,7 +149,7 @@
     width: 47%;
     height: 100%;
     padding: 15px;
-    margin-top: 5px;
+    margin: auto;
     background-color: lightgray;
     border-radius: 15px;
     display: inline-block;
@@ -160,8 +160,9 @@
     margin: 10px;
   }
 
-  .top-container {
+  .full-container {
     height: 85%;
+    display: flex;
   }
 
   .search-bar {
