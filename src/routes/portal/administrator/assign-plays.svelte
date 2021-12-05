@@ -93,7 +93,7 @@
   }
 </script>
 
-<body>
+<body class="body-style">
   <div class="toolbar">
     <label>Search: <input class="search-bar" type="search" bind:value={search} on:input={() => filterPlays()} /></label>
     <label for="tone">Tone:</label>
@@ -144,6 +144,9 @@
 </body>
 
 <style>
+  .body-style {
+    height: 100%;
+  }
 
   .half-container {
     width: 47%;

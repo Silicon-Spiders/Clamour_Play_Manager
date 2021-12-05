@@ -16,20 +16,22 @@
     >
   </div>
 </div>
-<div class="main">
-  <div class="account">
-    <span class="account-name">
-      Elaine Smith
-      <span class="material-icons">account_circle</span>
-    </span>
+<body class="redback">
+  <div class="main">
+    <div class="account">
+      <span class="account-name">
+        Elaine Smith
+        <span class="material-icons">account_circle</span>
+      </span>
+    </div>
+    <div class="content">
+      <slot />
+    </div>
   </div>
-  <div class="content">
-    <slot />
-  </div>
-</div>
+</body>
 
 <style>
-  html {
+  .redback {
     background-color: #f44336;
   }
 </style>

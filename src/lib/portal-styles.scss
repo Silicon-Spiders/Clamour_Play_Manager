@@ -3,18 +3,7 @@
 // GLOBAL STYLES
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-html {
-  margin: 0px;
-  height: 100%;
-  background-color: var(--primary-color);
-}
-body {
-  background-image: url("public\images\red-low-poly.png");
 
-  margin: 0px;
-  height: 100%;
-  font-family: "Roboto", sans-serif;
-}
 :root {
   --primary-color: #f44336;
   --primary-color-light: #ff7961;

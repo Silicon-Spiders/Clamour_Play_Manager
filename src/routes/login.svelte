@@ -30,7 +30,7 @@
   <!-- RICARDO CARRASCO | USE CASE: LOGIN-->
   <!-- Login Page for Admins & Evaluators -->
 </svelte:head>
-<body>
+<body class="image-back">
   <div class="login-container">
     <div class="loginPortal">
       <form on:submit|preventDefault={submit} action="/api/login" method="POST">
@@ -49,29 +49,23 @@
 </body>
 
 <style>
-  body {
-    margin: 0px;
+  .image-back {
     background-image: url("/src/images/red-low-poly.png");
-    background-size: cover;
   }
   .login-container {
-    position: absolute;
-    display: block;
-    top: 15%;
-    left: 30%;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.65);
-    border-radius: 20px;
-    box-shadow: 0px 0px 100px black;
-    width: 30%;
-    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .loginPortal {
-    margin: auto;
     width: 50%;
     color: white;
     text-align: left;
     font-size: 100%;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.65);
+    border-radius: 20px;
+    box-shadow: 0px 0px 100px black;
   }
   .loginPortal h1 {
     margin: 20% auto 5%;
