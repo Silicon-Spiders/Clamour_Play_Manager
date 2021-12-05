@@ -1,25 +1,35 @@
 <script>
   export let half;
+  export let visibility;
+  export let playid;
+  export let title;
+  export let tone;
+  export let actors;
+  export let pages;
+  export let author;
+
 </script>
 
 {#if half}
-  <div class="play-container-half">
-    <span class="checkbox">
-      <slot name="checkbox" />
-    </span>
-    <span>
-      <slot name="title" />
-    </span>
-    <span>
-      <slot name="authorName" />
-    </span>
-    <span>
-      <slot name="tone" />
-    </span>
-    <span>
-      <slot name="pages" />
-    </span>
-  </div>
+  <label for={playid}>
+    <div class="play-container-half" style="display: {visibility};">
+      <span>
+        <input class="checkbox" name="assignedPlays" id={playid} type="checkbox" />
+      </span>
+      <span>
+        {title}
+      </span>
+      <span>
+        {author}
+      </span>
+      <span>
+        {tone}
+      </span>
+      <span>
+        {pages}
+      </span>
+    </div>
+  </label>
 {:else}
   <div class="play-container">
     <span>
@@ -70,6 +80,7 @@
     grid-template-columns: 5% 35% 35% 15% 10%;
     text-align: left;
     padding: 5px;
+    margin-top: 2px;
   }
   .play-container-half:hover {
     background-color: rgb(240, 178, 178);
