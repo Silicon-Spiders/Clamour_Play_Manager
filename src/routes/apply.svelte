@@ -33,9 +33,6 @@
     const fileInput = form.querySelector("input[type=file]");
     const [file] = fileInput.files;
     const path = file ? await fileUpload(file, form) : null;
-    console.log("below here");
-    console.log(form);
-    console.log("above here");
     var newForm = new FormData(form);
     newForm.append("path", path);
     newForm.delete("play_pdf");
