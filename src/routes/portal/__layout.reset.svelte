@@ -1,18 +1,40 @@
+<script>
+  import "$lib/portal-styles.scss";
+</script>
+
 <div class="nav-bar">
   <div class="nav-links">
-    <a href="./view-plays">View</a>
-    <a href="./assign-plays">Assign</a>
-    <a href="./account-creation">Manage Evaluators</a>
-    <a id="logout" href="./account-creation">Logout</a>
+    <a href="./view-plays"><span class="material-icons">source</span>View</a>
+    <a href="./assign-plays"
+      ><span class="material-icons">assignment</span>Assign</a
+    >
+    <a href="./account-creation"
+      ><span class="material-icons">manage_accounts</span>Manage Evaluators</a
+    >
+    <a id="logout" href="/">
+      <span class="material-icons"> logout </span>Logout</a
+    >
   </div>
 </div>
-<div class="main">
-  <div class="header">Elaine Smith</div>
-  <div class="content">
-    <slot />
+<body class="redback">
+  <div class="main">
+    <div class="account">
+      <span class="account-name">
+        Elaine Smith
+        <span class="material-icons">account_circle</span>
+      </span>
+    </div>
+    <div class="content">
+      <slot />
+    </div>
   </div>
-</div>
+</body>
 
-<style type="text/scss">
-  @import "./portal-styles.scss";
+<style>
+  .redback {
+    background-color: #f44336;
+    margin: 0px;
+    height: 100%;
+    font-family: "Roboto", sans-serif;
+  }
 </style>

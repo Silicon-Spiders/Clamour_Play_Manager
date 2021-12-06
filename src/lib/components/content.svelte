@@ -4,11 +4,10 @@
       <slot name="toolbar" />
     </div>
   </div>
-  <div class="headers">
-    <slot name="headers">Oh No! Something went wrong (Error with loading data)</slot>
-  </div>
   <div class="data">
-    <slot name="data">Oh No! Something went wrong (Error with loading data)</slot>
+    <slot name="content"
+      >Oh No! Something went wrong (Error with loading data)</slot
+    >
   </div>
 </div>
 
@@ -36,5 +35,7 @@
     overflow: hidden scroll;
     background-color: var(--primary-color-light);
     height: 100%;
+    display: grid;
+    grid-template-columns: 5% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
   }
 </style>
