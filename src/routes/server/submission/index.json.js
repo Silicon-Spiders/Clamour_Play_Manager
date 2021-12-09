@@ -1,5 +1,5 @@
 import os from "os";
-import nodemailer from "nodemailer";
+// import nodemailer from "nodemailer";
 import fs from "fs";
 
 import config from "$lib/config";
