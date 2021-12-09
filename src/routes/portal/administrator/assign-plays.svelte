@@ -270,6 +270,7 @@
     border-radius: 15px;
     display: inline-block;
     overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .half-container h2{

@@ -77,7 +77,7 @@
   }
   .play-container-half {
     display: grid;
-    grid-template-columns: 36% 36% 15% 10%;
+    grid-template-columns: 35% 35% 15% 10%;
     text-align: left;
     padding: 6px;
     margin-top: 1px;
