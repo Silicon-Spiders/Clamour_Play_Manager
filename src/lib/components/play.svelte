@@ -77,7 +77,7 @@
   }
   .play-container-half {
     display: grid;
-    grid-template-columns: 36% 36% 15% 10%;
+    grid-template-columns: 35% 35% 15% 10%;
     text-align: left;
     padding: 6px;
     margin-top: 1px;
@@ -92,8 +92,8 @@
   .play-container-half:active {
     background-color: rgb(240, 178, 178);
     border-radius: 5px;
-    transform: scale(.95);
   }
+
   .play-container-half span {
     margin: 0.7% 1.4% 1.4% 0%;
   }
@@ -107,10 +107,21 @@
     appearance: none;
   }
 
+  @keyframes shrink {
+    from {
+      transform: scale(1.05);
+    }
+    to {
+      transform: scale(.95);
+    }
+  }
+
   :checked + .play-container-half{
     background-color: rgb(240, 178, 178);
     border-radius: 5px;
     transform: scale(1.05);
+    animation-name: shrink;
+    animation-duration: 200ms;
   }
   :checked + .play-container-half:active {
     background-color: rgb(240, 178, 178);
