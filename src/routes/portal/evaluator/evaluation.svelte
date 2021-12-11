@@ -1,32 +1,60 @@
 <script>
 
-function handleSubmit(e) {
-
-let formArray = [];
-let formObj = {
-
-numOfPages: '',
-numOfFemale: '',
-numofMale: '',
-numOfFemale: '',
-numOfNonSpecific: '',
-toneOfPlay: '',
-synopsis: '',
-evaluatorComment: '',
-rating: ''
-
-};
-
-for(let i = 0; i < e.target.length - 1; i++) {
+export async function handleSubmit(e) {
 
 
-    formArray.push(e.target[i].value);
+let JSONobj = {};
+let formData = new FormData(e.target);
+
+formData.forEach( (value, key) => {
+
+JSONobj[key] = value;
+});
+
+
+console.log(JSONobj);
+
+for (let key in JSONobj) {
+    if (!JSONobj.hasOwnProperty(key)) {
+        // console.log(key + " -> " + JSONobj[key]);
+
+        alert('A missing field has been detected. Please fill all the fields');
+        return;
+    } 
+    else {
+
+        //if all the values in the JSONobj exist then send the info to the database
+
+        // const resultFromDb;
+
+        window.location.replace('./success');
+
+    }
 }
 
-console.log(formArray);
+   
 
 };
 
+
+async function postData( url = '' , dataObj = {} ) {
+
+    // const response = await fetch(url , {
+
+
+    //     method: 'POST',
+    //     mode: 'cors',
+    //     credentials: 'same-origin',
+    //     headers: {
+
+    //         'Content-Type': 'application/json'
+    //     },
+
+    //     body: JSON.stringify(dataObj)
+    // });
+    // return response.json();
+
+}
 </script>
 
 <svelte:head>
@@ -49,22 +77,22 @@ console.log(formArray);
             </th>
            
             <tr>
-                <td class="numbers" >
+                <td class="numbers">
                     
                     <label for="num-pages">Number of pages:</label>
-                    <input type="number" id="num-pages" name="num-pages" min="5" max="50">
+                    <input type="number" id="num-pages" name="num-pages" min="5" max="50" required>
                     <br><br>
     
                     <label for="title">Number of Female Characters:</label>
-                    <input type="number" id="num-female" name="num-female" min="0" max="10">
+                    <input type="number" id="num-female" name="num-female" min="0" max="10" required>
                     <br><br>
     
                     <label for="actor_count">Number of Male Characters</label>
-                    <input type="number" id="num-male" name="num-male" min="0" max="10">
+                    <input type="number" id="num-male" name="num-male" min="0" max="10" required>
                     <br><br>
     
                     <label for="actor_explain">Number of non-Specific Characters:</label>
-                    <input type="number" id="num-nonspecific-actors" min="0" max="10">
+                    <input type="number" id="num-nonspecific-actors" min="0" max="10" required>
                     <br><br>
     
                    
@@ -77,28 +105,18 @@ console.log(formArray);
                     </select>
     
                 </td>
-                <!-- <td>
-                
-                    <label for="prof_intro">Professional Introduction:</label>
-                    <br>
-                    <textarea name="prof_intro" id="prof_intro" cols="30%" rows="7" placeholder="What is you professional background?"></textarea>
-                    <br>
-                    <label for="person_intro">Personal Introduction:</label>
-                    <br>
-                    <textarea name="person_intro" id="person_intro" cols="30%" rows="7" placeholder="Tell us about yourself."></textarea>
-                
-                </td> -->
+               
                 <td class="extra-info">
                     <label for="synopsis">Synopsis:</label>
                     <br>
-                    <textarea name="synopsis" id="synopsis" cols="30%" rows="6" placeholder="Write a brief synopsis of the play."></textarea>
+                    <textarea name="synopsis" id="synopsis" cols="30%" rows="6" placeholder="Write a brief synopsis of the play." required></textarea>
                     <br>
                     <label for="evaluator-comment">Evaluators Comments:</label>
                     <br>
-                    <textarea name="evaluator-comment" id="evaluator-comment" cols="30%" rows="6" placeholder="What is the evaluator's opinion about the playwright?"></textarea>
+                    <textarea name="evaluator-comment" id="evaluator-comment" cols="30%" rows="6" placeholder="What is the evaluator's opinion about the playwright?" required></textarea>
                     <br>
                     <label for="rating">Rating(1-10): </label>
-                    <input type="number" id="rating" min="1" max="10">
+                    <input type="number" id="rating" min="1" max="10" required>
                     <br>
                     <button type="submit">Submit</button>
                 </td>
