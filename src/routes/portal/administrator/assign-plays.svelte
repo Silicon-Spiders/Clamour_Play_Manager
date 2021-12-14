@@ -1,7 +1,8 @@
 <script>
-
   import PlayHeading from "$lib/components/playheading.svelte";
+  import EvaluatorHeading from "$lib/components/evaluatorheading.svelte"
   import Play from "$lib/components/play.svelte";
+  import Evaluator from "$lib/components/evaluator.svelte";
 
   //we will use this format when getting the data
   let data = {
@@ -143,7 +144,27 @@
       }
     ],
     evaluators: [
-
+      {
+        evalid:1,
+        fname:"David",
+        lname:"Letterman",
+        email:"Dletterman@gmail.com",
+        playcount:4
+      },
+      {
+        evalid:2,
+        fname:"Jerry",
+        lname:"Springer",
+        email:"Jspringer@gmail.com",
+        playcount:2
+      },
+      {
+        evalid:3,
+        fname:"Michael",
+        lname:"Fox",
+        email:"Mfox@gmail.com",
+        playcount:1
+      }
     ]
   }
 
@@ -211,7 +232,7 @@
         {#each data.plays as play}
           <Play half checkbox 
             visibility={playVis[play.playid]}
-            playid={play.playid} 
+            playid={"playid=" + play.playid} 
             title={play.title} 
             tone={play.tone} 
             actors={play.actors} 
@@ -222,22 +243,17 @@
     
       <div class="half-container">
         <h2>Evaluators</h2>
-        <PlayHeading half />
+        <EvaluatorHeading half />
     
-        <!-- {#each data.plays as play}
-        <label for={play.playid}>
-          <Play half checkbox>
-            <span slot="checkbox">
-              <input name="assignedPlays" id={play.playid} type="checkbox" />
-            </span>
-            <span slot="title">{play.title}</span>
-            <span slot="tone">{play.tone}</span>
-            <span slot="actors">{play.actors}</span>
-            <span slot="pages">{play.pages}</span>
-            <span slot="authorName">{play.authorName}</span>
-          </Play>
-        </label>
-        {/each} -->
+        {#each data.evaluators as evaluator}
+          <Evaluator half checkbox
+            evalid={"evalid=" + evaluator.evalid}
+            fname={evaluator.fname}
+            lname={evaluator.lname}
+            email={evaluator.email}
+            playcount={evaluator.playcount}
+          />
+        {/each}
       </div>
     </div>
     <button class="submit">Submit</button>
@@ -246,7 +262,8 @@
 
 <style>
   .body-style {
-    height: 99%;
+    height: 98%;
+    width: 100%;
   }
   .form {
     height: inherit;
