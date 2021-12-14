@@ -1,4 +1,6 @@
 <script>
+  import Icon from "./Icon.svelte";
+
   export let half;
 </script>
 
@@ -13,7 +15,7 @@
 {:else}
   <div class="play-heading-container-full">
     <span>Title</span>
-    <span>Rating</span>
+    <span><Icon code="star" />Rating</span>
     <span>Tone</span>
     <span>Actors</span>
     <span>Pages</span>

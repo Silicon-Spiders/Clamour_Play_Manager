@@ -30,45 +30,48 @@
   <!-- RICARDO CARRASCO | USE CASE: LOGIN-->
   <!-- Login Page for Admins & Evaluators -->
 </svelte:head>
-<body class="image-back">
-  <div class="login-container">
-    <div class="loginPortal">
-      <form on:submit|preventDefault={submit} action="/api/login" method="POST">
-        <h1>Login</h1>
+<body>
+  <div class="loginPortal">
+    <form on:submit|preventDefault={submit} action="/api/login" method="POST">
+      <h1>Login</h1>
 
-        <label for="user">Username</label>
-        <input type="text" id="user" bind:value={rec.user} />
+      <label for="user">Username</label>
+      <input type="text" id="user" bind:value={rec.user} />
 
-        <label for="pass">Password</label>
-        <input type="password" id="pass" bind:value={rec.pass} />
+      <label for="pass">Password</label>
+      <input type="password" id="pass" bind:value={rec.pass} />
 
-        <button type="submit">Login</button>
-      </form>
-    </div>
+      <button type="submit">Login</button>
+    </form>
   </div>
 </body>
 
 <style>
-  .image-back {
+  @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+  body {
     background-image: url("/src/images/red-low-poly.png");
-  }
-  .login-container {
+    width: 100vw;
+    height: 100vh;
+    margin: 0px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    font-family: "Roboto", sans-serif;
   }
   .loginPortal {
-    width: 50%;
+    width: 30%;
+    height: 60%;
     color: white;
     text-align: left;
-    font-size: 100%;
-    padding: 15px;
+    padding: 3%;
+    font-size: 18pt;
     background-color: rgba(0, 0, 0, 0.65);
-    border-radius: 20px;
+    border-radius: 15px;
     box-shadow: 0px 0px 100px black;
   }
   .loginPortal h1 {
-    margin: 20% auto 5%;
+    margin: 10% auto;
     text-align: center;
   }
   .loginPortal label {
@@ -80,13 +83,15 @@
     height: 30px;
     border-radius: 5px;
     border: none;
+    font-size: 18pt;
     margin-bottom: 5%;
   }
   button {
     margin-top: 10%;
-    display: block;
+    font-size: 16pt;
     height: 35px;
     width: 50%;
     border-radius: 10px;
+    border: none;
   }
 </style>
