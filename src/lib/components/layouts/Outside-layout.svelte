@@ -1,16 +1,16 @@
 <header>
-    <a href="/"><img src="/src/images/clamour-logo-600.jpg" alt="Something" /></a>
-    <nav>
-      <a href="/apply">APPLY</a>
-      <a href="/login">LOGIN</a>
-    </nav>
-  </header>
+  <a href="/"><img src="/src/images/clamour-logo-600.jpg" alt="Something" /></a>
+  <nav>
+    <a href="/apply">APPLY</a>
+    <a href="/login">LOGIN</a>
+  </nav>
+</header>
 
 <style>
-    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
+  @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
   :global(body) {
     font-family: "Roboto", sans-serif;
-    width: 100%;
+    width: 100vw;
     margin: auto;
   }
   :global(textarea::placeholder) {

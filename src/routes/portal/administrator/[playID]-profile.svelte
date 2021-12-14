@@ -1,25 +1,43 @@
 <!-- RICARDO CARRASCO | USE CASE: VIEW PLAYS -->
 <script>
+  import { dummyPlays } from "$lib/dummyData";
+  import { page } from "$app/stores";
+  import Icon from "$lib/components/Icon.svelte";
+  console.log($page.params.playID);
+  const playID = $page.params.playID;
+  const play = dummyPlays.find((play) => play.id == playID);
+  console.log(play);
 </script>
 
 <h1>
-  <a class="material-icons back-button" href="./view-plays">arrow_back</a>
-  <span class="title">The Great Gatsby</span>
+  <a class="back-button" href="./view-plays"><Icon code="arrow_back" /></a>
+  <span class="title"
+    ><em>{play.title}</em>&nbsp;&nbsp;(Written by {play.authorName})</span
+  >
 </h1>
-
 <div class="profile-bar">
-  <a href="./view-plays">
-    <span class="profile-bar-button">
-      <span class="material-icons">open_in_new</span>
+  <div class="play-info">
+    <div class="profile-bar-item">
+      Rating: {play.rating ? play.rating : "--"}/10
+      <Icon code="star" --icon-size="1.2em" />
+    </div>
+    <div class="profile-bar-item">
+      Tone: {play.tone ? play.tone : "--"}
+    </div>
+    <div class="profile-bar-item">
+      Actors Needed: {play.actorCount ? play.actorCount : "--"}
+    </div>
+  </div>
+  <div class="profile-buttons">
+    <a class="profile-bar-item" href="./view-plays">
+      <Icon code="open_in_new" --icon-align="middle" --icon-size="1.5em" />
       View
-    </span>
-  </a>
-  <a href="./view-plays">
-    <span class="profile-bar-button">
-      <span class="material-icons">rate_review</span>
+    </a>
+    <a class="profile-bar-item" href="./view-plays">
+      <Icon code="rate_review" --icon-align="middle" --icon-size="1.5em" />
       Evaluate
-    </span>
-  </a>
+    </a>
+  </div>
 </div>
 
 <div class="profile-content">
@@ -77,28 +95,57 @@
 </div>
 
 <style>
+  /* ================= Header ================= */
   h1 {
     margin-top: 0px;
+    display: flex;
+    align-items: center;
   }
   .back-button {
-    display: inline-block;
-    text-align: center;
-    font-size: 1.2em;
     padding: 1%;
     border-radius: 10px;
     margin-right: 2%;
-    border: none;
     background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
   }
   .back-button:hover {
-    cursor: pointer;
     box-shadow: 0px 0px 5px grey;
   }
-  .title {
-    display: inline-block;
-    margin-top: 0px;
-    vertical-align: super;
+
+  /* ================= Bar ================= */
+  .profile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 2%;
+    background-color: var(--primary-color);
+    height: 10%;
+    border-radius: 15px;
+    padding-right: 2%;
   }
+  .play-info {
+    flex-basis: 30vw;
+    justify-content: space-around;
+    display: flex;
+  }
+  .profile-buttons {
+    justify-content: space-around;
+    flex-basis: 15vw;
+    display: flex;
+  }
+  .profile-bar-item {
+    display: flex;
+    align-content: center;
+    border-radius: 10px;
+    padding: 10px;
+    height: 25%;
+    max-height: 80%;
+    max-width: 50%;
+    background-color: white;
+  }
+
+  /* ================= Content ================= */
   .profile-content {
     overflow-y: scroll;
     height: 75%;
