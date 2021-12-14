@@ -66,10 +66,16 @@
       </table>
     </div>
 
-    <div class="half-container">
+    <div class="half-container h2">
       <h2 align="left">Evaluators</h2>
-      
 
+      <div class="heading">
+      <span>First Name</span>
+      <span>Last Name</span>
+      <span>Phone Number</span>
+      <span>Email</span>
+      </div>
+      
     </div>
   </div>
 </form>
@@ -91,11 +97,14 @@
     width: 15%;
   }
   .heading {
-    padding-right: 4.2%;
+
+    display: grid;
+    grid-template-columns: 25% 25% 30% 40%;
+    font-size: 14pt;
+    padding-right: 4%;
     border-bottom: thin solid var(--secondary-color-dark);
     border-radius: 15px;
     background-color: var(--primary-color-dark);
-    font-size: 14pt;
     padding: 5px;
     color: white;
   }
