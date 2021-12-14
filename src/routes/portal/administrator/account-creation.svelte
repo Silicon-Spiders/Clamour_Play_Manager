@@ -1,5 +1,9 @@
 <script>
   import {} from "os";
+
+  async function submit(e) {
+    
+  }
 </script>
 
 <svelte:head>
@@ -64,6 +68,7 @@
 
     <div class="half-container">
       <h2 align="left">Evaluators</h2>
+      
 
     </div>
   </div>
