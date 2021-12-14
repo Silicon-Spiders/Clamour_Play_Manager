@@ -262,7 +262,8 @@
 
 <style>
   .body-style {
-    height: 99%;
+    height: 98%;
+    width: 100%;
   }
   .form {
     height: inherit;
