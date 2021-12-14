@@ -30,33 +30,33 @@
         <tr>
           <td>
             <label for="Last Name">Last Name:</label>
-            <input type="text" id="Last Name" name="Last Name" required />
+            <input class="text-box" type="text" id="Last Name" name="Last Name" required />
             <br />
             <br />
 
             <label for="First Name">First Name:</label>
-            <input type="text" id="First Name" name="First Name" required />
+            <input class="text-box" type="text" id="First Name" name="First Name" required />
             <br />
             <br />
 
             <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" required />
+            <input class="text-box" type="tel" id="phone" name="phone" required />
             <small>Ex: 123-456-7890</small>
             <br />
             <br />
 
             <label for="Email">Email:</label>
-            <input type="email" id="Email" name="Email" require />
+            <input class="text-box" type="email" id="Email" name="Email" require />
             <br />
             <br />
 
             <label for="uname">Username:</label>
-            <input type="text" id="uname" name="uname" required />
+            <input class="text-box" type="text" id="uname" name="uname" required />
             <br />
             <br />
 
             <label for="pword">Password:</label>
-            <input type="password" id="pword" name="pword" required />
+            <input class="text-box" type="password" id="pword" name="pword" required />
             <br />
             <br />
 
@@ -141,5 +141,11 @@
     padding: 6px;
     border: none;
     border-radius: 4px;
+  }
+
+  .text-box {
+    padding: 4px;
+    border: none;
+    border-radius: 4px; 
   }
 </style>
