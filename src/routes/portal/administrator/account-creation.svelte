@@ -1,63 +1,136 @@
 <script>
   import {} from "os";
+
+  async function submit(e) {
+    
+  }
 </script>
 
 <svelte:head>
-  <title>Reviewer Account Creation</title>
+  <title>Reviewer Account Information</title>
 </svelte:head>
 
-<div class="loginPortal" />
-<!--<form on:submit|preventDefault={submit} action="/api/login" method="POST">-->
-<form>
-  <table align="center" style="width: 90%;">
-    <colgroup>
-      <col span="1" style="width: 30%;" />
-      <col span="1" style="width: 30%;" />
-      <col span="1" style="width: 30%;" />
-    </colgroup>
+<body class="tool-bar">
+  <div class="toolbar">
+    <label>Search: <input class="search-bar" type="search"/></label>
+  </div>
+</body>
 
-    <th align="left">
-      <h4>Evaluator Account Creation</h4>
-    </th>
+<form class="form" action="POST" on:submit|preventDefault={submit}>
+  <div class="full-container">
+    <div class="half-container">
+      <table class="" align="center" style="width: 90%;">
+        <colgroup>
+          <col span="2" style="width: 90%;" />
+          <col span="2" style="width: 90%;" />
+          <col span="2" style="width: 90%;" />
+        </colgroup>
 
-    <tr>
-      <td>
-        <label for="Last Name">Last Name:</label>
-        <input type="text" id="Last Name" name="Last Name" required />
-        <br />
-        <br />
+        <h2 align="left">Evaluator Account Information</h2>
+        <tr>
+          <td>
+            <label for="Last Name">Last Name:</label>
+            <input type="text" id="Last Name" name="Last Name" required />
+            <br />
+            <br />
 
-        <label for="First Name">First Name:</label>
-        <input type="text" id="First Name" name="First Name" required />
-        <br />
-        <br />
+            <label for="First Name">First Name:</label>
+            <input type="text" id="First Name" name="First Name" required />
+            <br />
+            <br />
 
-        <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone" required />
-        <small>Ex: 123-456-7890</small>
-        <br />
-        <br />
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required />
+            <small>Ex: 123-456-7890</small>
+            <br />
+            <br />
 
-        <label for="Email">Email:</label>
-        <input type="email" id="Email" name="Email" require />
-        <br />
-        <br />
+            <label for="Email">Email:</label>
+            <input type="email" id="Email" name="Email" require />
+            <br />
+            <br />
 
-        <label for="uname">Username:</label>
-        <input type="text" id="uname" name="uname" required />
-        <br />
-        <br />
+            <label for="uname">Username:</label>
+            <input type="text" id="uname" name="uname" required />
+            <br />
+            <br />
 
-        <label for="pword">Password:</label>
-        <input type="password" id="pword" name="pword" required />
-        <br />
-        <br />
+            <label for="pword">Password:</label>
+            <input type="password" id="pword" name="pword" required />
+            <br />
+            <br />
 
-        <input type="submit" value="Create Account" />
-      </td>
-    </tr>
-  </table>
+            <input type="submit" class="submit" value="submit" />
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="half-container">
+      <h2 align="left">Evaluators</h2>
+      
+
+    </div>
+  </div>
 </form>
 
 <style>
+  .tool-bar {
+    height: 5%;
+  }
+  .form {
+    height: inherit;
+  }
+  .submit {
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+    background-color: rgb(240, 178, 178);
+    border-radius: 5px;
+    height: 5%;
+    width: 15%;
+  }
+  .heading {
+    padding-right: 4.2%;
+    border-bottom: thin solid var(--secondary-color-dark);
+    border-radius: 15px;
+    background-color: var(--primary-color-dark);
+    font-size: 14pt;
+    padding: 5px;
+    color: white;
+  }
+  .half-container {
+    width: 47%;
+    height: 100%;
+    padding: 15px;
+    margin: auto;
+    background-color: lightgray;
+    border-radius: 15px;
+    display: inline-block;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .half-container h2{
+    margin: 10px;
+  }
+
+  .full-container {
+    height: 80%;
+    display: flex;
+  }
+
+  ::-webkit-scrollbar {
+  width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+  background: darkgray; 
+  border-radius: 20px;
+  }
+
+  .search-bar {
+    padding: 6px;
+    border: none;
+    border-radius: 4px;
+  }
 </style>
