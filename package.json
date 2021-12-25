@@ -18,6 +18,7 @@
     "type": "module",
     "dependencies": {
         "formdata-node": "^4.3.1",
+        "mongodb": "^4.2.2",
         "nodemailer": "^6.7.0",
         "npm": "^8.3.0",
         "sass": "^1.43.2",
