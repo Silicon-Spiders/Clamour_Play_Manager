@@ -20,7 +20,7 @@
   <div class="main">
     <div class="account">
       <span class="account-name">
-        Elaine Smith
+        [Evaluator Name]
         <span class="material-icons">account_circle</span>
       </span>
     </div>

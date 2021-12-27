@@ -3,6 +3,7 @@
     <nav>
       <a href="/apply">APPLY</a>
       <a href="/login">LOGIN</a>
+      <a href="../portal/evaluator/evaluatorPage">Evaluator</a>
     </nav>
   </header>
 
