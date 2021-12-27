@@ -8,10 +8,10 @@
   </header>
 
 <style>
-    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
+  @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
   :global(body) {
     font-family: "Roboto", sans-serif;
-    width: 100%;
+    width: 100vw;
     margin: auto;
   }
   :global(textarea::placeholder) {

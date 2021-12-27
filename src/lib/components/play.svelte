@@ -1,4 +1,8 @@
 <script>
+  import Icon from "./Icon.svelte";
+
+  import Playheading from "./playheading.svelte";
+
   export let half;
   export let visibility;
   export let playid;
@@ -7,15 +11,13 @@
   export let actors;
   export let pages;
   export let author;
-
+  export let play = undefined;
 </script>
 
 {#if half}
   <label class="checkbox" for={playid}>
     <input class="checkbox" name={playid} id={playid} type="checkbox" />
     <div class="play-container-half" style="display: {visibility};">
-      
-
       <span>
         {title}
       </span>
@@ -31,35 +33,37 @@
     </div>
   </label>
 {:else}
-  <div class="play-container">
-    <span>
-      <slot name="title" />
-    </span>
-    <span>
-      <slot name="rating" />
-    </span>
-    <span>
-      <slot name="tone" />
-    </span>
-    <span>
-      <slot name="actors" />
-    </span>
-    <span>
-      <slot name="pages" />
-    </span>
-    <span>
-      <slot name="authorName" />
-    </span>
-    <span>
-      <slot name="authorGender" />
-    </span>
-    <span>
-      <slot name="authorEthnicity" />
-    </span>
-    <span>
-      <slot name="authorRegion" />
-    </span>
-  </div>
+  <a href="{play.id}-profile">
+    <div class="play-container">
+      <span>
+        {play.title}
+      </span>
+      <span>
+        {play.rating}/10
+      </span>
+      <span>
+        {play.tone}
+      </span>
+      <span>
+        {play.actorCount}
+      </span>
+      <span>
+        {play.pages}
+      </span>
+      <span>
+        {play.authorName}
+      </span>
+      <span>
+        {play.authorGender}
+      </span>
+      <span>
+        {play.authorEthnicity}
+      </span>
+      <span>
+        {play.authorRegion}
+      </span>
+    </div>
+  </a>
 {/if}
 
 <style>
@@ -69,6 +73,10 @@
     text-align: left;
     padding: 1.5% 0% 1.5% 1%;
     border-bottom: thin solid var(--secondary-color-dark);
+    transition: all 0.3s ease-out;
+  }
+  .play-container:hover {
+    background-color: white;
   }
   .play-container span {
     display: inline-block;
@@ -82,8 +90,8 @@
     padding: 6px;
     margin-top: 1px;
     margin-left: 15px;
-   -khtml-user-select: none;
-   -webkit-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
   }
   .play-container-half:hover {
     background-color: rgb(240, 178, 178);
@@ -92,7 +100,7 @@
   .play-container-half:active {
     background-color: rgb(240, 178, 178);
     border-radius: 5px;
-    transform: scale(.95);
+    transform: scale(0.95);
   }
   .play-container-half span {
     margin: 0.7% 1.4% 1.4% 0%;
@@ -107,7 +115,7 @@
     appearance: none;
   }
 
-  :checked + .play-container-half{
+  :checked + .play-container-half {
     background-color: rgb(240, 178, 178);
     border-radius: 5px;
     transform: scale(1.05);
@@ -115,6 +123,6 @@
   :checked + .play-container-half:active {
     background-color: rgb(240, 178, 178);
     border-radius: 5px;
-    transform: scale(.95);
+    transform: scale(0.95);
   }
 </style>
