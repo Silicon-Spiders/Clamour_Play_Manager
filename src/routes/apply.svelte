@@ -5,6 +5,27 @@
   import OutsideLayout from "../lib/components/layouts/Outside-layout.svelte";
   import ApplicationProgress from "$lib/components/apply/ApplicationProgress.svelte";
 
+  let formFile;
+  let formDataBind = {
+    title: '',
+    actors: '',
+    actor_explain: '',
+    prof_intro: '',
+    person_intro: '',
+    fname: '',
+    lname: '',
+    country: '',
+    address: '',
+    city: '',
+    zip: '',
+    phone: '',
+    email: '',
+    meet_pref: '',
+    synopsis: '',
+    play_future: '',
+    path: '',
+  }
+
   async function fileUpload(file, form) {
     const fileResponse = await fetch("server/submission/file.json", {
       method: "POST",
@@ -15,34 +36,28 @@
     });
     const json = await fileResponse.json();
     return json.path;
-
-    const { path } = json;
-    console.log({ json });
   }
   async function formUpload(form) {
     const formResponse = await fetch("server/submission.json", {
       method: "POST",
-      body: form,
+      headers: {
+      'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(form),
     });
 
     const json = await formResponse.json();
 
     return json.req;
   }
+
   async function submit(e) {
-    const form = e.target;
-    const fileInput = form.querySelector("input[type=file]");
-    const [file] = fileInput.files;
+    const form = formDataBind;
+    const [file] = formFile;
     const path = file ? await fileUpload(file, form) : null;
-    var newForm = new FormData(form);
-    newForm.append("path", path);
-    newForm.delete("play_pdf");
-    console.log(newForm.get("path"));
-    var formJSON = {};
-    newForm.forEach((value, key) => (formJSON[key] = value));
-    console.log(formJSON);
-    const alert = await formUpload(newForm);
-    console.log(alert);
+    form.path = path;
+    const alert = await formUpload(form);
+    console.log(alert.body.message);
   }
   let finish = false;
 </script>
@@ -69,15 +84,15 @@
         <div class="step">
           <h2>Play Info</h2>
           <label for="play_pdf">Play PDF:</label>
-          <input type="file" accept="application/pdf" />
+          <input id="play_pdf" type="file" accept="application/pdf" bind:files={formFile} />
           <br />
 
           <label for="title">Title:</label><br />
-          <input type="text" id="title" name="title" />
+          <input type="text" id="title" name="title" bind:value={formDataBind.title} />
           <br />
 
           <label for="actor_count">Actors:</label><br />
-          <input type="number" id="actor_count" name="actor_count" />
+          <input type="number" id="actor_count" name="actor_count" bind:value={formDataBind.actors} />
           <br />
 
           <label for="actor_explain">Actor Count Explanation:</label>
@@ -88,6 +103,7 @@
             cols="30%"
             rows="10"
             placeholder="Please explain why this many actors can perform this play."
+            bind:value={formDataBind.actor_explain}
           />
         </div>
 
@@ -107,6 +123,7 @@
             cols="30%"
             rows="7"
             placeholder="What is you professional background?"
+            bind:value={formDataBind.prof_intro}
           />
           <br />
           <label for="person_intro">Personal Introduction:</label>
@@ -117,6 +134,7 @@
             cols="30%"
             rows="7"
             placeholder="Tell us about yourself."
+            bind:value={formDataBind.person_intro}
           />
         </div>
         <div class="step-btns">
@@ -131,43 +149,48 @@
             ><span>First Name:</span><br /><input
               type="text"
               name="fname"
+              bind:value={formDataBind.fname}
             /></label
           ><br />
           <label
             ><span>Last Name:</span><br /><input
               type="text"
               name="lname"
+              bind:value={formDataBind.lname}
             /></label
           ><br />
           <label
             ><span>Country:</span><br /><input
               type="text"
-              name="counrty"
+              name="country"
+              bind:value={formDataBind.country}
             /></label
           ><br />
           <label
             ><span>Street Address:</span><br /><input
               type="text"
               name="address"
+              bind:value={formDataBind.address}
             /></label
           ><br />
           <label
-            ><span>City:</span><br /><input type="text" name="city" /></label
+            ><span>City:</span><br /><input type="text" name="city" bind:value={formDataBind.city} /></label
           ><br />
-          <label><span>Zip:</span><br /><input type="text" name="zip" /></label
+          <label><span>Zip:</span><br /><input type="text" name="zip" bind:value={formDataBind.zip} /></label
           ><br />
           <label
             ><span>Primary Phone Number:</span><br /><input
               type="text"
               name="phone"
+              bind:value={formDataBind.phone}
             /></label
           ><br />
           <label
-            ><span>Email:</span><br /><input name="email" type="email" /></label
+            ><span>Email:</span><br /><input name="email" type="email" bind:value={formDataBind.email} /></label
           ><br />
           <label
             ><span>Meeting Preference:</span>
-            <select name="meet_preferences">
+            <select name="meet_preferences" bind:value={formDataBind.meet_pref} >
               <option value="physical">In person</option>
               <option value="online">Online</option>
             </select>
@@ -190,6 +213,7 @@
             cols="30%"
             rows="6"
             placeholder="Write a brief synopsis of you play."
+            bind:value={formDataBind.synopsis}
           />
           <br />
           <label for="play_future">Play Improvements:</label>
@@ -200,6 +224,7 @@
             cols="30%"
             rows="6"
             placeholder="Where do you think you can improve this play and why?"
+            bind:value={formDataBind.play_future}
           />
           <br />
         </div>

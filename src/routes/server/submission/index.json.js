@@ -21,8 +21,8 @@ import config from "$lib/config";
 // };
 
 export async function post(req) {
-  let path = req.body.get("path");
-  let fileTitle = req.body.get("title") +"_by_"+ req.body.get("fname")+`_`+ req.body.get("lname");
+  let path = req.body.path;
+  let fileTitle = req.body.title +"_by_"+ req.body.fname + `_` + req.body.lname;
   fileTitle = fileTitle.split(' ').join('_');
   let oldFilePath = `./${config.uploadDir}/${path}` ;
   let newFilePath = `./${config.playSubmissionDir}/${fileTitle}`;
