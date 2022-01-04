@@ -8,7 +8,9 @@
   let formFile;
   let formDataBind = {
     title: '',
-    actors: '',
+    actors_men: 0,
+    actors_women: 0,
+    actors_nonbin: 0,
     actor_explain: '',
     prof_intro: '',
     person_intro: '',
@@ -24,6 +26,11 @@
     synopsis: '',
     play_future: '',
     path: '',
+  }
+  let totalActors = 0;
+
+  function updateTotalAct() {
+    totalActors = formDataBind.actors_men + formDataBind.actors_women + formDataBind.actors_nonbin;
   }
 
   async function fileUpload(file, form) {
@@ -57,7 +64,7 @@
     const path = file ? await fileUpload(file, form) : null;
     form.path = path;
     const alert = await formUpload(form);
-    console.log(alert.body.message);
+    console.log(alert);
   }
   let finish = false;
 </script>
@@ -90,10 +97,20 @@
           <label for="title">Title:</label><br />
           <input type="text" id="title" name="title" bind:value={formDataBind.title} />
           <br />
-
-          <label for="actor_count">Actors:</label><br />
-          <input type="number" id="actor_count" name="actor_count" bind:value={formDataBind.actors} />
-          <br />
+          <div>
+            <h3>Actors (Total: {totalActors})</h3>
+            <span class="tooltip">Enter how many actors will be required to complete this play.</span>
+          </div>
+          <div class="numbers">
+            <label for="actor_count">Men:</label>
+            <input type="number" id="actor_count" min=0 name="actor_count" bind:value={formDataBind.actors_men} on:change={updateTotalAct} />
+            <br />
+            <label for="actor_count">Women:</label>
+            <input type="number" id="actor_count" min=0 name="actor_count" bind:value={formDataBind.actors_women} on:change={updateTotalAct} />
+            <br />
+            <label for="actor_count">Neutral:</label>
+            <input type="number" id="actor_count" min=0 name="actor_count" bind:value={formDataBind.actors_neutral} on:change={updateTotalAct} />
+          </div>
 
           <label for="actor_explain">Actor Count Explanation:</label>
           <br />
@@ -261,6 +278,19 @@
     padding: 15vh 0px;
     flex-basis: 60vw;
     margin: 0px 5vw;
+  }
+
+  .numbers label{
+    display: inline-block;
+    width: 13%;
+  }
+
+  .numbers input{
+    display: inline-block;
+    width: 10%;
+    height: 16pt;
+    margin-bottom: 10pt;
+    border-radius: 5pt;
   }
 
   .step {
