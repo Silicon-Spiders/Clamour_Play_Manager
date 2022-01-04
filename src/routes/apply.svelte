@@ -10,7 +10,7 @@
     title: '',
     actors_men: 0,
     actors_women: 0,
-    actors_nonbin: 0,
+    actors_neutral: 0,
     actor_explain: '',
     prof_intro: '',
     person_intro: '',
@@ -30,7 +30,7 @@
   let totalActors = 0;
 
   function updateTotalAct() {
-    totalActors = formDataBind.actors_men + formDataBind.actors_women + formDataBind.actors_nonbin;
+    totalActors = formDataBind.actors_men + formDataBind.actors_women + formDataBind.actors_neutral;
   }
 
   async function fileUpload(file, form) {
