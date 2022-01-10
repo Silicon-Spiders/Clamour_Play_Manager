@@ -4,7 +4,6 @@ import fs from "fs";
 
 import config from "$lib/config";
 import clientPromise from '$lib/mongodb-client';
-import client from '$lib/mongodb-client';
 
 // let transporter = nodemailer.createTransport({
 //   host: config.smtp,
@@ -59,7 +58,7 @@ const data = fs.readFileSync(
   fs.unlinkSync(oldFilePath);
 
   const dbConnection = await clientPromise;
-  const db = await dbConnection.db();
+  const db = await dbConnection.db("Clamour");
   const collection = await db.collection('plays');
   let playData = {
     title: body.title,
@@ -67,7 +66,7 @@ const data = fs.readFileSync(
     men: body.actors_men,
     either: body.actors_neutral,
     actexplain: body.actor_explain,
-    filename: body.path,
+    filename: newFilePath,
     synopsis: body.synopsis,
     future: body.play_future,
   }
