@@ -3,6 +3,8 @@ import os from "os";
 import fs from "fs";
 
 import config from "$lib/config";
+import clientPromise from '$lib/mongodb-client';
+import client from '$lib/mongodb-client';
 
 // let transporter = nodemailer.createTransport({
 //   host: config.smtp,
@@ -27,10 +29,7 @@ export async function post(req) {
   let oldFilePath = `./${config.uploadDir}/${path}` ;
   let newFilePath = `./${config.playSubmissionDir}/${fileTitle}`;
   let filenames = fs.readdirSync(`./${config.playSubmissionDir}/`);
-
-//   for(var pair of req.body.entries()) {
-//     console.log(pair[0]+ ', '+ pair[1]);
-//  }
+  const body =req.body;
 
 //read data from upload folder then write to play folder
 const data = fs.readFileSync(
@@ -59,13 +58,26 @@ const data = fs.readFileSync(
 
   fs.unlinkSync(oldFilePath);
 
-  return {message: "Play stored."}
-  if (req.body.title != null) {
-    
-    
+  const dbConnection = await clientPromise;
+  const db = await dbConnection.db();
+  const collection = await db.collection('plays');
+  let playData = {
+    title: body.title,
+    women: body.actors_women,
+    men: body.actors_men,
+    either: body.actors_neutral,
+    actexplain: body.actor_explain,
+    filename: body.path,
+    synopsis: body.synopsis,
+    future: body.play_future,
   }
+  const inserted = await collection.insertOne(playData);
+  console.log(inserted);
   return {
-    test: "testing"
+      status: 200,
+      body: {
+          inserted
+      }
   }
 }
 

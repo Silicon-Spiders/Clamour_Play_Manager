@@ -65,6 +65,7 @@
     form.path = path;
     const alert = await formUpload(form);
     console.log(alert);
+    console.log(alert.message);
   }
   let finish = false;
 </script>
