@@ -92,7 +92,7 @@
         <div class="step">
           <h2>Play Info</h2>
           <label for="play_pdf">Play PDF:</label>
-          <input id="play_pdf" type="file" accept="application/pdf" bind:files={formFile} />
+          <input class="filebox" id="play_pdf" type="file" accept="application/pdf" bind:files={formFile} />
           <br />
 
           <label for="title">Title:</label><br />
@@ -280,7 +280,11 @@
     flex-basis: 60vw;
     margin: 0px 5vw;
   }
-
+  .filebox {
+    border: black solid 2px;
+    border-radius: 10px;
+    width: 400px;
+  }
   .numbers label{
     display: inline-block;
     width: 13%;
