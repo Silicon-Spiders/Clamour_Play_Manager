@@ -177,6 +177,17 @@
   let search;
   let dropdown;
 
+  async function getData() {
+    const array = await fetch("../../server/submission.json", {
+      method: "GET",
+      headers: {
+      'Content-Type': 'application/json'
+      },
+    });
+
+    return array;
+  }
+
   async function submit(e) {
     const form = e.target;
     let newForm = new FormData(form);
@@ -221,6 +232,7 @@
       <option value="Comedy">Comedy</option>
       <option value="Drama">Drama</option>
     </select>
+    <button on:click={() => getData()}>Data</button>
   </div>
 
   <form class="form" action="POST" on:submit|preventDefault={submit}>

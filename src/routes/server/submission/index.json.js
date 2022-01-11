@@ -21,6 +21,18 @@ import clientPromise from '$lib/mongodb-client';
 //   text: "Hello, this is an automated message confirming we have received your submission"
 // };
 
+export async function get() {
+  const dbConnection = await clientPromise;
+  const db = await dbConnection.db("Clamour");
+  const collection = await db.collection('plays');
+  const playsArr = await collection.find({}).toArray();
+  await dbConnection.close()
+  console.log(playsArr);
+  return {
+    body: { playsArr },
+  }
+}
+
 export async function post(req) {
   let path = req.body.path;
   let fileTitle = req.body.title +"_by_"+ req.body.fname + `_` + req.body.lname;
