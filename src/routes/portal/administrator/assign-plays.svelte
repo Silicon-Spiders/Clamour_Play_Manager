@@ -5,168 +5,10 @@
   import Evaluator from "$lib/components/evaluator.svelte";
 
   //we will use this format when getting the data
-  let data = {
-    plays: [
-      {
-        playid:1,
-        title:"Romeo and Juliet",
-        tone:"Drama",
-        actors:"5",
-        pages:"100",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:2,
-        title:"Hamlet",
-        tone:"Drama",
-        actors:"5",
-        pages:"125",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:3,
-        title:"Macbeth",
-        tone:"Drama",
-        actors:"7",
-        pages:"160",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:4,
-        title:"Waiting for Godot",
-        tone:"Comedy",
-        actors:"3",
-        pages:"67",
-        authorName:"Samuel Beckett",
-        visibility:"visible",
-      },
-      {
-        playid:5,
-        title:"The Great Gatsby",
-        tone:"Drama",
-        actors:"5",
-        pages:"37",
-        authorName:"Leonardo",
-        visibility:"visible",
-      },
-      {
-        playid:6,
-        title:"Romeo and Juliet",
-        tone:"Drama",
-        actors:"5",
-        pages:"100",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:7,
-        title:"Hamlet",
-        tone:"Drama",
-        actors:"5",
-        pages:"125",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:8,
-        title:"Macbeth",
-        tone:"Drama",
-        actors:"7",
-        pages:"160",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:9,
-        title:"Waiting for Godot",
-        tone:"Comedy",
-        actors:"3",
-        pages:"67",
-        authorName:"Samuel Beckett",
-        visibility:"visible",
-      },
-      {
-        playid:10,
-        title:"The Great Gatsby",
-        tone:"Drama",
-        actors:"5",
-        pages:"37",
-        authorName:"Leonardo",
-        visibility:"visible",
-      },
-      {
-        playid:11,
-        title:"Romeo and Juliet",
-        tone:"Drama",
-        actors:"5",
-        pages:"100",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:12,
-        title:"Hamlet",
-        tone:"Drama",
-        actors:"5",
-        pages:"125",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:13,
-        title:"Macbeth",
-        tone:"Drama",
-        actors:"7",
-        pages:"160",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:14,
-        title:"Waiting for Godot",
-        tone:"Comedy",
-        actors:"3",
-        pages:"67",
-        authorName:"Samuel Beckett",
-        visibility:"visible",
-      },
-      {
-        playid:15,
-        title:"The Great Gatsby",
-        tone:"Drama",
-        actors:"5",
-        pages:"37",
-        authorName:"Leonardo",
-        visibility:"visible",
-      }
-    ],
-    evaluators: [
-      {
-        evalid:1,
-        fname:"David",
-        lname:"Letterman",
-        email:"Dletterman@gmail.com",
-        playcount:4
-      },
-      {
-        evalid:2,
-        fname:"Jerry",
-        lname:"Springer",
-        email:"Jspringer@gmail.com",
-        playcount:2
-      },
-      {
-        evalid:3,
-        fname:"Michael",
-        lname:"Fox",
-        email:"Mfox@gmail.com",
-        playcount:1
-      }
-    ]
-  }
+  let data= {
+    plays: [],
+    evaluators: [],
+  };
 
   let playVis = {};
 
@@ -185,7 +27,12 @@
       },
     });
 
-    return array;
+    const myData = await array.json();
+
+    console.log(myData);
+
+    data = myData
+    return;
   }
 
   async function submit(e) {
@@ -222,9 +69,9 @@
     });
   }
 </script>
-
+<!-- on:load={() => getData()} -->
 <body class="body-style">
-  <div class="toolbar">
+  <div class="toolbar" on:load={getData()}>
     <label>Search: <input class="search-bar" type="search" bind:value={search} on:input={() => filterPlays()} /></label>
     <label for="tone">Tone:</label>
     <select class="dropdown-field" name="tone" id="tone" bind:value={dropdown} on:change={() => filterPlays()}>
@@ -232,7 +79,7 @@
       <option value="Comedy">Comedy</option>
       <option value="Drama">Drama</option>
     </select>
-    <button on:click={() => getData()}>Data</button>
+    <button class="reload" on:click={() => getData()}>Refresh</button>
   </div>
 
   <form class="form" action="POST" on:submit|preventDefault={submit}>
@@ -243,13 +90,13 @@
     
         {#each data.plays as play}
           <Play half checkbox 
-            visibility={playVis[play.playid]}
-            playid={"playid=" + play.playid} 
+            visibility={playVis[play._id]}
+            playid={"playid=" + play._id} 
             title={play.title} 
             tone={play.tone} 
             actors={play.actors} 
-            pages={play.pages} 
-            author={play.authorName} />
+            pages={play.pagecount} 
+            author={play.author} />
         {/each}
       </div>
     
@@ -288,6 +135,19 @@
     border-radius: 5px;
     height: 5%;
     width: 15%;
+    transition: all 0.5s ease;
+  }
+
+  .reload {
+    border-radius: 5px;
+    border: black solid 1px;
+    background-color: rgb(240, 178, 178);
+    height: 30px;
+    transition: all 0.5s ease;
+  }
+
+  .reload:hover , .submit:hover{
+    background-color: lightcoral;
   }
 
   .half-container {

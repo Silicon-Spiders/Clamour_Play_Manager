@@ -1,9 +1,11 @@
 import os from "os";
 // import nodemailer from "nodemailer";
-import fs from "fs";
+import fs, { readFile } from "fs";
+import { PDFDocument } from 'pdf-lib';
 
 import config from "$lib/config";
 import clientPromise from '$lib/mongodb-client';
+import { Console } from "console";
 
 // let transporter = nodemailer.createTransport({
 //   host: config.smtp,
@@ -25,11 +27,10 @@ export async function get() {
   const dbConnection = await clientPromise;
   const db = await dbConnection.db("Clamour");
   const collection = await db.collection('plays');
-  const playsArr = await collection.find({}).toArray();
-  await dbConnection.close()
-  console.log(playsArr);
+  const plays = await collection.find({}).toArray();
+  console.log(plays);
   return {
-    body: { playsArr },
+    body: { plays },
   }
 }
 
@@ -72,8 +73,11 @@ const data = fs.readFileSync(
   const dbConnection = await clientPromise;
   const db = await dbConnection.db("Clamour");
   const collection = await db.collection('plays');
+  const pageCount = await getPages(newFilePath + `.pdf`);
+  const author = body.lname + ", " + body.fname;
   let playData = {
     title: body.title,
+    author: author,
     women: body.actors_women,
     men: body.actors_men,
     either: body.actors_neutral,
@@ -81,6 +85,7 @@ const data = fs.readFileSync(
     filename: newFilePath,
     synopsis: body.synopsis,
     future: body.play_future,
+    pagecount: pageCount,
   }
   const inserted = await collection.insertOne(playData);
   console.log(inserted);
@@ -90,6 +95,14 @@ const data = fs.readFileSync(
           inserted
       }
   }
+}
+
+async function getPages(filePath) {
+  const file = fs.readFileSync(filePath);
+  const doc = await PDFDocument.load(file);
+  const pages = doc.getPageCount();
+  console.log(pages);
+  return pages;
 }
 
 // function sendEmail(email) {
