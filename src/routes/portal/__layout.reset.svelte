@@ -16,16 +16,18 @@
     >
   </div>
 </div>
-<body class="redback">
-  <div class="main">
-    <div class="account">
-      <span class="account-name">
-        Elaine Smith
-        <span class="material-icons">account_circle</span>
-      </span>
-    </div>
-    <div class="content">
-      <slot />
+<body>
+  <div class="redback">
+    <div class="main">
+      <div class="account">
+        <span class="account-name">
+          Elaine Smith
+          <span class="material-icons">account_circle</span>
+        </span>
+      </div>
+      <div class="content">
+        <slot />
+      </div>
     </div>
   </div>
 </body>
