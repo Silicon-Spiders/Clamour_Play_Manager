@@ -6,7 +6,7 @@
     },
     "scripts": {
         "start": "node build/index.js",
-        "dev": "svelte-kit dev",
+        "dev": "svelte-kit dev --host --port ${NODE_DOCKER_PORT}",
         "build": "svelte-kit build",
         "preview": "svelte-kit preview"
     },
