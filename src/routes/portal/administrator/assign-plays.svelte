@@ -71,6 +71,19 @@
       playVis[play.playid] = visibility;
     });
   }
+
+  function sepData(plays) {
+    let fin = 0;
+    let unf = 0;
+    Object.keys(plays).forEach(play => {
+      if (plays[play] == "unf") {
+        unf++;
+      } else {
+        fin++;
+      }
+    });
+    return unf + " | " + fin;
+  }
 </script>
 <!-- on:load={() => getData()} -->
 <body class="body-style">
@@ -113,7 +126,7 @@
             fname={evaluator.firstName}
             lname={evaluator.lastName}
             email={evaluator.email}
-            playcount={Object.keys(evaluator.plays).length}
+            playcount={sepData(evaluator.plays)}
           />
         {/each}
       </div>
