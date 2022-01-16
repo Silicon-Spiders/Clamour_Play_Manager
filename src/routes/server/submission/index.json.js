@@ -27,10 +27,13 @@ import { getDefaultSettings } from "http2";
 export async function get() {
   const dbConnection = await clientPromise;
   const db = await dbConnection.db("Clamour");
-  const collection = await db.collection('plays');
-  const plays = await collection.find({}).toArray();
+  const playColl = await db.collection('plays');
+  const plays = await playColl.find({}).toArray();
+
+  const evalColl = await db.collection('evaluators');
+  const evaluators = await evalColl.find({}).toArray();
   return {
-    body: { plays },
+    body: { plays, evaluators },
   }
 }
 

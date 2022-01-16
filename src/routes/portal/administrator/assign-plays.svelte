@@ -31,7 +31,10 @@
 
     console.log(myData);
 
-    data = myData
+    data.plays = myData.plays;
+    data.evaluators = myData.evaluators;
+
+    console.log(data);
     return;
   }
 
@@ -95,7 +98,7 @@
             title={play.title} 
             tone={play.tone} 
             actors={play.actors} 
-            pages={play.pagecount} 
+            pages={play.length} 
             author={play.author} />
         {/each}
       </div>
@@ -106,11 +109,11 @@
     
         {#each data.evaluators as evaluator}
           <Evaluator half checkbox
-            evalid={"evalid=" + evaluator.evalid}
-            fname={evaluator.fname}
-            lname={evaluator.lname}
+            evalid={"evalid=" + evaluator._id}
+            fname={evaluator.firstName}
+            lname={evaluator.lastName}
             email={evaluator.email}
-            playcount={evaluator.playcount}
+            playcount={Object.keys(evaluator.plays).length}
           />
         {/each}
       </div>
