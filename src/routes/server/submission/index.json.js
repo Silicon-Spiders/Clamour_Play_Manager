@@ -6,6 +6,7 @@ import { PDFDocument } from 'pdf-lib';
 import config from "$lib/config";
 import clientPromise from '$lib/mongodb-client';
 import { Console } from "console";
+import { getDefaultSettings } from "http2";
 
 // let transporter = nodemailer.createTransport({
 //   host: config.smtp,
@@ -28,7 +29,6 @@ export async function get() {
   const db = await dbConnection.db("Clamour");
   const collection = await db.collection('plays');
   const plays = await collection.find({}).toArray();
-  console.log(plays);
   return {
     body: { plays },
   }
@@ -51,10 +51,8 @@ const data = fs.readFileSync(
 // checks for same file name
   var i = 0;
   filenames.forEach( file => {
-    console.log(`fileName = ${file} | i = ${i}`);
     let fileName = file.split(".")[0];
     fileName = fileName.split("(")[0];
-    console.log(fileName+"="+fileTitle);
     if(fileName == fileTitle){
       i++;
     }
@@ -72,12 +70,46 @@ const data = fs.readFileSync(
 
   const dbConnection = await clientPromise;
   const db = await dbConnection.db("Clamour");
-  const collection = await db.collection('plays');
+  const authorColl = await db.collection('authors');
+  const author = await findAuthor(body.email);
+  let authorID;
+
+  if (author == false) {
+    let authorData = {
+      dateOfEntry: getDate(),
+      firstName: body.fname,
+      middleName: "",
+      lastName: body.lname,
+      homeEmail: body.email,
+      personalWebsite: "",
+      workWebsite: "",
+      mobilePhone: body.phone,
+      address1: body.address,
+      address2: "",
+      city: body.city,
+      state: "",
+      zip: body.zip,
+      province: "",
+      country: body.country,
+      postalCode: "",
+      meetPref: body.meet_pref,
+      profIntro: body.prof_intro,
+      personIntro: body.person_intro,
+    }
+    authorID = await authorColl.insertOne(authorData);
+    authorID = authorColl.findOne({ homeEmail: body.email })._id
+  } else {
+    authorID = author;
+  }
+
+  const playColl = await db.collection('plays');
   const pageCount = await getPages(newFilePath + `.pdf`);
-  const author = body.lname + ", " + body.fname;
+  const authorName = body.lname + ", " + body.fname;
   let playData = {
     title: body.title,
-    author: author,
+    author: authorName,
+    authorID: authorID,
+    dateOfSubmission: getDate(),
     women: body.actors_women,
     men: body.actors_men,
     either: body.actors_neutral,
@@ -85,14 +117,13 @@ const data = fs.readFileSync(
     filename: newFilePath,
     synopsis: body.synopsis,
     future: body.play_future,
-    pagecount: pageCount,
+    length: pageCount,
   }
-  const inserted = await collection.insertOne(playData);
-  console.log(inserted);
+  const inserted = await playColl.insertOne(playData);
   return {
       status: 200,
       body: {
-          inserted
+        inserted
       }
   }
 }
@@ -101,8 +132,24 @@ async function getPages(filePath) {
   const file = fs.readFileSync(filePath);
   const doc = await PDFDocument.load(file);
   const pages = doc.getPageCount();
-  console.log(pages);
   return pages;
+}
+
+function getDate(date = new Date()) {
+  return date.toISOString().split('T')[0];
+}
+
+async function findAuthor(email) {
+  const dbConnection = await clientPromise;
+  const db = await dbConnection.db("Clamour");
+  const authorColl = await db.collection('authors');
+  const author = await authorColl.findOne({ homeEmail: email });
+  if (author == null) {
+    return false;
+  }
+  else {
+    return author._id;
+  }
 }
 
 // function sendEmail(email) {
