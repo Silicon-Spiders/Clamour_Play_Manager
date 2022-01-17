@@ -5,6 +5,7 @@ import { PDFDocument } from 'pdf-lib';
 
 import config from "$lib/config";
 import clientPromise from '$lib/mongodb-client';
+import { getPlays, getEvaluators, getEvaluatorsSanitized } from "$lib/dbFunctions";
 import { Console } from "console";
 import { getDefaultSettings } from "http2";
 
@@ -25,13 +26,8 @@ import { getDefaultSettings } from "http2";
 // };
 
 export async function get() {
-  const dbConnection = await clientPromise;
-  const db = await dbConnection.db("Clamour");
-  const playColl = await db.collection('plays');
-  const plays = await playColl.find({}).toArray();
-
-  const evalColl = await db.collection('evaluators');
-  const evaluators = await evalColl.find({}).toArray();
+  const plays = await getPlays();
+  const evaluators = await getEvaluatorsSanitized();
   return {
     body: { plays, evaluators },
   }
@@ -46,12 +42,12 @@ export async function post(req) {
   let filenames = fs.readdirSync(`./${config.playSubmissionDir}/`);
   const body =req.body;
 
-//read data from upload folder then write to play folder
-const data = fs.readFileSync(
-  oldFilePath
-);
+  //read data from upload folder then write to play folder
+  const data = fs.readFileSync(
+    oldFilePath
+  );
 
-// checks for same file name
+  // checks for same file name
   var i = 0;
   filenames.forEach( file => {
     let fileName = file.split(".")[0];

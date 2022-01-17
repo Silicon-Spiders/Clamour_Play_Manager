@@ -38,12 +38,37 @@
     return;
   }
 
+  async function assign(array) {
+    console.log(array);
+    const assign = await fetch("../../server/admin/assign.json", {
+      method: "POST",
+      headers: {
+      'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(array),
+    });
+  }
+
   async function submit(e) {
     const form = e.target;
     let newForm = new FormData(form);
-    var formJSON = {};
-    newForm.forEach((value, key) => formJSON[key] = value);
+    let formJSON = {
+      evaluators: [],
+      plays: [],
+    };
+    newForm.forEach((value, key) => {
+      // formJSON[key] = value
+      console.log(key + " | " + value);
+      let entry = key.split("=");
+      if (entry[0] == "evalid") {
+        formJSON.evaluators.push(entry[1]);
+      } else if (entry[0] == "playid") {
+        formJSON.plays.push(entry[1]);
+      }
+    });
+
     console.log(formJSON);
+    await assign(formJSON);
   }
 
   function filterPlays() {
