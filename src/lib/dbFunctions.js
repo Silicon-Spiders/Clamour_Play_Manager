@@ -43,15 +43,12 @@ export async function assignPlays(array) {
 
   let evals = await evalColl.find({ _id:{ $in:evalid } }, { projection: { _id: 1, plays:1}}).toArray();
 
-  // evals.forEach(evaluator => {
-  //   console.log(evaluator.plays);
-  //   let playArr = evaluator.plays;
-  //   playArr.forEach(play => {
-  //     console.log(play);
-  //   });
-  // });
+  evals.forEach(async evaluator => {
+    array.plays.forEach(id => {
+      evaluator.plays[id] = "unf";
+    });
 
-  
-
+    await evalColl.updateOne({ _id: evaluator._id }, { $set: { plays: evaluator.plays }}, { upsert: true });
+  });
   return;
 }
