@@ -1,29 +1,12 @@
 import os from "os";
-// import nodemailer from "nodemailer";
 import fs, { readFile } from "fs";
 import { PDFDocument } from 'pdf-lib';
-
+import sendEmail from "$lib/emailer";
 import config from "$lib/config";
 import clientPromise from '$lib/mongodb-client';
 import { getPlays, getEvaluators, getEvaluatorsSanitized } from "$lib/dbFunctions";
 import { Console } from "console";
 import { getDefaultSettings } from "http2";
-
-// let transporter = nodemailer.createTransport({
-//   host: config.smtp,
-//   port: config.port,
-//   auth: {
-//     user: config.user,
-//     pass: config.pass
-//   }
-// });
-
-// message = {
-//   from: "Clamour Theater Group",
-//   to: "",
-//   subject: "Confirmation",
-//   text: "Hello, this is an automated message confirming we have received your submission"
-// };
 
 export async function get() {
   const plays = await getPlays();
@@ -119,11 +102,14 @@ export async function post(req) {
     length: pageCount,
   }
   const inserted = await playColl.insertOne(playData);
+
+  await sendEmail(body.email, "Confirmation" , "Hello, this is an automated message confirming we have received your submission");
+
   return {
-      status: 200,
-      body: {
-        inserted
-      }
+    status: 200,
+    body: {
+      inserted
+    }
   }
 }
 
@@ -150,21 +136,3 @@ async function findAuthor(email) {
     return author._id;
   }
 }
-
-// function sendEmail(email) {
-//   message.to = email
-//   transporter.sendMail(message, function (err, info) {
-//     if (err) {
-//       console.log(err)
-//       return {
-//         message: "There was an error sending an email"
-//       }
-//     } else {
-//       console.log(info);
-//       return {
-//         message: "You should get a confirmation email shortly."
-//       }
-//     }
-//   });
-// }
-

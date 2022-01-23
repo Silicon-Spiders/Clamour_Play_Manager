@@ -75,25 +75,12 @@
     data.plays.forEach( play => {
       let visibility = "grid";
       let invis = "none";
-      let drop = (dropdown == "All");
 
       if (search != null && !play.title.toLowerCase().includes(search.toLowerCase())) {
         visibility = invis;
       }
 
-      console.log("play.tone: "+ play.tone +" dropdown: " + dropdown);
-
-      console.log(play.tone === dropdown);
-      
-
-      if (!drop){
-        console.log("this drop" + drop);
-        if (play.tone != dropdown) {
-          visibility = invis;
-        }
-      }
-
-      playVis[play.playid] = visibility;
+      playVis[play._id] = visibility;
     });
   }
 
@@ -114,12 +101,6 @@
 <body class="body-style">
   <div class="toolbar" on:load={getData()}>
     <label>Search: <input class="search-bar" type="search" bind:value={search} on:input={() => filterPlays()} /></label>
-    <label for="tone">Tone:</label>
-    <select class="dropdown-field" name="tone" id="tone" bind:value={dropdown} on:change={() => filterPlays()}>
-      <option value="All">All</option>
-      <option value="Comedy">Comedy</option>
-      <option value="Drama">Drama</option>
-    </select>
     <button class="reload" on:click={() => getData()}>Refresh</button>
   </div>
 
