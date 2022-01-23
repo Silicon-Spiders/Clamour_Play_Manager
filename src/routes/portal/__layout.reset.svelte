@@ -1,4 +1,6 @@
 <script>
+import { goto } from "$app/navigation";
+
   import "$lib/portal-styles.scss";
 </script>
 
@@ -19,7 +21,7 @@
 <body>
   <div class="redback">
     <div class="main">
-      <div class="account">
+      <div class="account" on:click={() => goto("/portal/administrator/admin-profile")}>
         <span class="account-name">
           Elaine Smith
           <span class="material-icons">account_circle</span>
@@ -38,5 +40,9 @@
     margin: 0px;
     height: 100%;
     font-family: "Roboto", sans-serif;
+  }
+  .account-name:hover {
+    background-color: black;
+    cursor: pointer;
   }
 </style>
