@@ -24,6 +24,7 @@
         "npm": "^8.3.0",
         "pdf-lib": "^1.17.1",
         "sass": "^1.43.2",
+        "svelte-kit-cookie-session": "^2.0.1",
         "svelte-preprocess": "^4.10.1",
         "svelte-step-wizard": "^0.0.2",
         "uuid": "^8.3.2"
