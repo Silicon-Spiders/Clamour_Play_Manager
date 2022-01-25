@@ -1,5 +1,4 @@
 import clientPromise from '$lib/mongodb-client';
-import { ObjectID } from 'mongodb';
 import { ObjectId } from 'mongodb';
 
 async function connectDB() {
@@ -22,6 +21,12 @@ export async function getPlays() {
   let db = await connectDB();
   const playColl = await db.collection('plays');
   return await playColl.find({}).toArray();
+}
+
+export async function getPlayLocation(id) {
+  let db = await connectDB();
+  const playColl = await db.collection('plays');
+  return await playColl.findOne({ _id: ObjectId(id) }, { projection: { filename: 1 }})
 }
 
 export async function getEvaluators() {
