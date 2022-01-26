@@ -20,7 +20,7 @@
   let dropdown;
 
   async function getData() {
-    const array = await fetch("../../server/submission.json", {
+    const array = await fetch("../../server/admin/assign.json", {
       method: "GET",
       headers: {
       'Content-Type': 'application/json'

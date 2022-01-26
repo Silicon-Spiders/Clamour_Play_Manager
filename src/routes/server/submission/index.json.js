@@ -1,20 +1,10 @@
 import os from "os";
 import fs, { readFile } from "fs";
 import { PDFDocument } from 'pdf-lib';
+
 import sendEmail from "$lib/emailer";
 import config from "$lib/config";
-import clientPromise from '$lib/mongodb-client';
-import { getPlays, getEvaluators, getEvaluatorsSanitized } from "$lib/dbFunctions";
-import { Console } from "console";
-import { getDefaultSettings } from "http2";
-
-export async function get() {
-  const plays = await getPlays();
-  const evaluators = await getEvaluatorsSanitized();
-  return {
-    body: { plays, evaluators },
-  }
-}
+import { getAuthorFromEmail, addPlay, addAuthor } from "$lib/dbFunctions";
 
 export async function post(req) {
   let path = req.body.path;
@@ -50,9 +40,6 @@ export async function post(req) {
 
   fs.unlinkSync(oldFilePath);
 
-  const dbConnection = await clientPromise;
-  const db = await dbConnection.db("Clamour");
-  const authorColl = await db.collection('authors');
   const author = await findAuthor(body.email);
   let authorID;
 
@@ -78,13 +65,12 @@ export async function post(req) {
       profIntro: body.prof_intro,
       personIntro: body.person_intro,
     }
-    authorID = await authorColl.insertOne(authorData);
-    authorID = authorColl.findOne({ homeEmail: body.email })._id
+    authorID = await addAuthor(authorData);
+    authorID = await getAuthorFromEmail(body.email)._id
   } else {
     authorID = author;
   }
 
-  const playColl = await db.collection('plays');
   const pageCount = await getPages(newFilePath + `.pdf`);
   const authorName = body.lname + ", " + body.fname;
   let playData = {
@@ -101,9 +87,10 @@ export async function post(req) {
     future: body.play_future,
     length: pageCount,
   }
-  const inserted = await playColl.insertOne(playData);
+  const inserted = await addPlay(playData);
+  console.log(inserted);
 
-  await sendEmail(body.email, "Confirmation" , "Hello, this is an automated message confirming we have received your submission");
+  await sendEmail(body.email, "Confirmation" , "Hello " + authorName + ", this is an automated message confirming we have received your submission of " + body.title);
 
   return {
     status: 200,
@@ -125,10 +112,7 @@ function getDate(date = new Date()) {
 }
 
 async function findAuthor(email) {
-  const dbConnection = await clientPromise;
-  const db = await dbConnection.db("Clamour");
-  const authorColl = await db.collection('authors');
-  const author = await authorColl.findOne({ homeEmail: email });
+  const author = await getAuthorFromEmail(email);
   if (author == null) {
     return false;
   }
