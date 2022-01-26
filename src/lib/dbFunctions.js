@@ -1,5 +1,4 @@
 import clientPromise from '$lib/mongodb-client';
-import { ObjectID } from 'bson';
 import { ObjectId } from 'mongodb';
 
 async function connectDB() {
