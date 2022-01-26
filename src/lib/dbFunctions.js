@@ -1,4 +1,5 @@
 import clientPromise from '$lib/mongodb-client';
+import { ObjectID } from 'bson';
 import { ObjectId } from 'mongodb';
 
 async function connectDB() {
@@ -77,7 +78,13 @@ export async function updateEvaluator(evalData) {
     username: evalData.username,
     password: evalData.password,
   }
-  await evalColl.updateOne({ _id: evaluatorData.id }, { $set: { data }});
+  return await evalColl.updateOne({ _id: ObjectID(evaluatorData.id) }, { $set: { data }});
+}
+
+export async function getPlayLocation(id) {
+  let db = await connectDB();
+  const playColl = await db.collection('plays');
+  return await playColl.findOne({ _id: ObjectId(id) }, { projection: { filename: 1 }})
 }
 
 export async function getEvaluators() {
