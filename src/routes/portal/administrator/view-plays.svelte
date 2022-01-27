@@ -1,8 +1,60 @@
 <script>
   import PlayHeading from "$lib/components/playheading.svelte";
   import Play from "$lib/components/play.svelte";
-  import { dummyPlays } from "$lib/dummyData";
-  let plays = dummyPlays;
+  import { onMount } from "svelte";
+
+  async function getData() {
+    const res = await fetch("../../server/admin/plays.json", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const plays = await res.json();
+    if (res.ok) {
+      return plays;
+    } else {
+      console.error(
+        "Something went wrong with (get) plays in admin/view-plays"
+      );
+      return;
+    }
+  }
+  let plays = [];
+  let loading = true;
+  onMount(async () => {
+    const data = await getData();
+    data.forEach((play) => {
+      const {
+        _id: id,
+        title = "Unknown",
+        rating = 0,
+        tone = "Drama",
+        actorCount = 0,
+        length: pages = 0,
+        authorName = "Unknown",
+        authorGender = "Unknown",
+        authorEthnicity = "Unknown",
+        authorRegion = "Unknown",
+      } = play;
+      plays = [
+        ...plays,
+        {
+          id,
+          title,
+          rating,
+          tone,
+          actorCount,
+          pages,
+          authorName,
+          authorGender,
+          authorEthnicity,
+          authorRegion,
+        },
+      ];
+    });
+  });
+  // console.log(plays);
   const searchOptions = {
     query: "",
     sortBy: "",
@@ -10,7 +62,7 @@
     genderFilter: "",
   };
   const filterPlays = (options) => {
-    let filteredPlays = dummyPlays; //default
+    let filteredPlays = plays; //default
 
     if (options.toneFilter !== "") {
       filteredPlays = filteredPlays.filter(
@@ -33,7 +85,6 @@
         `^(${options.query.toLowerCase().replaceAll(" ", "")})`
       );
       filteredPlays.sort((first, second) => {
-        console.log(first.title.toLowerCase().replaceAll(" ", ""));
         if (
           sortQueryRegex.test(first.title.toLowerCase().replaceAll(" ", ""))
         ) {
