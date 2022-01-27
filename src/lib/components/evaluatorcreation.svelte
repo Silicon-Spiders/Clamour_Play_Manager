@@ -10,7 +10,6 @@
     export let lname;
     export let email;
     export let phoneNum;
-    export let playcount;
 
     let fullname = fname+ " " + lname;
   </script>
@@ -26,42 +25,10 @@
           {email}
         </span>
         <span>
-          {playcount}
+          {phoneNum}
         </span>
       </div>
     </label>
-  {:else}
-    <!-- <a href="{play.id}-profile">
-      <div class="play-container">
-        <span>
-          {play.title}
-        </span>
-        <span>
-          {play.rating}/10
-        </span>
-        <span>
-          {play.tone}
-        </span>
-        <span>
-          {play.actorCount}
-        </span>
-        <span>
-          {play.pages}
-        </span>
-        <span>
-          {play.authorName}
-        </span>
-        <span>
-          {play.authorGender}
-        </span>
-        <span>
-          {play.authorEthnicity}
-        </span>
-        <span>
-          {play.authorRegion}
-        </span>
-      </div>
-    </a> -->
   {/if}
   
   <style>
@@ -91,6 +58,7 @@
       -khtml-user-select: none;
       -webkit-user-select: none;
     }
+    
     .play-container-half:hover {
       background-color: rgb(240, 178, 178);
       border-radius: 5px;

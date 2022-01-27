@@ -1,10 +1,8 @@
 <script>
 
     import PlayHeading from "$lib/components/playheading.svelte";
-    import Play from "$lib/components/play-assigned.svelte";
-    import EvaluationHeading from "$lib/components/evaluationHeading.svelte";
+    import Play from "$lib/components/play.svelte";
     import { is_empty } from "svelte/internal";
-    import { writable } from "svelte/store";
   
     //we will use this format when getting the data'
     // export const writableArray = writable([]);
@@ -139,16 +137,25 @@
       
         <div class="half-container">
           <h2>Evaluations Completed</h2>
-          <EvaluationHeading half />
+
+
+          <div class="evaluation-heading-container-half">
+            <span />
+            <span>Title</span>
+            <span>Author</span>
+            <span>Tone</span>
+            <span>Rating</span>
+          </div>
+          <!-- <EvaluationHeading half /> -->
 
 
           {#if !is_empty(data.completedEvaluation)}
           
-          {#each data.completedEvaluation as evaluation}
+          <!-- {#each data.completedEvaluation as evaluation} -->
 
 
 
-          {/each}
+          <!-- {/each} -->
 
 
           {:else}
@@ -158,7 +165,6 @@
 
         </div>
       </div>
-      <!-- <button class="submit">Submit</button> -->
     </form>
   </body>
   
@@ -206,6 +212,21 @@
     ::-webkit-scrollbar-thumb {
     background: darkgray; 
     border-radius: 20px;
+    }
+    .evaluation-heading-container-half {
+      display: grid;
+      grid-template-columns: 5% 35% 35% 15% 10%;
+      text-align: left;
+      padding-right: 4.2%;
+      border-bottom: thin solid var(--secondary-color-dark);
+      border-radius: 15px;
+      background-color: var(--primary-color-dark);
+    }
+
+    .evaluation-heading-container-half span {
+      font-size: 14pt;
+      padding: 5px;
+      color: white;
     }
   
     .search-bar {

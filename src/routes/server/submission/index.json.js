@@ -1,49 +1,30 @@
 import os from "os";
-// import nodemailer from "nodemailer";
-import fs from "fs";
+import fs, { readFile } from "fs";
+import { PDFDocument } from 'pdf-lib';
 
+import sendEmail from "$lib/emailer";
 import config from "$lib/config";
-
-// let transporter = nodemailer.createTransport({
-//   host: config.smtp,
-//   port: config.port,
-//   auth: {
-//     user: config.user,
-//     pass: config.pass
-//   }
-// });
-
-// message = {
-//   from: "Clamour Theater Group",
-//   to: "",
-//   subject: "Confirmation",
-//   text: "Hello, this is an automated message confirming we have received your submission"
-// };
+import { getAuthorFromEmail, addPlay, addAuthor } from "$lib/dbFunctions";
 
 export async function post(req) {
-  let path = req.body.get("path");
-  let fileTitle = req.body.get("title") +"_by_"+ req.body.get("fname")+`_`+ req.body.get("lname");
+  let path = req.body.path;
+  let fileTitle = req.body.title +"_by_"+ req.body.fname + `_` + req.body.lname;
   fileTitle = fileTitle.split(' ').join('_');
   let oldFilePath = `./${config.uploadDir}/${path}` ;
   let newFilePath = `./${config.playSubmissionDir}/${fileTitle}`;
   let filenames = fs.readdirSync(`./${config.playSubmissionDir}/`);
+  const body =req.body;
 
-//   for(var pair of req.body.entries()) {
-//     console.log(pair[0]+ ', '+ pair[1]);
-//  }
+  //read data from upload folder then write to play folder
+  const data = fs.readFileSync(
+    oldFilePath
+  );
 
-//read data from upload folder then write to play folder
-const data = fs.readFileSync(
-  oldFilePath
-);
-
-// checks for same file name
+  // checks for same file name
   var i = 0;
   filenames.forEach( file => {
-    console.log(`fileName = ${file} | i = ${i}`);
     let fileName = file.split(".")[0];
     fileName = fileName.split("(")[0];
-    console.log(fileName+"="+fileTitle);
     if(fileName == fileTitle){
       i++;
     }
@@ -59,30 +40,83 @@ const data = fs.readFileSync(
 
   fs.unlinkSync(oldFilePath);
 
-  return {message: "Play stored."}
-  if (req.body.title != null) {
-    
-    
+  const author = await findAuthor(body.email);
+  let authorID;
+
+  if (author == false) {
+    let authorData = {
+      dateOfEntry: getDate(),
+      firstName: body.fname,
+      middleName: body.mname,
+      lastName: body.lname,
+      homeEmail: body.email,
+      personalWebsite: body.person_website,
+      workWebsite: body.work_website,
+      mobilePhone: body.phone,
+      address1: body.address1,
+      address2: body.address2,
+      city: body.city,
+      state: body.state,
+      zip: body.zip,
+      province: body.province,
+      country: body.country,
+      postalCode: body.postal_code,
+      meetPref: body.meet_pref,
+      profIntro: body.prof_intro,
+      personIntro: body.person_intro,
+    }
+    authorID = await addAuthor(authorData);
+    authorID = await getAuthorFromEmail(body.email)._id
+  } else {
+    authorID = author;
   }
+
+  const pageCount = await getPages(newFilePath + `.pdf`);
+  const authorName = body.lname + ", " + body.fname;
+  let playData = {
+    title: body.title,
+    author: authorName,
+    authorID: authorID,
+    dateOfSubmission: getDate(),
+    women: body.actors_women,
+    men: body.actors_men,
+    either: body.actors_neutral,
+    actexplain: body.actor_explain,
+    filename: newFilePath,
+    synopsis: body.synopsis,
+    future: body.play_future,
+    length: pageCount,
+  }
+  const inserted = await addPlay(playData);
+  console.log(inserted);
+
+  await sendEmail(body.email, "Confirmation" , "Hello " + authorName + ", this is an automated message confirming we have received your submission of " + body.title);
+
   return {
-    test: "testing"
+    status: 200,
+    body: {
+      inserted
+    }
   }
 }
 
-// function sendEmail(email) {
-//   message.to = email
-//   transporter.sendMail(message, function (err, info) {
-//     if (err) {
-//       console.log(err)
-//       return {
-//         message: "There was an error sending an email"
-//       }
-//     } else {
-//       console.log(info);
-//       return {
-//         message: "You should get a confirmation email shortly."
-//       }
-//     }
-//   });
-// }
+async function getPages(filePath) {
+  const file = fs.readFileSync(filePath);
+  const doc = await PDFDocument.load(file);
+  const pages = doc.getPageCount();
+  return pages;
+}
 
+function getDate(date = new Date()) {
+  return date.toISOString().split('T')[0];
+}
+
+async function findAuthor(email) {
+  const author = await getAuthorFromEmail(email);
+  if (author == null) {
+    return false;
+  }
+  else {
+    return author._id;
+  }
+}

@@ -1,172 +1,14 @@
 <script>
   import PlayHeading from "$lib/components/playheading.svelte";
-  import EvaluatorHeading from "$lib/components/evaluatorheading.svelte"
+  // import EvaluatorHeading from "$lib/components/evaluatorheading.svelte"
   import Play from "$lib/components/play.svelte";
   import Evaluator from "$lib/components/evaluator.svelte";
 
   //we will use this format when getting the data
-  let data = {
-    plays: [
-      {
-        playid:1,
-        title:"Romeo and Juliet",
-        tone:"Drama",
-        actors:"5",
-        pages:"100",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:2,
-        title:"Hamlet",
-        tone:"Drama",
-        actors:"5",
-        pages:"125",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:3,
-        title:"Macbeth",
-        tone:"Drama",
-        actors:"7",
-        pages:"160",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:4,
-        title:"Waiting for Godot",
-        tone:"Comedy",
-        actors:"3",
-        pages:"67",
-        authorName:"Samuel Beckett",
-        visibility:"visible",
-      },
-      {
-        playid:5,
-        title:"The Great Gatsby",
-        tone:"Drama",
-        actors:"5",
-        pages:"37",
-        authorName:"Leonardo",
-        visibility:"visible",
-      },
-      {
-        playid:6,
-        title:"Romeo and Juliet",
-        tone:"Drama",
-        actors:"5",
-        pages:"100",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:7,
-        title:"Hamlet",
-        tone:"Drama",
-        actors:"5",
-        pages:"125",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:8,
-        title:"Macbeth",
-        tone:"Drama",
-        actors:"7",
-        pages:"160",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:9,
-        title:"Waiting for Godot",
-        tone:"Comedy",
-        actors:"3",
-        pages:"67",
-        authorName:"Samuel Beckett",
-        visibility:"visible",
-      },
-      {
-        playid:10,
-        title:"The Great Gatsby",
-        tone:"Drama",
-        actors:"5",
-        pages:"37",
-        authorName:"Leonardo",
-        visibility:"visible",
-      },
-      {
-        playid:11,
-        title:"Romeo and Juliet",
-        tone:"Drama",
-        actors:"5",
-        pages:"100",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:12,
-        title:"Hamlet",
-        tone:"Drama",
-        actors:"5",
-        pages:"125",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:13,
-        title:"Macbeth",
-        tone:"Drama",
-        actors:"7",
-        pages:"160",
-        authorName:"Shakespeare",
-        visibility:"visible",
-      },
-      {
-        playid:14,
-        title:"Waiting for Godot",
-        tone:"Comedy",
-        actors:"3",
-        pages:"67",
-        authorName:"Samuel Beckett",
-        visibility:"visible",
-      },
-      {
-        playid:15,
-        title:"The Great Gatsby",
-        tone:"Drama",
-        actors:"5",
-        pages:"37",
-        authorName:"Leonardo",
-        visibility:"visible",
-      }
-    ],
-    evaluators: [
-      {
-        evalid:1,
-        fname:"David",
-        lname:"Letterman",
-        email:"Dletterman@gmail.com",
-        playcount:4
-      },
-      {
-        evalid:2,
-        fname:"Jerry",
-        lname:"Springer",
-        email:"Jspringer@gmail.com",
-        playcount:2
-      },
-      {
-        evalid:3,
-        fname:"Michael",
-        lname:"Fox",
-        email:"Mfox@gmail.com",
-        playcount:1
-      }
-    ]
-  }
+  let data= {
+    plays: [],
+    evaluators: [],
+  };
 
   let playVis = {};
 
@@ -177,50 +19,89 @@
   let search;
   let dropdown;
 
+  async function getData() {
+    const array = await fetch("../../server/admin/assign.json", {
+      method: "GET",
+      headers: {
+      'Content-Type': 'application/json'
+      },
+    });
+
+    const myData = await array.json();
+
+    console.log(myData);
+
+    data.plays = myData.plays;
+    data.evaluators = myData.evaluators;
+
+    console.log(data);
+    return;
+  }
+
+  async function assign(array) {
+    console.log(array);
+    const assign = await fetch("../../server/admin/assign.json", {
+      method: "POST",
+      headers: {
+      'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(array),
+    });
+  }
+
   async function submit(e) {
     const form = e.target;
     let newForm = new FormData(form);
-    var formJSON = {};
-    newForm.forEach((value, key) => formJSON[key] = value);
+    let formJSON = {
+      evaluators: [],
+      plays: [],
+    };
+    newForm.forEach((value, key) => {
+      // formJSON[key] = value
+      console.log(key + " | " + value);
+      let entry = key.split("=");
+      if (entry[0] == "evalid") {
+        formJSON.evaluators.push(entry[1]);
+      } else if (entry[0] == "playid") {
+        formJSON.plays.push(entry[1]);
+      }
+    });
+
     console.log(formJSON);
+    await assign(formJSON);
   }
 
   function filterPlays() {
     data.plays.forEach( play => {
       let visibility = "grid";
       let invis = "none";
-      let drop = (dropdown == "All");
 
       if (search != null && !play.title.toLowerCase().includes(search.toLowerCase())) {
         visibility = invis;
       }
 
-      console.log("play.tone: "+ play.tone +" dropdown: " + dropdown);
-
-      console.log(play.tone === dropdown);
-      
-
-      if (!drop){
-        console.log("this drop" + drop);
-        if (play.tone != dropdown) {
-          visibility = invis;
-        }
-      }
-
-      playVis[play.playid] = visibility;
+      playVis[play._id] = visibility;
     });
   }
-</script>
 
+  function sepData(plays) {
+    let fin = 0;
+    let unf = 0;
+    Object.keys(plays).forEach(play => {
+      if (plays[play] == "unf") {
+        unf++;
+      } else {
+        fin++;
+      }
+    });
+    return unf + " | " + fin;
+  }
+</script>
+<!-- on:load={() => getData()} -->
 <body class="body-style">
-  <div class="toolbar">
+  <div class="toolbar" on:load={getData()}>
     <label>Search: <input class="search-bar" type="search" bind:value={search} on:input={() => filterPlays()} /></label>
-    <label for="tone">Tone:</label>
-    <select class="dropdown-field" name="tone" id="tone" bind:value={dropdown} on:change={() => filterPlays()}>
-      <option value="All">All</option>
-      <option value="Comedy">Comedy</option>
-      <option value="Drama">Drama</option>
-    </select>
+    <button class="reload" on:click={() => getData()}>Refresh</button>
   </div>
 
   <form class="form" action="POST" on:submit|preventDefault={submit}>
@@ -231,13 +112,13 @@
     
         {#each data.plays as play}
           <Play half checkbox 
-            visibility={playVis[play.playid]}
-            playid={"playid=" + play.playid} 
+            visibility={playVis[play._id]}
+            playid={"playid=" + play._id} 
             title={play.title} 
             tone={play.tone} 
             actors={play.actors} 
-            pages={play.pages} 
-            author={play.authorName} />
+            pages={play.length} 
+            author={play.author} />
         {/each}
       </div>
     
@@ -247,11 +128,11 @@
     
         {#each data.evaluators as evaluator}
           <Evaluator half checkbox
-            evalid={"evalid=" + evaluator.evalid}
-            fname={evaluator.fname}
-            lname={evaluator.lname}
+            evalid={"evalid=" + evaluator._id}
+            fname={evaluator.firstName}
+            lname={evaluator.lastName}
             email={evaluator.email}
-            playcount={evaluator.playcount}
+            playcount={sepData(evaluator.plays)}
           />
         {/each}
       </div>
@@ -276,6 +157,19 @@
     border-radius: 5px;
     height: 5%;
     width: 15%;
+    transition: all 0.5s ease;
+  }
+
+  .reload {
+    border-radius: 5px;
+    border: black solid 1px;
+    background-color: rgb(240, 178, 178);
+    height: 30px;
+    transition: all 0.5s ease;
+  }
+
+  .reload:hover , .submit:hover{
+    background-color: lightcoral;
   }
 
   .half-container {

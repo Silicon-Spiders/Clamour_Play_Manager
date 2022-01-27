@@ -1,39 +1,162 @@
-<script>
-    import { } from "os";
-    
-</script>
-
 <svelte:head>
-    <title>Manage Evaluators</title>
+  <title>Reviewer Account Information</title>
 </svelte:head>
 
-<table style="width: 90%;">
+<script>
+  import {} from "os";
+  import Evaluator from "$lib/components/evaluatorcreation.svelte";
 
-    <th align="left">
-        <h4>Evaluators</h4>
-    </th>
+  async function submit(e) {
+    const form = e.target;
+    let newForm = new FormData(form);
+    var formJSON = {};
+    newForm.forEach((value, key) => formJSON[key] = value);
+    console.log(formJSON);
+    
+  }
 
-    <td>
-        <br>
-        <label for="Last Name">Last Name:</label>
-        <label for="First Name">First Name:</label>
-        <label for="phone">Phone Number:</label>
-        <label for="Email">Email:</label>
+  let data = {
 
-        <input type="text" id="Last Name" name="Last Name" readonly>
+  }
+</script>
 
-        <input type="text" id="First Name" name="First Name" readonly>
+<body class="tool-bar">
+  <div class="toolbar">
+    <label>Search: <input class="search-bar" type="search"/></label>
+  </div>
+</body>
 
-        <input type="tel" id="phone" name="phone" readonly>
+<form class="form" action="POST" on:submit|preventDefault={submit}>
+  <div class="full-container">
+    <div class="half-container">
+      <table class="" align="center" style="width: 90%;">
+        <colgroup>
+          <col span="2" style="width: 90%;" />
+          <col span="2" style="width: 90%;" />
+          <col span="2" style="width: 90%;" />
+        </colgroup>
 
-        <input type="email" id="Email" name="Email" readonly>
+        <h2 align="left">Evaluator Account Information</h2>
+        <tr>
+          <td>
+            <label for="Last Name">Last Name:</label>
+            <input class="text-box" type="text" id="Last Name" name="Last Name" required />
+            <br />
+            <br />
 
-    </td>
-</table>
+            <label for="First Name">First Name:</label>
+            <input class="text-box" type="text" id="First Name" name="First Name" required />
+            <br />
+            <br />
+
+            <label for="phone">Phone Number:</label>
+            <input class="text-box" type="tel" id="phone" name="phone" required />
+            <small>Ex: 123-456-7890</small>
+            <br />
+            <br />
+
+            <label for="Email">Email:</label>
+            <input class="text-box" type="email" id="Email" name="Email" require />
+            <br />
+            <br />
+
+            <label for="uname">Username:</label>
+            <input class="text-box" type="text" id="uname" name="uname" required />
+            <br />
+            <br />
+
+            <label for="pword">Password:</label>
+            <input class="text-box" type="password" id="pword" name="pword" required />
+            <br />
+            <br />
+
+          <input type="submit" class="submit" value="Save"/> 
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="half-container h2">
+      <h2 align="left">Evaluators</h2>
+
+      <div class="heading">
+      <span>Name</span>
+      <span>Email</span>
+      <span>Phone Number</span>
+      </div>
+
+
+      
+    </div>
+  </div>
+</form>
 
 <style>
+  .tool-bar {
+    height: 5%;
+  }
+  .form {
+    height: inherit;
+  }
+  .submit {
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+    background-color: rgb(240, 178, 178);
+    border-radius: 5px;
+    height: 5%;
+    width: 15%;
+  }
+  .heading {
 
-    td {
-        border: 2px;
-    }
+    display: grid;
+    grid-template-columns: 25% 25% 30% 40%;
+    font-size: 14pt;
+    padding-right: 4%;
+    border-bottom: thin solid var(--secondary-color-dark);
+    border-radius: 15px;
+    background-color: var(--primary-color-dark);
+    padding: 5px;
+    color: white;
+  }
+  .half-container {
+    width: 47%;
+    height: 100%;
+    padding: 15px;
+    margin: auto;
+    background-color: lightgray;
+    border-radius: 15px;
+    display: inline-block;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .half-container h2{
+    margin: 10px;
+  }
+
+  .full-container {
+    height: 80%;
+    display: flex;
+  }
+
+  ::-webkit-scrollbar {
+  width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+  background: darkgray; 
+  border-radius: 20px;
+  }
+
+  .search-bar {
+    padding: 6px;
+    border: none;
+    border-radius: 4px;
+  }
+
+  .text-box {
+    padding: 4px;
+    border: none;
+    border-radius: 4px; 
+  }
 </style>

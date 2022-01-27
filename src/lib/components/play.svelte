@@ -25,9 +25,6 @@
         {author}
       </span>
       <span>
-        {tone}
-      </span>
-      <span>
         {pages}
       </span>
     </div>

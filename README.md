@@ -36,3 +36,9 @@ npm run build
 ```
 
 > You can preview the built app with `npm run preview`, regardless of whether you installed an adapter. This should _not_ be used to serve your app in production.
+
+# MongoDB
+
+to access mongodb add a file named .env and give it a variable:
+
+MONGODB_URI = "{YOUR MONGO CONNECTION STRING}"

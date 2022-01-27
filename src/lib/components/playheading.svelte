@@ -9,7 +9,6 @@
     <span />
     <span>Title</span>
     <span>Author</span>
-    <span>Tone</span>
     <span>Pgs</span>
   </div>
 {:else}
@@ -30,7 +29,7 @@
   /* Half Size */
   .play-heading-container-half {
     display: grid;
-    grid-template-columns: 5% 35% 35% 15% 10%;
+    grid-template-columns: 5% 35% 32% 15% 10%;
     text-align: left;
     padding-right: 4.2%;
     border-bottom: thin solid var(--secondary-color-dark);
