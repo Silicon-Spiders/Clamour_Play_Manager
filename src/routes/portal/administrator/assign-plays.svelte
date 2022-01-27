@@ -66,9 +66,9 @@
         formJSON.plays.push(entry[1]);
       }
     });
-
-    console.log(formJSON);
     await assign(formJSON);
+    getData();
+    document.querySelectorAll('input[type=checkbox]').forEach(input => input.checked = false);
   }
 
   function filterPlays() {
