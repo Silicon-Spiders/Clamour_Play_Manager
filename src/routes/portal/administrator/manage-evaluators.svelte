@@ -9,14 +9,38 @@
   async function submit(e) {
     const form = e.target;
     let newForm = new FormData(form);
-    var formJSON = {};
-    newForm.forEach((value, key) => formJSON[key] = value);
-    console.log(formJSON);
-    
+    let formJSON = {
+      evaluators: [],
+      plays: [],
+    };
+    newForm.forEach((value, key) => {
+      // formJSON[key] = value
+      console.log(key + " | " + value);
+      let entry = key.split("=");
+      if (entry[0] == "evalid") {
+        formJSON.evaluators.push(entry[1]);
+      }
+    });
+    await assign(formJSON);
+    getData();
+    document.querySelectorAll('input[type=checkbox]').forEach(input => input.checked = false);
   }
 
   let data = {
+    evaluators: []
+  }
 
+
+  async function getData() {
+
+    const myData = await array.json();
+
+    console.log(myData);
+
+    data.evaluators = myData.evaluators;
+
+    console.log(data);
+    return;
   }
 </script>
 
@@ -80,12 +104,20 @@
       <h2 align="left">Evaluators</h2>
 
       <div class="heading">
-      <span>Name</span>
-      <span>Email</span>
-      <span>Phone Number</span>
+        <span />
+        <span>Name</span>
+        <span>Email</span>
+        <span>Phone Number</span>
       </div>
 
-
+      {#each data.evaluators as evaluator}
+      <Evaluator half checkbox
+        evalid={"evalid=" + evaluator._id}
+        fname={evaluator.firstName}
+        lname={evaluator.lastName}
+        email={evaluator.email}
+      />
+    {/each}
       
     </div>
   </div>
@@ -110,9 +142,9 @@
   .heading {
 
     display: grid;
-    grid-template-columns: 25% 25% 30% 40%;
+    grid-template-columns: 5% 25% 25% 30% 40%;
     font-size: 14pt;
-    padding-right: 4%;
+    padding-right: 4.2%;
     border-bottom: thin solid var(--secondary-color-dark);
     border-radius: 15px;
     background-color: var(--primary-color-dark);

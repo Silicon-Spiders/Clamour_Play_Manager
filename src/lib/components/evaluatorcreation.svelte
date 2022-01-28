@@ -52,11 +52,12 @@
       display: grid;
       grid-template-columns: 30% 50% 20%;
       text-align: left;
-      padding: 6px;
+      padding-right: 6px;
       margin-top: 1px;
       margin-left: 15px;
-      -khtml-user-select: none;
-      -webkit-user-select: none;
+      border-bottom: thin solid var(--secondary-color-dark);
+      border-radius: 15px;
+      background-color: var(--primary-color-dark);
     }
     
     .play-container-half:hover {
