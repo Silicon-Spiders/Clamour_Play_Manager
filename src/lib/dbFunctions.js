@@ -4,6 +4,7 @@ import { ObjectId } from 'mongodb';
 async function connectDB() {
   const dbConnection = await clientPromise;
   const db = await dbConnection.db("Clamour");
+  // console.log(db);
   return db;
 }
 
@@ -114,3 +115,29 @@ export async function assignPlays(array) {
   });
   return;
 }
+
+export async function insertEvaluation(evaluation) {
+
+  let db = await connectDB();
+  // console.log(db);
+  let insertEvaluation = await db.collection("evaluations").insertOne(evaluation);
+  
+  return;
+};
+
+export async function getEvaluations() {
+
+  let db = await connectDB();
+  let evaluations = await db.collection("evaluations").find({}).toArray();
+  // console.log(evaluations);
+
+  return evaluations;
+};
+
+export async function getPlaysAssigned() {
+
+  let db = await connectDB();
+  let playsAssigned = await db.collection("plays-assigned").find({}).toArray();
+
+  return playsAssigned;
+};

@@ -11,6 +11,7 @@
   export let actors;
   export let pages;
   export let author;
+  export let rating;
   export let play = undefined;
 </script>
 
@@ -22,10 +23,11 @@
         {title}
       </span>
       <span>
-        {author}
-      </span>
-      <span>
         {pages}
+      </span>
+      
+      <span>
+        {rating}
       </span>
     </div>
   </label>

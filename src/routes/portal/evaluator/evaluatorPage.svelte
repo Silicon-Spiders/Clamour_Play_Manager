@@ -2,110 +2,201 @@
 
     import PlayHeading from "$lib/components/playheading.svelte";
     import Play from "$lib/components/play.svelte";
-    import { is_empty } from "svelte/internal";
-  
-    //we will use this format when getting the data'
-    // export const writableArray = writable([]);
+    import { is_empty, onMount } from "svelte/internal";
 
-      let data = {
-      plays: [
-        {
-          playid:1,
-          title:"Hamlet",
-          tone:"Drama",
-          actors:"5",
-          pages:"100",
-          authorName:"Shakespeare",
-          visibility:"visible",
-        },
-        {
-          playid:2,
-          title:"Romeo and Juliet",
-          tone:"Drama",
-          actors:"5",
-          pages:"125",
-          authorName:"Shakespeare",
-          visibility:"visible",
-        },
-        {
-          playid:3,
-          title:"The Great Gatsby",
-          tone:"Drama",
-          actors:"4",
-          pages:"160",
-          authorName:"Shakespeare",
-          visibility:"visible",
-        },
-        {
-          playid:4,
-          title:"Waiting for Godot",
-          tone:"Comedy",
-          actors:"3",
-          pages:"67",
-          authorName:"Samuel Beckett",
-          visibility:"visible",
-        },
-        {
-          playid:5,
-          title:"Macbeth",
-          tone:"Drama",
-          actors:"5",
-          pages:"37",
-          authorName:"Leonardo",
-          visibility:"visible",
-        }
-        
-      ],
-      completedEvaluation: [
+  let play = {
+
+      id:0,
+      title:'',
+      numOfPages:0,
+      numOfMales:0,
+      numOfFemales:0,
+      numOfNonSpecific:0,
+      toneOfPlay:'',
+      synopsis:'',
+      evaluatorComments:'',
+      rating:0
+
+  };
   
-      ]
+  async function getPlaysAssigned() {
+
+    let response = await fetch('../../server/evaluator/playsAssigned.json', {
+
+      method:'GET',
+      credentials:'same-origin',
+      headers:{
+          'Content-Type':'application/json'
+      },
+    });
+
+    const playsAssigned = await response.json();
+
+    if(response.ok) {
+      return playsAssigned;
+    } else {
+
+      throw new Error('Something wrong with getting the plays Assigned response!!');
     }
+
+  }// end getPlaysAssigned()
+
   
-    
-    let playVis = {};
+
+let playsAssigned = [];
+
+  onMount(async() => {
+
+    let data = await getPlaysAssigned();
+    // let determineLength = !data.length ? console.log('The length is more than 1') : console.log('None found bloodie') ;
+    console.log(data);
+    data.forEach((play) => {
+    const {
+      _id: id,
+      title = "Unknown",
+      rating = 0,
+      toneOfPlay = "Drama",
+      numOfPages= 0,
+      numOfMales = 0,
+      numOfFemales = "Unknown",
+      numOfNonSpecific = "Unknown",
+      synopsis = "Unknown",
+      evaluatorComments = "Unknown",
+    } = play;
+    playsAssigned = [
+      ...playsAssigned,
+      {
+        id,
+        title,
+        rating,
+        toneOfPlay,
+        numOfPages,
+        numOfMales,
+        numOfFemales,
+        numOfNonSpecific,
+        synopsis,
+        evaluatorComments,
+      },
+    ];
+    });
+    console.log(play); //something wrong with the above code
+    loading = false;
+  }); //end onMount
+
+
+
   
-    data.plays.forEach( play => {
-        playVis[play.playid] = "visible";
+
+
+    async function getEvaluations() {
+
+      let response = await fetch('../../server/evaluator/evaluations.json', {
+
+        method:'GET',
+        credentials:'same-origin',
+        headers:{
+             'Content-Type':'application/json'
+        },
       });
-    
+
+      const evaluations = await response.json();
+
+      if(response.ok) {
+        return evaluations;
+      } else {
+
+        throw new Error('Something wrong with getting the evaluations response!!');
+      }
+
+    }// end getEvaluations()
+
+    let loading = true;
+
+    let evaluations = [];
+
+    onMount(async() => {
+
+      let data = await getEvaluations();
+
+      console.log(data);
+      // console.log(`Incoming data inside onMount -->${data}`);
+      // console.log('THIS IS INSIDE THE ONMOUNT RIGHT B4 PRINTING THE DATA FROM AWAIT-GETEVALUATIONS()');
+      // let determineLength = !data.length ? console.log('The length is more than 1') : console.log('None found bloodie') ;
+
+      data.forEach((play) => {
+      const {
+        _id: id,
+        title = "Unknown",
+        rating = 0,
+        toneOfPlay = "Drama",
+        numOfPages= 0,
+        numOfMales = 0,
+        numOfFemales = "Unknown",
+        numOfNonSpecific = "Unknown",
+        synopsis = "Unknown",
+        evaluatorComments = "Unknown",
+      } = play;
+      evaluations = [
+        ...evaluations,
+        {
+          id,
+          title,
+          rating,
+          toneOfPlay,
+          numOfPages,
+          numOfMales,
+          numOfFemales,
+          numOfNonSpecific,
+          synopsis,
+          evaluatorComments,
+        },
+      ];
+    });
+
+      loading = false;
+    }); //end onMount
+
+    // let playVis = {};
+
+    // data.plays.forEach( play => {
+    //     playVis[play.playid] = "visible";
+    //   });
+
     let search;
     let dropdown;
-  
-    async function submit(e) {
-      const form = e.target;
-      let newForm = new FormData(form);
-      var formJSON = {};
-      newForm.forEach((value, key) => formJSON[key] = value);
-      console.log(formJSON);
-    }
-  
+
+
     function filterPlays() {
       data.plays.forEach( play => {
         let visibility = "grid";
         let invis = "none";
         let drop = (dropdown == "All");
-  
+
         if (search != null && !play.title.toLowerCase().includes(search.toLowerCase())) {
           visibility = invis;
         }
-  
+
         console.log("play.tone: "+ play.tone +" dropdown: " + dropdown);
-  
+
         console.log(play.tone === dropdown);
-        
-  
+
+
         if (!drop){
           console.log("this drop" + drop);
           if (play.tone != dropdown) {
             visibility = invis;
           }
         }
-  
+
         playVis[play.playid] = visibility;
       });
     }
   </script>
-  
+  {#if loading}
+    Loading...
+
+    {:else}
+
   <body class="body-style">
     <div class="toolbar">
       <label>Search: <input class="search-bar" type="search" bind:value={search} on:input={() => filterPlays()} /></label>
@@ -116,25 +207,25 @@
         <option value="Drama">Drama</option>
       </select>
     </div>
-  
-    <form class="form" action="POST" on:submit|preventDefault={submit}>
+
+    <form class="form" action="POST">
       <div class="full-container">
         <div class="half-container">
           <h2>Play(s) Assigned</h2>
           <PlayHeading half />
-      
-          {#each data.plays as play}
-            <Play half checkbox 
-              visibility={playVis[play.playid]}
-              playid={play.playid} 
-              title={play.title} 
-              tone={play.tone} 
-              actors={play.actors} 
-              pages={play.pages} 
-              author={play.authorName} />
+
+          {#each playsAssigned as playAss}
+          <Play half checkbox
+          playid={playAss.id}
+          title={playAss.title}
+          tone={playAss.toneOfPlay}
+          actors={playAss.numOfMales}
+          pages={playAss.numOfPages}
+          rating = {playAss.rating}
+            />
           {/each}
         </div>
-      
+
         <div class="half-container">
           <h2>Evaluations Completed</h2>
 
@@ -142,32 +233,36 @@
           <div class="evaluation-heading-container-half">
             <span />
             <span>Title</span>
-            <span>Author</span>
-            <span>Tone</span>
+            <span># of Pages</span>
+            <!-- <span>Tone</span> -->
             <span>Rating</span>
           </div>
-          <!-- <EvaluationHeading half /> -->
 
 
-          {#if !is_empty(data.completedEvaluation)}
-          
-          <!-- {#each data.completedEvaluation as evaluation} -->
+          <!-- {#if !is_empty(evaluations)} -->
 
+          {#each evaluations as evall}
 
+          <Play half checkbox
+          playid={evall.id}
+          title={evall.title}
+          tone={evall.toneOfPlay}
+          actors={evall.numOfMales}
+          pages={evall.numOfPages}
+          rating = {evall.rating}
+            />
 
-          <!-- {/each} -->
+          <!-- {:else}
+          <p style="text-align: center;">Loading...</p>
+          {/if} -->
 
-
-          {:else}
-            <p style="text-align: center;">No Evaluations have been completed</p>
-          {/if}
-
+          {/each}
 
         </div>
       </div>
     </form>
   </body>
-  
+  {/if}
   <style>
     .body-style {
       height: 99%;
@@ -184,7 +279,7 @@
       height: 5%;
       width: 15%;
     }
-  
+
     .half-container {
       width: 47%;
       height: 100%;
@@ -196,21 +291,21 @@
       overflow-y: auto;
       overflow-x: hidden;
     }
-  
+
     .half-container h2{
       margin: 10px;
     }
-  
+
     .full-container {
       height: 80%;
       display: flex;
     }
-  
+
     ::-webkit-scrollbar {
     width: 10px;
     }
     ::-webkit-scrollbar-thumb {
-    background: darkgray; 
+    background: darkgray;
     border-radius: 20px;
     }
     .evaluation-heading-container-half {
@@ -228,7 +323,7 @@
       padding: 5px;
       color: white;
     }
-  
+
     .search-bar {
       padding: 6px;
       border: none;

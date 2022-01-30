@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({path:'.env.local'});
 
 import { MongoClient } from 'mongodb';
 
@@ -11,6 +11,7 @@ const options = {
 
 let client;
 let clientPromise;
+
 
 if (!uri) {
     throw new Error('Please add your Mongo URI to .env.local')

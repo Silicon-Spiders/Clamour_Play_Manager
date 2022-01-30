@@ -1,11 +1,11 @@
 <script>
+    //EDITED THE FORM STYLE TOWARDS THE VERY BEGINNING. KEEP AN EYE ON THAT
     import { bind } from "svelte/internal";
     import StepWizard from "svelte-step-wizard";
   
     // import OutsideLayout from "../lib/components/layouts/Outside-layout.svelte";
     import ApplicationProgress from "$lib/components/apply/ApplicationProgress.svelte";
   
-    let formFile;
     let formsData = {
       numOfPages: 0,
       numOfFemales: 0,
@@ -24,40 +24,22 @@
         formsData.numOfFemales +
         formsData.numOfNonSpecific;
     }
-  
-    async function fileUpload(file, form) {
-      const fileResponse = await fetch("server/submission/file.json", {
-        method: "POST",
-        headers: {
-          "Content-Type": file.type,
-        },
-        body: file,
-      });
-      const json = await fileResponse.json();
-      return json.path;
-    }
-    // async function formUpload(form) {
-    //   const formResponse = await fetch("server/submission.json", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(form),
-    //   });
-  
-    //   const json = await formResponse.json();
-  
-    //   return json.req;
-    // }
+    
   
     async function submit(e) {
-      const form = formsData;
-      const [file] = formFile;
-      const path = file ? await fileUpload(file, form) : null;
-      form.path = path;
-      const alert = await formUpload(form);
-      console.log(alert);
-      console.log(alert.message);
+     
+        const insertEvaluation = await fetch("../../server/evaluator/evaluations.json", {
+
+            method:'POST',
+            mode:'cors',
+            credentials:'same-origin',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(formsData)
+        });
+         window.open('./evaluatorPage');
+         return;
     }
     let finish = false;
   </script>
@@ -68,15 +50,10 @@
   </svelte:head>
   
   <div class="evaluation">
-    <!-- <div class="sideimage" style="flex-basis: {finish ? '100vw' : '40vw'}">
-      <div class="sideimage-successtext" style="opacity: {finish ? '1' : '0'}">
-        <h1>Thank you!</h1>
-        <h2>You should recieive an email confirming your application</h2>
-      </div> -->
-    <!-- </div> -->
+    
     <form
       on:submit|preventDefault={submit}
-      style="display: {finish ? 'none' : 'block'}"
+      style="display: {finish ? '' : 'block'}"
     >
       <StepWizard initialStep={1}>
         <ApplicationProgress type = "evaluator"/>
@@ -86,9 +63,9 @@
             <div class="scroll">
               
               <div>
-                <h3>Actors (Total: {totalActors})</h3>
+                <h3>Characters (Total: {totalActors})</h3>
                 <span class="tooltip"
-                  >Enter how many actors will be required to complete this play.</span
+                  >Enter how many characters are in this play.</span
                 > 
               </div>
               <div class="numbers">
@@ -102,6 +79,7 @@
                   name="numOfActors"
                   bind:value={formsData.numOfMales}
                   on:change={updateTotalAct}
+                  
                 />
                 <br />
                 <label for="numOfActors">Women:</label>
@@ -112,6 +90,7 @@
                   name="numOfActors"
                   bind:value={formsData.numOfFemales}
                   on:change={updateTotalAct}
+                  
                 />
                 <br />
                 <label for="numOfActors">Neutral:</label>
@@ -122,6 +101,7 @@
                   name="numOfActors"
                   bind:value={formsData.numOfNonSpecific}
                   on:change={updateTotalAct}
+                  
                 />
                 <br />
                 <div>
@@ -136,14 +116,15 @@
                   name="numOfpages"
                   bind:value={formsData.numOfPages}
                   on:change={updateTotalAct}
+                  
                 />
                 <br />
               </div>
     
               
-              <label for="actor_explain">Tone of Play:</label>
-              <br />
-              <select name="toneOfPlay" id="toneOfPlay" bind:value={formsData.toneOfPlay}>
+              <label for="toneOfPlay">Tone of Play:</label>
+              
+              <select class="filebox" name="toneOfPlay" id="toneOfPlay" bind:value={formsData.toneOfPlay} >
                   
                 <option value="comedy">Comedy</option>
                 <option value="drama">Drama</option>
@@ -174,18 +155,31 @@
                 rows="10"
                 placeholder="Write a brief synopsis of your play."
                 bind:value={formsData.synopsis}
+                
               />
               <br />
-              <label for="play_future">Evaluator Comments:</label>
+              <label for="evaluator-comments">Evaluator Comments:</label>
               <br />
               <textarea
-                name="play_future"
-                id="play_future"
+                name="evaluator-comments"
+                id="evaluator-comments"
                 cols="50%"
                 rows="10"
                 placeholder="What is the evaluator's opinion about the playwright?"
                 bind:value={formsData.evaluatorComments}
+                
               />
+              <br />
+              <label for="rating">Rating:</label>
+              <br />
+              <input type="number"
+                id="rating"
+                min="1"
+                max="10"
+                bind:value={formsData.rating}
+                
+              />
+              
             </div>
           </div>
   
@@ -225,7 +219,7 @@
     .filebox {
       border: black solid 2px;
       border-radius: 10px;
-      width: 400px;
+      width: 100px;
     }
     .numbers label {
       display: inline-block;
@@ -239,7 +233,7 @@
       display: inline-flex;
       margin-right: 20pt;
     }
-    .numbers input {
+    .numbers input  {
       display: inline-block;
       width: 10%;
       height: 16pt;
