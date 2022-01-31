@@ -1,7 +1,7 @@
 <script>
   import Icon from "./Icon.svelte";
 
-  export let half;
+  export let half = undefined;
 </script>
 
 {#if half}

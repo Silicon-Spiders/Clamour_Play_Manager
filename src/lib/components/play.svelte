@@ -3,14 +3,14 @@
 
   import Playheading from "./playheading.svelte";
 
-  export let half;
-  export let visibility;
-  export let playid;
-  export let title;
-  export let tone;
-  export let actors;
-  export let pages;
-  export let author;
+  export let half = undefined;
+  export let visibility = undefined;
+  export let playid = undefined;
+  export let title = undefined;
+  export let tone = undefined;
+  export let actors = undefined;
+  export let pages = undefined;
+  export let author = undefined;
   export let play = undefined;
 </script>
 
