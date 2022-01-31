@@ -32,6 +32,12 @@
 
 
   async function getData() {
+    const array = await fetch("../../server/admin/manage.json", {
+      method: "GET",
+      headers: {
+      'Content-Type': 'application/json'
+      },
+    });
 
     const myData = await array.json();
 
@@ -45,8 +51,9 @@
 </script>
 
 <body class="tool-bar">
-  <div class="toolbar">
-    <label>Search: <input class="search-bar" type="search"/></label>
+  <div class="toolbar" on:load={getData()}>
+    <label>Search: <input class="search-bar" type="search" /></label>
+    <button class="reload" on:click={() => getData()}>Refresh</button>
   </div>
 </body>
 
@@ -75,7 +82,7 @@
 
             <label for="phone">Phone Number:</label>
             <input class="text-box" type="tel" id="phone" name="phone" required />
-            <small>Ex: 123-456-7890</small>
+            <small>Ex: (123)456-7890</small>
             <br />
             <br />
 
@@ -116,6 +123,7 @@
         fname={evaluator.firstName}
         lname={evaluator.lastName}
         email={evaluator.email}
+        phone={evaluator.phone}
       />
     {/each}
       
@@ -142,7 +150,7 @@
   .heading {
 
     display: grid;
-    grid-template-columns: 5% 25% 25% 30% 40%;
+    grid-template-columns: 5% 30% 35% 40%;
     font-size: 14pt;
     padding-right: 4.2%;
     border-bottom: thin solid var(--secondary-color-dark);

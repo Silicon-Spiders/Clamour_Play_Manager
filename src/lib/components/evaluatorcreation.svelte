@@ -9,7 +9,7 @@
     export let fname;
     export let lname;
     export let email;
-    export let phoneNum;
+    export let phone;
 
     let fullname = fname+ " " + lname;
   </script>
@@ -25,7 +25,7 @@
           {email}
         </span>
         <span>
-          {phoneNum}
+          {phone}
         </span>
       </div>
     </label>
@@ -50,14 +50,12 @@
     }
     .play-container-half {
       display: grid;
-      grid-template-columns: 30% 50% 20%;
+      grid-template-columns: 30% 40% 25%;
       text-align: left;
       padding-right: 6px;
       margin-top: 1px;
       margin-left: 15px;
-      border-bottom: thin solid var(--secondary-color-dark);
       border-radius: 15px;
-      background-color: var(--primary-color-dark);
     }
     
     .play-container-half:hover {
