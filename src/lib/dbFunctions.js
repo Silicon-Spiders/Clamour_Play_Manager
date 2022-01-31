@@ -141,3 +141,13 @@ export async function getPlaysAssigned() {
 
   return playsAssigned;
 };
+
+export async function getPlayByID(request) {
+  const id = request.query.get('id');
+  if (id && id != 'null' && id != null && id != undefined && id != 'undefined') {
+    console.log('My ID: ', id);
+    let db = await connectDB();
+    const playColl = await db.collection('plays-assigned');
+    return await playColl.findOne({ _id: new ObjectId(id) })
+  }
+}

@@ -206,6 +206,7 @@
     border: none;
     border-radius: 4px;
   }
+  
   .dropdown-field {
     padding: 6px;
     border: none;

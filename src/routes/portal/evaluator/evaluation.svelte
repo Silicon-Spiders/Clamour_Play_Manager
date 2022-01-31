@@ -2,11 +2,16 @@
     //EDITED THE FORM STYLE TOWARDS THE VERY BEGINNING. KEEP AN EYE ON THAT
     import { bind } from "svelte/internal";
     import StepWizard from "svelte-step-wizard";
+    import { page } from '$app/stores'
   
     // import OutsideLayout from "../lib/components/layouts/Outside-layout.svelte";
     import ApplicationProgress from "$lib/components/apply/ApplicationProgress.svelte";
+
+    const playID = $page.query.get('playid')
+    console.log('Play ID in Evalution Page: ', playID);
   
     let formsData = {
+      playID,
       numOfPages: 0,
       numOfFemales: 0,
       numOfMales: 0,

@@ -18,7 +18,7 @@
 {#if half}
   <label class="checkbox" for={playid}>
     <input class="checkbox" name={playid} id={playid} type="checkbox" />
-    <div class="play-container-half" style="display: {visibility};">
+    <div class="play-container-half" style="display: {visibility};" on:click>
       <span>
         {title}
       </span>

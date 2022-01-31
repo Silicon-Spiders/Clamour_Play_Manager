@@ -3,21 +3,22 @@
     import PlayHeading from "$lib/components/playheading.svelte";
     import Play from "$lib/components/play.svelte";
     import { is_empty, onMount } from "svelte/internal";
+    //import { getPlayByID } from "$lib/dbFunctions";
 
-  let play = {
+ 
+  let assignedPlay = {
 
-      id:0,
-      title:'',
-      numOfPages:0,
-      numOfMales:0,
-      numOfFemales:0,
-      numOfNonSpecific:0,
-      toneOfPlay:'',
-      synopsis:'',
-      evaluatorComments:'',
-      rating:0
-
-  };
+    id:0,
+    title:'',
+    numOfPages:0,
+    numOfMales:0,
+    numOfFemales:0,
+    numOfNonSpecific:0,
+    toneOfPlay:'',
+    synopsis:'',
+    evaluatorComments:'',
+    rating:0
+  }
   
   async function getPlaysAssigned() {
 
@@ -44,14 +45,17 @@
   
 
 let playsAssigned = [];
+let convertPlaysToArray = [];
 
   onMount(async() => {
 
     let data = await getPlaysAssigned();
-    // let determineLength = !data.length ? console.log('The length is more than 1') : console.log('None found bloodie') ;
+
     console.log(data);
-    data.forEach((play) => {
-    const {
+   
+    convertPlaysToArray = data[0];
+    convertPlaysToArray.forEach(assignedPlay => {        
+      const {
       _id: id,
       title = "Unknown",
       rating = 0,
@@ -62,7 +66,7 @@ let playsAssigned = [];
       numOfNonSpecific = "Unknown",
       synopsis = "Unknown",
       evaluatorComments = "Unknown",
-    } = play;
+    } = assignedPlay;
     playsAssigned = [
       ...playsAssigned,
       {
@@ -78,16 +82,50 @@ let playsAssigned = [];
         evaluatorComments,
       },
     ];
-    });
-    console.log(play); //something wrong with the above code
+
+});
     loading = false;
   }); //end onMount
 
+   
+  let evaluation = {
 
+    id:0,
+    title:'',
+    numOfPages:0,
+    numOfMales:0,
+    numOfFemales:0,
+    numOfNonSpecific:0,
+    toneOfPlay:'',
+    synopsis:'',
+    evaluatorComments:'',
+    rating:0,
+    playID: ''
 
-  
+  };
 
+    async function getAssignedPlayByID(id) {
 
+      let res = await fetch('../../server/evaluator/getPlayAssignedByID.json?id=' + id , {
+
+        method:'GET',
+        credentials:'same-origin',
+        headers:{
+             'Content-Type':'application/json'
+        },
+
+      });
+      
+      const playID = await res.json();
+
+      if(res.ok) {
+        return playID;
+      } else {
+
+        throw new Error('Something wrong with getting the evaluations response!!');
+      }
+    }
+    
     async function getEvaluations() {
 
       let response = await fetch('../../server/evaluator/evaluations.json', {
@@ -97,7 +135,7 @@ let playsAssigned = [];
         headers:{
              'Content-Type':'application/json'
         },
-      });
+    });
 
       const evaluations = await response.json();
 
@@ -119,11 +157,23 @@ let playsAssigned = [];
       let data = await getEvaluations();
 
       console.log(data);
-      // console.log(`Incoming data inside onMount -->${data}`);
-      // console.log('THIS IS INSIDE THE ONMOUNT RIGHT B4 PRINTING THE DATA FROM AWAIT-GETEVALUATIONS()');
-      // let determineLength = !data.length ? console.log('The length is more than 1') : console.log('None found bloodie') ;
+      for (let i = 0; i < data.length; i++) {
+        console.log(data[i]);
+        let play = await getAssignedPlayByID(data[i].playID)
+        if (play) {
+          let newObj = { ...data[i], title: play && play[0] && play[0].title ? play[0].title : '' };
 
-      data.forEach((play) => {
+          console.log('Play: ', newObj);
+
+          data[i] = newObj;
+        }
+      }
+      evaluations = data;
+      console.log('Data Updated: ', data);
+      
+      // let determineLength = !data.length ? console.log('The length is more than 1') : console.log('None found bloodie') ;
+      /*
+      data.forEach((evaluation) => {
       const {
         _id: id,
         title = "Unknown",
@@ -135,7 +185,8 @@ let playsAssigned = [];
         numOfNonSpecific = "Unknown",
         synopsis = "Unknown",
         evaluatorComments = "Unknown",
-      } = play;
+        playID = "",
+      } = evaluation;
       evaluations = [
         ...evaluations,
         {
@@ -149,10 +200,15 @@ let playsAssigned = [];
           numOfNonSpecific,
           synopsis,
           evaluatorComments,
+          playID,
         },
       ];
-    });
 
+      //place here?
+    });
+    */
+
+    //place here?
       loading = false;
     }); //end onMount
 
@@ -162,6 +218,9 @@ let playsAssigned = [];
     //     playVis[play.playid] = "visible";
     //   });
 
+    // onMount(async() => {
+      
+    // })
     let search;
     let dropdown;
 
@@ -191,6 +250,14 @@ let playsAssigned = [];
         playVis[play.playid] = visibility;
       });
     }
+
+    function openEvaluationForm(playID) {
+
+      //alert(`the object id is ${playID}`);
+      if (playID) {
+        window.open('./evaluation?playid=' + playID);
+      }
+    };
   </script>
   {#if loading}
     Loading...
@@ -214,15 +281,16 @@ let playsAssigned = [];
           <h2>Play(s) Assigned</h2>
           <PlayHeading half />
 
-          {#each playsAssigned as playAss}
+          {#each playsAssigned as assignedPlay}
           <Play half checkbox
-          playid={playAss.id}
-          title={playAss.title}
-          tone={playAss.toneOfPlay}
-          actors={playAss.numOfMales}
-          pages={playAss.numOfPages}
-          rating = {playAss.rating}
-            />
+          playid={assignedPlay.id}
+          title={assignedPlay.title}
+          tone={assignedPlay.toneOfPlay}
+          actors={assignedPlay.numOfMales}
+          pages={assignedPlay.numOfPages}
+          rating = {assignedPlay.rating}
+          on:click="{openEvaluationForm(assignedPlay.id)}"
+          />
           {/each}
         </div>
 

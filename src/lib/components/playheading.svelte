@@ -8,8 +8,8 @@
   <div class="play-heading-container-half">
     <span />
     <span>Title</span>
-    <span>Author</span>
-    <span>Pgs</span>
+    <span>Pages</span>
+    <span>Rating</span>
   </div>
 {:else}
   <div class="play-heading-container-full">
