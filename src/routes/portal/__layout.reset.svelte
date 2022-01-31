@@ -1,32 +1,39 @@
 <script>
   import { goto } from "$app/navigation";
-
   import "$lib/portal-styles.scss";
-
   let userRole = "admin";
-
+  // let userRole = "evaluator";
 </script>
-
-
 
 <div class="nav-bar">
   <div class="nav-links">
     {#if userRole == "admin"}
-      <a href="/portal/administrator/view-plays"><span class="material-icons">source</span>View</a>
-      <a href="/portal/administrator/assign-plays"><span class="material-icons">assignment</span>Assign</a>
-      <a href="/portal/administrator/manage-evaluators"><span class="material-icons">manage_accounts</span>Manage Evaluators</a>
+      <a href="/portal/administrator/view-plays"
+        ><span class="material-icons">source</span>View</a
+      >
+      <a href="/portal/administrator/assign-plays"
+        ><span class="material-icons">assignment</span>Assign</a
+      >
+      <a href="/portal/administrator/manage-evaluators"
+        ><span class="material-icons">manage_accounts</span>Manage Evaluators</a
+      >
     {:else if userRole == "evaluator"}
-      <a href="/portal/evaluator/main">Plays</a>
+      <a href="/portal/evaluator/assigned-plays">Assigned Plays</a>
       <!-- <a href="../evaluator/assign-plays">Assign</a> -->
     {/if}
-    <a id="logout" href="/"><span class="material-icons"> logout </span>Logout</a>
+    <a id="logout" href="/"
+      ><span class="material-icons"> logout </span>Logout</a
+    >
   </div>
 </div>
 <body>
   <div class="redback">
     <div class="main">
       {#if userRole == "admin"}
-        <div class="account" on:click={() => goto("/portal/administrator/admin-profile")}>
+        <div
+          class="account"
+          on:click={() => goto("/portal/administrator/admin-profile")}
+        >
           <span class="account-name">
             Elaine Smith
             <span class="material-icons">account_circle</span>
