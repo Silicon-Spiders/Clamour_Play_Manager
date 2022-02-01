@@ -7,3 +7,18 @@ export async function get() {
       body: { evaluators },
     }
   }
+
+export async function add(req) {
+
+  addEvaluator(req.body)
+  return {
+    status: 200,
+  }
+
+}
+
+export async function update() {
+
+  updateEvaluator()
+
+}

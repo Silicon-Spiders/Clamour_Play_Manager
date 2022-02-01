@@ -8,35 +8,17 @@
 
   async function submit(e) {
     const form = e.target;
-    let newForm = new FormData(form);
-    let formJSON = {
-      evaluators: [],
-      plays: [],
-    };
-    newForm.forEach((value, key) => {
-      // formJSON[key] = value
-      console.log(key + " | " + value);
-      let entry = key.split("=");
-      if (entry[0] == "evalid") {
-        formJSON.evaluators.push(entry[1]);
-      }
-    });
-    await assign(formJSON);
+
     getData();
-    document.querySelectorAll('input[type=checkbox]').forEach(input => input.checked = false);
   }
 
   let data = {
     evaluators: []
   }
 
-
   async function getData() {
     const array = await fetch("../../server/admin/manage.json", {
-      method: "GET",
-      headers: {
-      'Content-Type': 'application/json'
-      },
+      method: "GET"
     });
 
     const myData = await array.json();
@@ -48,6 +30,7 @@
     console.log(data);
     return;
   }
+  let finish = false;
 </script>
 
 <body class="tool-bar">
@@ -57,7 +40,7 @@
   </div>
 </body>
 
-<form class="form" action="POST" on:submit|preventDefault={submit}>
+<form class="form" action="POST" on:submit|preventDefault={submit} style= "display: {finish ? '' : 'block'}">
   <div class="full-container">
     <div class="half-container">
       <table class="" align="center" style="width: 90%;">
@@ -101,7 +84,7 @@
             <br />
             <br />
 
-          <input type="submit" class="submit" value="Save"/> 
+          <input on:click={() => (finish = true)} type="submit" class="submit" value="Save"/> 
           </td>
         </tr>
       </table>
@@ -111,7 +94,7 @@
       <h2 align="left">Evaluators</h2>
 
       <div class="heading">
-        <span />
+        <span/>
         <span>Name</span>
         <span>Email</span>
         <span>Phone Number</span>
