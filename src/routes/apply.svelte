@@ -55,7 +55,7 @@
     return json.path;
   }
   async function formUpload(form) {
-    const formResponse = await fetch("server/submission.json", {
+    const formResponse = await fetch("server/submission/form.json", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
