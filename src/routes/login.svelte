@@ -1,6 +1,31 @@
 <script>
   import { goto } from "$app/navigation";
   let rec = { user: "", pass: "" };
+
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  function checkRedirect(cookie) {
+    if (cookie == "admin") {
+      goto("/portal/administrator/view-plays");
+    } else if (cookie == "evaluator") {
+      goto("/portal/evaluator/main");
+    }
+  }
+
   async function submit(e) {
     const form = e.target;
     const { action, method } = form;
@@ -12,14 +37,9 @@
       body: JSON.stringify(rec),
     });
     if (res.ok) {
-      const json = await res.json();
-      console.log("json", json);
-      if (json == true) {
-        console.log("In json true if");
-        goto("/portal/administrator/view-plays");
-      } else {
-        window.alert("Invalid Username/Password Credentials!");
-      }
+      checkRedirect(getCookie('role'));
+    } else {
+      window.alert("Invalid Username/Password Credentials!");
     }
   }
   // https://cojdev.github.io/lowpoly/

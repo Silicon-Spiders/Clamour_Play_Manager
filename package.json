@@ -17,6 +17,7 @@
     },
     "type": "module",
     "dependencies": {
+        "cookie": "^0.4.1",
         "dotenv": "^10.0.0",
         "firebase": "^9.6.5",
         "formdata-node": "^4.3.1",
