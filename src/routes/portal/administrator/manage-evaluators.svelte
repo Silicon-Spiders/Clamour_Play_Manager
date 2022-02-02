@@ -1,48 +1,28 @@
-<svelte:head>
-  <title>Reviewer Account Information</title>
-</svelte:head>
-
 <script>
-  import {} from "os";
   import Evaluator from "$lib/components/evaluatorcreation.svelte";
+  import SideProfile from "$lib/components/SideProfile.svelte";
+  import { sideProfile } from "$lib/stores";
+  import { onMount } from "svelte";
 
-  async function submit(e) {
-    const form = e.target;
-
-    getData();
-  }
-
-  let data = {
-    evaluators: []
-  }
-
-  async function getData() {
-    const array = await fetch("../../server/admin/manage.json", {
-      method: "GET"
+  let evaluators = [];
+  onMount(async () => {
+    const res = await fetch("../../server/admin/manage.json", {
+      method: "GET",
     });
-
-    const myData = await array.json();
-
-    console.log(myData);
-
-    data.evaluators = myData.evaluators;
-
-    console.log(data);
+    const data = await res.json();
+    evaluators = data.evaluators;
     return;
-  }
-  let finish = false;
+  });
+  // console.log(evaluators);
 </script>
 
-<body class="tool-bar">
-  <div class="toolbar" on:load={getData()}>
-    <label>Search: <input class="search-bar" type="search" /></label>
-    <button class="reload" on:click={() => getData()}>Refresh</button>
-  </div>
-</body>
-
-<form class="form" action="POST" on:submit|preventDefault={submit} style= "display: {finish ? '' : 'block'}">
-  <div class="full-container">
-    <div class="half-container">
+<svelte:head>
+  <title>Manage Evaluators</title>
+</svelte:head>
+<!-- <div class="half-container"> -->
+<!-- <form class="form" action="POST"> -->
+<!-- <div class="full-container"> -->
+<!-- <div class="half-container">
       <table class="" align="center" style="width: 90%;">
         <colgroup>
           <col span="2" style="width: 90%;" />
@@ -84,102 +64,61 @@
             <br />
             <br />
 
-          <input on:click={() => (finish = true)} type="submit" class="submit" value="Save"/> 
+            <input on:click={() => (finish = true)} type="submit" class="submit" value="Save" />
           </td>
         </tr>
       </table>
+    </div> -->
+
+<h1>Evaluators ({evaluators.length} Found)</h1>
+
+<main>
+  <div class="evaluators">
+    <div class="heading">
+      <span id="name">Name</span>
+      <span id="email">Email</span>
+      <span id="phone">Phone Number</span>
     </div>
-
-    <div class="half-container h2">
-      <h2 align="left">Evaluators</h2>
-
-      <div class="heading">
-        <span/>
-        <span>Name</span>
-        <span>Email</span>
-        <span>Phone Number</span>
-      </div>
-
-      {#each data.evaluators as evaluator}
-      <Evaluator half checkbox
-        evalid={"evalid=" + evaluator._id}
-        fname={evaluator.firstName}
-        lname={evaluator.lastName}
-        email={evaluator.email}
-        phone={evaluator.phone}
-      />
+    {#each evaluators as evaluator}
+      <Evaluator {evaluator} on:click={() => ($sideProfile = evaluator)} />
     {/each}
-      
-    </div>
   </div>
-</form>
+  <SideProfile />
+</main>
 
+<!-- </div> -->
+<!-- </div> -->
+
+<!-- </form> -->
 <style>
-  .tool-bar {
-    height: 5%;
+  main {
+    display: flex;
+    column-gap: 2%;
   }
-  .form {
-    height: inherit;
-  }
-  .submit {
-    position: absolute;
-    right: 5%;
-    bottom: 5%;
-    background-color: rgb(240, 178, 178);
-    border-radius: 5px;
-    height: 5%;
-    width: 15%;
+
+  .evaluators {
+    flex-grow: 3;
+    display: inline-block;
+    max-height: 80vh;
+    overflow: auto;
+    transition: all 0.25s ease;
   }
   .heading {
-
-    display: grid;
-    grid-template-columns: 5% 30% 35% 40%;
-    font-size: 14pt;
-    padding-right: 4.2%;
-    border-bottom: thin solid var(--secondary-color-dark);
-    border-radius: 15px;
-    background-color: var(--primary-color-dark);
-    padding: 5px;
-    color: white;
-  }
-  .half-container {
-    width: 47%;
-    height: 100%;
-    padding: 15px;
-    margin: auto;
-    background-color: lightgray;
-    border-radius: 15px;
-    display: inline-block;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  .half-container h2{
-    margin: 10px;
-  }
-
-  .full-container {
-    height: 80%;
     display: flex;
+    align-items: center;
+    font-size: 14pt;
+    padding: 0.5% 2%;
+    background-color: var(--primary-color-dark);
+    color: white;
+    border-radius: 10px;
   }
-
-  ::-webkit-scrollbar {
-  width: 10px;
+  #name {
+    flex-basis: 30%;
   }
-  ::-webkit-scrollbar-thumb {
-  background: darkgray; 
-  border-radius: 20px;
+  #email {
+    flex-basis: 30%;
   }
-
-  .search-bar {
-    padding: 6px;
-    border: none;
-    border-radius: 4px;
-  }
-
-  .text-box {
-    padding: 4px;
-    border: none;
-    border-radius: 4px; 
+  #phone {
+    flex-basis: 30%;
   }
 </style>

@@ -68,16 +68,18 @@ evalData: {
 
 export async function updateEvaluator(evalData) {
   let db = await connectDB();
-  const evalColl = await db.collection('evaluators');
+  const evalColl = await db.collection("evaluators");
   let data = {
-    lname: evalData.lname,
-    fname: evalData.fname,
+    id: evalData.id,
+    lastName: evalData.lastName,
+    firstName: evalData.firstName,
     phone: evalData.phone,
     email: evalData.email,
     username: evalData.username,
     password: evalData.password,
-  }
-  return await evalColl.updateOne({ _id: ObjectID(evaluatorData.id) }, { $set: { data }});
+  };
+  console.log("dubfunc", evalData);
+  return await evalColl.updateOne({ _id: ObjectId(data.id) }, { $set: data });
 }
 
 export async function getPlayLocation(id) {
