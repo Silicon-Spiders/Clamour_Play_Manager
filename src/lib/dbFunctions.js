@@ -137,7 +137,7 @@ export async function getEvaluations() {
 export async function getPlaysAssigned() {
 
   let db = await connectDB();
-  let playsAssigned = await db.collection("plays-assigned").find({}).toArray();
+  let playsAssigned = await db.collection("plays-assigned").find({status:'pending'}).toArray();
 
   return playsAssigned;
 };
@@ -145,9 +145,37 @@ export async function getPlaysAssigned() {
 export async function getPlayByID(request) {
   const id = request.query.get('id');
   if (id && id != 'null' && id != null && id != undefined && id != 'undefined') {
-    console.log('My ID: ', id);
+    // console.log('My ID: ', id);
     let db = await connectDB();
     const playColl = await db.collection('plays-assigned');
     return await playColl.findOne({ _id: new ObjectId(id) })
   }
+}
+
+export async function deletePlayAssigned(req) {
+
+  const id = req.query.get('id');    //this is getting the url and extracting the url's id
+  if (id && id != 'null' && id != null && id != undefined && id != 'undefined') {
+
+  let db = await connectDB();
+  let assignPlaysColl = await db.collection('plays-assigned').deleteOne({ _id: ObjectId(id)});;
+
+  console.log('HEY IM IN dbFunctions with an ID of: ' + id);
+
+  return;
+  }
+}
+
+export async function updatePlayAssigned(req) {
+
+  const id = req.query.get('id');    //this is getting the url and extracting the url's id
+  if (id && id != 'null' && id != null && id != undefined && id != 'undefined') {
+
+  let db = await connectDB();
+  // console.log('Inside dbFunc updatePlayAssigned!!!');
+  let playAssigned = await db.collection('plays-assigned').updateOne({_id: ObjectId(id)} , {$set: {status:'completed'} });
+
+  return;
+  }
+
 }

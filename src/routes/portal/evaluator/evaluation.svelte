@@ -8,7 +8,7 @@
     import ApplicationProgress from "$lib/components/apply/ApplicationProgress.svelte";
 
     const playID = $page.query.get('playid')
-    console.log('Play ID in Evalution Page: ', playID);
+    // console.log('Play ID in Evalution Page: ', playID);
   
     let formsData = {
       playID,
@@ -31,6 +31,39 @@
     }
     
   
+    // async function deleteAssignedPlay(id) {
+
+    //   console.log('id inside deleteAssignedPlay: ' + id);
+    //   // let relativePath  = '../server/evaluator/deleteAssignedPlay.json?id='
+    //   const deletePlay = await fetch('../../server/evaluator/deleteAssignedPlay.json?id=' + id , { //some wrong HERE
+
+    //     method:'GET',
+    //     credentials:'same-origin',
+    //     headers:{
+    //          'Content-Type':'application/json'
+    //     },
+
+
+    //   });
+    //   //gotta get the response?
+    //   }
+
+    async function updatePlayAssigned(id) {
+
+      // console.log('updatePlayAssigned received id of: ' + id);
+      const res = await fetch('../../server/evaluator/updatePlayAssigned.json?id=' + id , { 
+
+        method:'GET',
+        credentials:'same-origin',
+        headers:{
+             'Content-Type':'application/json'
+        },
+
+
+      });
+      
+    }
+
     async function submit(e) {
      
         const insertEvaluation = await fetch("../../server/evaluator/evaluations.json", {
@@ -43,9 +76,17 @@
             },
             body:JSON.stringify(formsData)
         });
-         window.open('./evaluatorPage');
-         return;
+
+        // await deleteAssignedPlay(playID);
+
+       await updatePlayAssigned(playID);
+
+        window.open('./evaluatorPage');
+        return;
     }
+
+
+    
     let finish = false;
   </script>
   

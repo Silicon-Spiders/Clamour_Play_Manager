@@ -161,7 +161,8 @@ let convertPlaysToArray = [];
         console.log(data[i]);
         let play = await getAssignedPlayByID(data[i].playID)
         if (play) {
-          let newObj = { ...data[i], title: play && play[0] && play[0].title ? play[0].title : '' };
+          let play2 = play;
+          let newObj = { ...data[i], title: play2 && play2[0] && play2[0].title ? play2[0].title : '' };
 
           console.log('Play: ', newObj);
 
@@ -171,44 +172,7 @@ let convertPlaysToArray = [];
       evaluations = data;
       console.log('Data Updated: ', data);
       
-      // let determineLength = !data.length ? console.log('The length is more than 1') : console.log('None found bloodie') ;
-      /*
-      data.forEach((evaluation) => {
-      const {
-        _id: id,
-        title = "Unknown",
-        rating = 0,
-        toneOfPlay = "Drama",
-        numOfPages= 0,
-        numOfMales = 0,
-        numOfFemales = "Unknown",
-        numOfNonSpecific = "Unknown",
-        synopsis = "Unknown",
-        evaluatorComments = "Unknown",
-        playID = "",
-      } = evaluation;
-      evaluations = [
-        ...evaluations,
-        {
-          id,
-          title,
-          rating,
-          toneOfPlay,
-          numOfPages,
-          numOfMales,
-          numOfFemales,
-          numOfNonSpecific,
-          synopsis,
-          evaluatorComments,
-          playID,
-        },
-      ];
 
-      //place here?
-    });
-    */
-
-    //place here?
       loading = false;
     }); //end onMount
 
@@ -253,7 +217,6 @@ let convertPlaysToArray = [];
 
     function openEvaluationForm(playID) {
 
-      //alert(`the object id is ${playID}`);
       if (playID) {
         window.open('./evaluation?playid=' + playID);
       }
@@ -265,7 +228,7 @@ let convertPlaysToArray = [];
     {:else}
 
   <body class="body-style">
-    <div class="toolbar">
+    <!-- <div class="toolbar">
       <label>Search: <input class="search-bar" type="search" bind:value={search} on:input={() => filterPlays()} /></label>
       <label for="tone">Tone:</label>
       <select class="dropdown-field" name="tone" id="tone" bind:value={dropdown} on:change={() => filterPlays()}>
@@ -273,7 +236,7 @@ let convertPlaysToArray = [];
         <option value="Comedy">Comedy</option>
         <option value="Drama">Drama</option>
       </select>
-    </div>
+    </div> -->
 
     <form class="form" action="POST">
       <div class="full-container">
