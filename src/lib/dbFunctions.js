@@ -92,6 +92,24 @@ export async function getEvaluators() {
   return await evalColl.find({}).toArray();
 }
 
+export async function getEvaluatorId(username, password) {
+  let db = await connectDB();
+  const evalColl = await db.collection('evaluators');
+  return await evalColl.findOne({ username, password });
+}
+
+export async function getAdmin(username, password) {
+  let db = await connectDB();
+  const adminColl = await db.collection('admin');
+  let data = await adminColl.findOne({ username, password });
+  if (data == null) {
+    if (await adminColl.findOne({ username, password }) == null) {
+      await adminColl.insertOne({ username: "admin", password: "pass"});
+    }
+  }
+  return data;
+}
+
 export async function getEvaluatorsSanitized() {
   let db = await connectDB();
   const evalColl = await db.collection('evaluators');

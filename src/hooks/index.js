@@ -38,9 +38,9 @@ export async function handle({ request, resolve }) {
 		request.locals.isLoggedIn = false;
 	};
 	const response = await resolve(request);
-    console.log(request.path);
+    // console.log(request.path);
 	if(!request.locals.isLoggedIn && !publicPages.includes(request.path)) {
-        console.log("redir"+request.path);
+        // console.log("redir"+request.path);
 		return {
         status: 302,
         headers: {
@@ -50,7 +50,7 @@ export async function handle({ request, resolve }) {
             message: "redirecting",
         }
 		};
-	} else if (request.locals.isLoggedIn && !evaluatorPages.includes(request.path) && token.user == "evaluator") {
+	} else if (request.locals.isLoggedIn && !evaluatorPages.includes(request.path) && token.role == "evaluator") {
         return {
             status: 302,
             headers: {
