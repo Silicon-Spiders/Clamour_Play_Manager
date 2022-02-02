@@ -2,6 +2,22 @@
     import { goto } from "$app/navigation";
   
     import "$lib/portal-styles.scss";
+
+    function getCookie(cname) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(';');
+      for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
   
     async function clearCookies() {
       let logout = await fetch("/api/logout", {
@@ -25,11 +41,11 @@
   <body>
     <div class="redback">
       <div class="main">
-        <div class="account" on:click={() => goto("/portal/administrator/admin-profile")}>
-        <span class="account-name">
-            Elaine Smith
+        <div class="account">
+          <span class="account-name" on:click={() => goto("/portal/administrator/admin-profile")}>
+            {getCookie("user")}
             <span class="material-icons">account_circle</span>
-        </span>
+          </span>
         </div>
         <div class="content">
           <slot />

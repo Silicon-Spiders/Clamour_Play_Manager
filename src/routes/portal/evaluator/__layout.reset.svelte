@@ -3,6 +3,22 @@
 
   import "$lib/portal-styles.scss";
 
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
   async function clearCookies() {
     let logout = await fetch("/api/logout", {
       method: "POST"
@@ -24,9 +40,9 @@
 <body>
   <div class="redback">
     <div class="main">
-      <div class="account" on:click={() => goto("../evaluator/main")}>
-        <span class="account-name">
-          Evaluator
+      <div class="account">
+        <span class="account-name" on:click={() => goto("../evaluator/main")}>
+          {getCookie("user")}
           <span class="material-icons">account_circle</span>
         </span>
       </div>

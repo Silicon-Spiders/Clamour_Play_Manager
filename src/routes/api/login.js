@@ -9,7 +9,6 @@ let location = "";
 async function getUser(username, password) {
     // TODO: Get user and pass from db and compare
     let data = await getAdmin(username, password);
-    // console.log(data);
     if (data != null) {
         user = data.username;
         userId = data._id;
@@ -22,12 +21,11 @@ async function getUser(username, password) {
             role = "evaluator";
         }
     }
-
+    
+    // console.log(data);
     if(username == user && password == data.password && role == "admin") {
         location = "/portal/administrator/view-plays";
     } else if (username == user && password == data.password && role == "evaluator") {
-        user = "Bob";
-        role = "evaluator";
         location = "/portal/evaluator/main";
     } else {
         return false;

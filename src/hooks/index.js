@@ -17,9 +17,9 @@ const evaluatorPages = [
     '/portal/error', 
     '/apply', 
     '/login', 
-    '/evaluator/assigned-plays', 
-    '/evaluator/main', 
-    '/evaluator/evaluation'
+    '/portal/evaluator/assigned-plays', 
+    '/portal/evaluator/main', 
+    '/portal/evaluator/evaluation'
 ];
 
 function verifyToken(token) {
