@@ -6,7 +6,6 @@
   import TabBar from "@smui/tab-bar";
   import Button from "@smui/button";
   import "$lib/global.scss";
-  import Layout from "./__layout.svelte";
   import Select, { Option } from "@smui/select";
   import { statesCities, countries } from "$lib/utils/location-data";
   import Autocomplete from "@smui-extra/autocomplete";

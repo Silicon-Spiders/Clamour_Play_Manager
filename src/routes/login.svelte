@@ -1,14 +1,19 @@
 <script>
   import { goto } from "$app/navigation";
+  import Textfield from "@smui/textfield";
+  import LayoutGrid, { Cell } from "@smui/layout-grid";
+  import Button from "@smui/button";
+  import "$lib/global.scss";
+
   let rec = { user: "", pass: "" };
 
   function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for(let i = 0; i <ca.length; i++) {
+    let ca = decodedCookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
       let c = ca[i];
-      while (c.charAt(0) == ' ') {
+      while (c.charAt(0) == " ") {
         c = c.substring(1);
       }
       if (c.indexOf(name) == 0) {
@@ -27,6 +32,7 @@
   }
 
   async function submit(e) {
+    // console.log(rec);
     const form = e.target;
     const { action, method } = form;
     const res = await fetch(action, {
@@ -37,7 +43,7 @@
       body: JSON.stringify(rec),
     });
     if (res.ok) {
-      checkRedirect(getCookie('role'));
+      checkRedirect(getCookie("role"));
     } else {
       window.alert("Invalid Username/Password Credentials!");
     }
@@ -50,68 +56,44 @@
   <!-- RICARDO CARRASCO | USE CASE: LOGIN-->
   <!-- Login Page for Admins & Evaluators -->
 </svelte:head>
-<body>
-  <div class="loginPortal">
-    <form on:submit|preventDefault={submit} action="/api/login" method="POST">
-      <h1>Login</h1>
+<div class="login">
+  <div class="sideimage" />
+  <form on:submit|preventDefault={submit} action="./api/login" method="POST">
+    <LayoutGrid style="width: 100%">
+      <Cell span={12}>
+        <img src="clamour-logo-600.jpg" alt="Clamour logo" />
+      </Cell>
+      <Cell span={12}>
+        <label for="user">Username</label>
+        <Textfield variant="outlined" id="user" bind:value={rec.user} required />
+      </Cell>
+      <Cell span={12}>
+        <label for="pass">Password</label>
+        <Textfield id="pass" variant="outlined" type="password" bind:value={rec.pass} required />
+      </Cell>
+      <Cell span={12}>
+        <Button variant="outlined" type="submit">Login</Button>
+      </Cell>
+    </LayoutGrid>
+  </form>
+</div>
 
-      <label for="user">Username</label>
-      <input type="text" id="user" bind:value={rec.user} />
+<style lang="scss">
+  @import "https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp";
 
-      <label for="pass">Password</label>
-      <input type="password" id="pass" bind:value={rec.pass} />
-
-      <button type="submit">Login</button>
-    </form>
-  </div>
-</body>
-
-<style>
-  @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-
-  body {
-    background-image: url("/src/images/red-low-poly.png");
-    width: 100vw;
+  .login {
+    display: flex;
     height: 100vh;
-    margin: 0px;
+    width: 100vw;
+  }
+  .sideimage {
+    flex-basis: 60vw;
+    background-image: url("/src/images/red-low-poly.png");
+  }
+  form {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-family: "Roboto", sans-serif;
-  }
-  .loginPortal {
-    width: 30%;
-    height: 60%;
-    color: white;
-    text-align: left;
-    padding: 3%;
-    font-size: 18pt;
-    background-color: rgba(0, 0, 0, 0.65);
-    border-radius: 15px;
-    box-shadow: 0px 0px 100px black;
-  }
-  .loginPortal h1 {
-    margin: 10% auto;
-    text-align: center;
-  }
-  .loginPortal label {
-    display: block;
-  }
-  .loginPortal input {
-    display: block;
-    width: 100%;
-    height: 30px;
-    border-radius: 5px;
-    border: none;
-    font-size: 18pt;
-    margin-bottom: 5%;
-  }
-  button {
-    margin-top: 10%;
-    font-size: 16pt;
-    height: 35px;
-    width: 50%;
-    border-radius: 10px;
-    border: none;
+    flex-basis: 40vw;
+    margin: 0px 5vw;
   }
 </style>

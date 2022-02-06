@@ -13,6 +13,26 @@
   --secondary-color-dark: #707070;
 }
 
+// SMUI OVERRIDES
+.mdc-data-table__header-cell {
+  background-color: var(--primary-color-dark);
+  color: white;
+}
+.mdc-top-app-bar {
+  background-color: var(--primary-color-dark);
+}
+.mdc-text-field,
+.mdc-select--outlined,
+.mdc-select__anchor,
+.smui-autocomplete {
+  max-height: 45px;
+  width: 100%;
+}
+
+.mdc-menu-surface {
+  max-height: 50vh;
+}
+
 a:link,
 a:visited,
 a:active {
@@ -69,12 +89,7 @@ a:active {
   }
 }
 .main {
-  display: absolute;
-  right: 0px;
   height: 100vh;
-  margin-left: 10vw;
-  border-top-left-radius: 70px;
-  border-bottom-left-radius: 70px;
   background-color: var(--secondary-color-light);
   box-shadow: inset 2px 0em 10px var(--secondary-color);
 }
@@ -83,15 +98,10 @@ a:active {
 }
 .content {
   margin: 0% 3% 0%;
-  height: 90%;
+  height: 100%;
 }
 .header {
   margin-top: 0px;
-}
-
-// PLAYWRIGHT APPLICATION STYLES
-textarea::placeholder {
-  font-family: "Roboto", sans-serif;
 }
 
 // ASSIGN PLAYS STYLES

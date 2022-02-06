@@ -1,11 +1,14 @@
 <script>
   import Evaluator from "$lib/components/evaluatorcreation.svelte";
   import SideProfile from "$lib/components/SideProfile.svelte";
-  import { sideProfile } from "$lib/stores";
+  import { pageTitle, sideProfile } from "$lib/stores";
   import { onMount } from "svelte";
+  import DataTable, { Head, Body, Row, Cell } from "@smui/data-table";
+  import Button from "@smui/button";
 
   let evaluators = [];
   onMount(async () => {
+    $pageTitle = "Manage Evaluators";
     const res = await fetch("../../server/admin/manage.json", {
       method: "GET",
     });
@@ -16,9 +19,6 @@
   // console.log(evaluators);
 </script>
 
-<svelte:head>
-  <title>Manage Evaluators</title>
-</svelte:head>
 <!-- <div class="half-container"> -->
 <!-- <form class="form" action="POST"> -->
 <!-- <div class="full-container"> -->
@@ -70,10 +70,34 @@
       </table>
     </div> -->
 
-<h1>Evaluators ({evaluators.length} Found)</h1>
+<!-- <h1>Evaluators ({evaluators.length} Found)</h1> -->
 
 <main>
   <div class="evaluators">
+    <DataTable stickyHeader table$aria-label="User list" style="width: 100%;">
+      <Head>
+        <Row>
+          <Cell>Name</Cell>
+          <Cell>Email</Cell>
+          <Cell>Phone Number</Cell>
+          <Cell />
+        </Row>
+      </Head>
+      <Body>
+        {#each evaluators as evaluator}
+          <Row on:click={() => ($sideProfile = evaluator)}>
+            <Cell>{evaluator.firstName} {evaluator.lastName}</Cell>
+            <Cell>{evaluator.email}</Cell>
+            <Cell>{evaluator.phone}</Cell>
+            <Cell>
+              <Button variant="outlined">Edit</Button>
+            </Cell>
+          </Row>
+        {/each}
+      </Body>
+    </DataTable>
+  </div>
+  <!-- <div class="evaluators">
     <div class="heading">
       <span id="name">Name</span>
       <span id="email">Email</span>
@@ -82,7 +106,7 @@
     {#each evaluators as evaluator}
       <Evaluator {evaluator} on:click={() => ($sideProfile = evaluator)} />
     {/each}
-  </div>
+  </div> -->
   <SideProfile />
 </main>
 
