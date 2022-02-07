@@ -72,6 +72,10 @@
         <Graphic class="material-icons">account_circle</Graphic>
         <Text>{getCookie("user")[0].toUpperCase() + getCookie("user").slice(1)}</Text>
       </Item>
+      <Item href="/portal/administrator/admin-profile" on:click={() => (open = false)}>
+        <Graphic class="material-icons">settings</Graphic>
+        <Text>Admin Dashboard</Text>
+      </Item>
       <Item
         on:click={() => {
           open = false;
@@ -95,7 +99,7 @@
     </Row>
   </TopAppBar>
   <div class="content">
-    <h1>{$pageTitle}</h1>
+    <h1 style="margin: 0%; padding : 1.5% 0%">{$pageTitle}</h1>
     <slot />
   </div>
 </AppContent>

@@ -28,7 +28,11 @@
   max-height: 45px;
   width: 100%;
 }
-
+.mdc-card {
+  border-radius: 10px;
+  padding: 40px;
+  margin: 10px 0px;
+}
 .mdc-menu-surface {
   max-height: 50vh;
 }
@@ -97,7 +101,9 @@ a:active {
   margin-top: 50vh;
 }
 .content {
-  margin: 0% 3% 0%;
+  background-color: var(--secondary-color-light);
+
+  padding: 0% 3% 0%;
   height: 100%;
 }
 .header {

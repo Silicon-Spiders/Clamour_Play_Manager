@@ -1,3 +1,7 @@
+/**
+ * @async
+ * @returns {Promise} Promise that resolves to array of plays
+ */
 export const getPlays = async () => {
   const res = await fetch("../../server/admin/plays.json", {
     method: "GET",
@@ -17,10 +21,11 @@ export const getPlays = async () => {
         actorCount = 0,
         length: pages = 0,
         authorName = "Unknown",
-        authorGender = "Unknown",
-        authorEthnicity = "Unknown",
-        authorRegion = "Unknown",
+        synopsis = "None",
+        dateOfSubmission = "Error",
+        actexplain = "None",
       } = play;
+      console.log(play);
       plays = [
         ...plays,
         {
@@ -31,9 +36,9 @@ export const getPlays = async () => {
           actorCount,
           pages,
           authorName,
-          authorGender,
-          authorEthnicity,
-          authorRegion,
+          synopsis,
+          dateOfSubmission,
+          actexplain,
         },
       ];
     });
