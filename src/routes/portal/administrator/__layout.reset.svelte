@@ -14,19 +14,21 @@
   import { getPlays } from "$lib/api-functions/admin";
 
   function getCookie(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(";");
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == " ") {
-        c = c.substring(1);
+    onMount( () => {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(";");
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
       }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
+      return "";
+    })
   }
 
   async function clearCookies() {
@@ -70,7 +72,7 @@
       <Separator />
       <Item href="/portal/administrator/admin-profile" on:click={() => (open = false)}>
         <Graphic class="material-icons">account_circle</Graphic>
-        <Text>{getCookie("user")[0].toUpperCase() + getCookie("user").slice(1)}</Text>
+        <Text>{getCookie("user")}</Text>
       </Item>
       <Item href="/portal/administrator/admin-profile" on:click={() => (open = false)}>
         <Graphic class="material-icons">settings</Graphic>
