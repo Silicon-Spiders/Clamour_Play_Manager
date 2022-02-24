@@ -33,8 +33,9 @@ async function getUser(username, password) {
     return true;
 }
 
-export const post = async (req) => {
-    if(await getUser(req.body.user,req.body.pass)){
+export const post = async ({params, request}) => {
+    let req = await request.json();
+    if(await getUser(req.user,req.pass)){
         if (role == "admin") {
             return{
                 status: 200,
