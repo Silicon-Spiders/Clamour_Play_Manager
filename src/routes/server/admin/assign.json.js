@@ -8,8 +8,9 @@ export async function get() {
   }
 }
 
-export async function post(req) {
-  assignPlays(req.body);
+export async function post({params, request}) {
+  let req = await request.json();
+  assignPlays(req);
   return {
     status: 200,
   }

@@ -51,12 +51,11 @@
   }
 
   async function fileUpload(file, form) {
+    let fileUpload = new FormData();
+    fileUpload.append("file",file)
     const fileResponse = await fetch("server/submission/file.json", {
       method: "POST",
-      headers: {
-        "Content-Type": file.type,
-      },
-      body: file,
+      body: fileUpload,
     });
     const json = await fileResponse.json();
     return json.path;
