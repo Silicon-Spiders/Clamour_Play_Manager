@@ -1,7 +1,12 @@
 import nodemailer from "nodemailer";
 import config from "$lib/config";
 
-let testAccount = await nodemailer.createTestAccount();
+let testAccount;
+
+(async function() {
+  testAccount = await nodemailer.createTestAccount();
+})()
+
 
 let transporter = nodemailer.createTransport({
   host: config.smtp,
