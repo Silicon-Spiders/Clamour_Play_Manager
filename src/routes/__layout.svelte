@@ -5,6 +5,7 @@
   :global(body) {
     font-family: "Roboto", sans-serif;
     width: 100vw;
+    height: 100%;
     margin: 0px;
   }
 </style>
