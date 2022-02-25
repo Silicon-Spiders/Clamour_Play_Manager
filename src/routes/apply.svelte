@@ -1,6 +1,6 @@
 <script>
   import Textfield from "@smui/textfield";
-  import LayoutGrid, { Cell } from "@smui/layout-grid";
+  import { Cell } from "@smui/layout-grid";
   import CharacterCounter from "@smui/textfield/character-counter";
   import Tab, { Label } from "@smui/tab";
   import TabBar from "@smui/tab-bar";
@@ -8,7 +8,6 @@
   import Select, { Option } from "@smui/select";
   import { statesCities, countries } from "$lib/utils/location-data";
   import Autocomplete from "@smui-extra/autocomplete";
-  import Dialog, { Title, Content, Actions } from "@smui/dialog";
   import Button from "@smui/button";
   import HelperText from "@smui/textfield/helper-text";
   import ApplicationStep from "$lib/components/ApplicationStep.svelte";
