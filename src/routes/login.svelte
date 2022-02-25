@@ -48,7 +48,6 @@
       window.alert("Invalid Username/Password Credentials!");
     }
   }
-  // https://cojdev.github.io/lowpoly/
 </script>
 
 <svelte:head>
@@ -79,8 +78,6 @@
 </div>
 
 <style lang="scss">
-  @import "https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp";
-
   .login {
     display: flex;
     height: 100vh;
@@ -90,6 +87,8 @@
     flex-basis: 60vw;
     background-image: url("/src/images/red-low-poly.png");
   }
+  // https://cojdev.github.io/lowpoly/
+
   form {
     display: flex;
     align-items: center;

@@ -1,10 +1,7 @@
 <script>
-  import { goto } from "$app/navigation";
   import Drawer, { AppContent, Content, Header, Title, Subtitle } from "@smui/drawer";
-  import Button, { Label } from "@smui/button";
   import TopAppBar, { Row, Section } from "@smui/top-app-bar";
   import IconButton from "@smui/icon-button";
-  import Checkbox from "@smui/checkbox";
   import List, { Item, Text, Graphic, Separator, Subheader } from "@smui/list";
 
   import "$lib/portal-styles.scss";
@@ -12,9 +9,10 @@
   import AppToolbar from "$lib/components/AppToolbar.svelte";
   import { onMount } from "svelte";
   import { getPlays } from "$lib/api-functions/admin";
+  import "$lib/global.scss";
 
   function getCookie(cname) {
-    onMount( () => {
+    onMount(() => {
       let name = cname + "=";
       let decodedCookie = decodeURIComponent(document.cookie);
       let ca = decodedCookie.split(";");
@@ -28,7 +26,7 @@
         }
       }
       return "";
-    })
+    });
   }
 
   async function clearCookies() {
@@ -50,7 +48,7 @@
   <title>{$pageTitle}</title>
 </svelte:head>
 
-<Drawer class="nav" variant="modal" fixed={false} bind:open>
+<Drawer class="nav" variant="modal" bind:open>
   <Header>
     <Title>Clamour Play Manager</Title>
     <Subtitle>by Silicon Spiders</Subtitle>
@@ -97,11 +95,21 @@
       <Section style="flex-basis: content;">
         <IconButton on:click={() => (open = !open)} class="material-icons">menu</IconButton>
         <AppToolbar />
+        <Title>
+          {$pageTitle}
+        </Title>
       </Section>
     </Row>
   </TopAppBar>
   <div class="content">
-    <h1 style="margin: 0%; padding : 1.5% 0%">{$pageTitle}</h1>
     <slot />
   </div>
 </AppContent>
+
+<style>
+  .content {
+    background-color: var(--secondary-color-light);
+    padding: 2% 3% 0%;
+    height: 100%;
+  }
+</style>

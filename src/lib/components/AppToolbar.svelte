@@ -1,6 +1,8 @@
 <script>
   import { pageTitle, plays } from "$lib/stores";
   import Textfield from "@smui/textfield";
+  import TopAppBar, { Row, Section, Title } from "@smui/top-app-bar";
+
   const searchOptions = {
     query: "",
     sortBy: "",
@@ -32,6 +34,9 @@
   $: $plays = filterPlays(searchOptions);
 </script>
 
+<Title>
+  {$pageTitle}
+</Title>
 {#if $pageTitle === "View Plays"}
   <Textfield
     style="background-color: white; max-width: 25%;"

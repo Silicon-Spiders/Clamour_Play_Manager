@@ -3,6 +3,10 @@
   import { onMount } from "svelte";
   import DataTable, { Head, Body, Row, Cell } from "@smui/data-table";
   import Button, { Label } from "@smui/button";
+  import Dialog, { Title, Content, Actions } from "@smui/dialog";
+  import Textfield from "@smui/textfield";
+  import LayoutGrid from "@smui/layout-grid";
+  import IconButton from "@smui/icon-button";
 
   let evaluators = [];
   onMount(async () => {
@@ -12,19 +16,47 @@
     });
     const data = await res.json();
     evaluators = data.evaluators;
-    return;
   });
+  let openEvaluatorCreator = false;
+  let addEvaluatorForm = {
+    id: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+    username: "",
+    password: "",
+  };
+  const submitEvaluator = async (e) => {
+    console.log({ addEvaluatorForm });
+  };
 </script>
 
 <Button
   style="float: right"
   variant="outlined"
   on:click={() => {
-    console.log("sd");
+    openEvaluatorCreator = true;
   }}
 >
   <Label>Add Evaluator</Label>
 </Button>
+<Dialog scrimClickAction="" escapeKeyAction="" bind:open={openEvaluatorCreator}>
+  <Title>Add Evaluator</Title>
+  <Content>
+    <form class="add-evaluator" on:submit={submitEvaluator}>
+      <Textfield variant="outlined" label="First Name" bind:value={addEvaluatorForm.firstName} />
+      <Textfield variant="outlined" label="Last Name" bind:value={addEvaluatorForm.lastName} />
+      <Textfield variant="outlined" label="Email" bind:value={addEvaluatorForm.email} />
+      <Textfield variant="outlined" label="Phone" bind:value={addEvaluatorForm.phone} />
+      <Textfield variant="outlined" label="Username" bind:value={addEvaluatorForm.username} />
+      <Textfield variant="outlined" label="Password" bind:value={addEvaluatorForm.password} />
+      <Button variant="outlined" on:click$preventDefault={() => (openEvaluatorCreator = false)}>Cancel</Button
+      >
+      <Button variant="outlined" type="submit">Submit</Button>
+    </form>
+  </Content>
+</Dialog>
 <DataTable stickyHeader table$aria-label="Evaluators list" style="width: 100%;">
   <Head>
     <Row>
@@ -38,27 +70,18 @@
     {#each evaluators as evaluator}
       <Row on:click={() => ($sideProfile = evaluator)}>
         <Cell>{evaluator.firstName} {evaluator.lastName}</Cell>
-        <Cell>{evaluator.email}</Cell>
-        <Cell>{evaluator.phone}</Cell>
-        <Cell>
-          <Button variant="outlined">Edit</Button>
-        </Cell>
+        <Cell><a href="mailto:{evaluator.email}">{evaluator.email}</a></Cell>
+        <Cell><a href="tel:{evaluator.phone}">{evaluator.phone}</a></Cell>
+        <Cell><Button variant="outlined">Edit</Button></Cell>
       </Row>
     {/each}
   </Body>
 </DataTable>
 
 <style>
-  main {
+  :global(.add-evaluator) {
     display: flex;
-    column-gap: 2%;
-  }
-
-  .evaluators {
-    flex-grow: 3;
-    display: inline-block;
-    max-height: 80vh;
-    overflow: auto;
-    transition: all 0.25s ease;
+    row-gap: 10px;
+    flex-direction: column;
   }
 </style>

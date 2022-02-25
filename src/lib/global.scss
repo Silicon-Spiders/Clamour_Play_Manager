@@ -1,3 +1,11 @@
+:root {
+  --primary-color: #ff2400;
+  --primary-color-light: #ff2400;
+  --primary-color-dark: #ff2400;
+  --secondary-color: #9e9e9e;
+  --secondary-color-light: rgb(238, 238, 238);
+  --secondary-color-dark: #707070;
+}
 .mdc-text-field,
 .mdc-select--outlined,
 .mdc-select__anchor,
@@ -6,6 +14,7 @@
   width: 100%;
 }
 
-.mdc-menu-surface {
-  max-height: 50vh;
+body,
+html {
+  background-color: var(--secondary-color-light);
 }

@@ -8,3 +8,5 @@ export let plays = writable([]);
 
 // manage evaluator stores
 export let sideProfile = writable(null);
+
+export let activeTab = writable("Play Info");

@@ -3,6 +3,7 @@
 // GLOBAL STYLES
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp";
 
 :root {
   --primary-color: #ff2400;
@@ -100,12 +101,7 @@ a:active {
 #logout {
   margin-top: 50vh;
 }
-.content {
-  background-color: var(--secondary-color-light);
 
-  padding: 0% 3% 0%;
-  height: 100%;
-}
 .header {
   margin-top: 0px;
 }

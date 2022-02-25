@@ -13,11 +13,12 @@
   $: {
     play = $plays.find((play) => play.id == playID);
     if (play) $pageTitle = `${play?.title} (Written by ${play?.authorName})`;
+    console.log(play);
   }
 </script>
 
 {#if play}
-  <Card style="padding: 0px; background-color: var(--primary-color-dark); color:white">
+  <Card style="padding: 0px; background-color: var(--primary-color); color:white">
     <LayoutGrid>
       <Cell align="middle" span={3}>
         Rating: {play?.rating ? play.rating : "--"}/10
