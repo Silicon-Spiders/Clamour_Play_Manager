@@ -7,6 +7,10 @@ const config = {
 
   kit: {
     adapter: node({ env: { port: process.env.PORT } }),
+    prerender: {
+      crawl: false,
+      enabled: false,
+    }
   },
 };
 
