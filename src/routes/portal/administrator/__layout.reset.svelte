@@ -68,10 +68,6 @@
       </Item>
       <Separator />
       <Item href="/portal/administrator/admin-profile" on:click={() => (open = false)}>
-        <Graphic class="material-icons">account_circle</Graphic>
-        <Text>{getCookie("user")}</Text>
-      </Item>
-      <Item href="/portal/administrator/admin-profile" on:click={() => (open = false)}>
         <Graphic class="material-icons">settings</Graphic>
         <Text>Admin Dashboard</Text>
       </Item>
