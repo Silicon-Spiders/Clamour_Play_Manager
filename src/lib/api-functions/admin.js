@@ -25,7 +25,7 @@ export const getPlays = async () => {
         dateOfSubmission = "Error",
         actexplain = "None",
       } = play;
-      console.log(play);
+      // console.log(play);
       plays = [
         ...plays,
         {

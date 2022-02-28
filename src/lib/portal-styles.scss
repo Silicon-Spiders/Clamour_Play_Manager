@@ -4,7 +4,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import "https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp";
-
 :root {
   --primary-color: #ff2400;
   --primary-color-light: #ff2400;
@@ -12,6 +11,13 @@
   --secondary-color: #9e9e9e;
   --secondary-color-light: rgb(238, 238, 238);
   --secondary-color-dark: #707070;
+}
+
+body,
+html {
+  background-color: var(--secondary-color-light);
+  max-width: 100vw;
+  // overflow-x: hidden;
 }
 
 // SMUI OVERRIDES
@@ -32,7 +38,7 @@
 .mdc-card {
   border-radius: 10px;
   padding: 40px;
-  margin: 10px 0px;
+  margin: 2vh 0px;
 }
 .mdc-menu-surface {
   max-height: 50vh;

@@ -38,12 +38,11 @@
   {$pageTitle}
 </Title>
 {#if $pageTitle === "View Plays"}
-  <Textfield
+  <!-- <Textfield
     style="background-color: white; max-width: 25%;"
     label="Search Plays..."
-    type="search"
     bind:value={searchOptions.query}
-  />
+  /> -->
   <!-- <label for="sort">Sort By:</label>
     <select class="dropdown" name="sortBy" id="sort" bind:value={searchOptions.sortBy}>
       <option />

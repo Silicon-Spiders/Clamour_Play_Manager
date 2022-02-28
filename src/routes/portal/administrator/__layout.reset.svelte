@@ -95,9 +95,6 @@
       <Section style="flex-basis: content;">
         <IconButton on:click={() => (open = !open)} class="material-icons">menu</IconButton>
         <AppToolbar />
-        <Title>
-          {$pageTitle}
-        </Title>
       </Section>
     </Row>
   </TopAppBar>
