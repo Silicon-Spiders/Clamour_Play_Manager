@@ -14,8 +14,8 @@ export async function post(req) {
   };
 }
 
-export async function put(req) {
-  const evalData = req.body;
+export async function put({ params, request }) {
+  const evalData = await request.json();
   console.log("THISS", evalData);
   const res = await updateEvaluator(evalData);
   const response = await res;

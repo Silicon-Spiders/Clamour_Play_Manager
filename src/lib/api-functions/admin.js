@@ -1,8 +1,10 @@
+import { evaluators, plays } from "$lib/stores";
+
 /**
  * @async
  * @returns {Promise} Promise that resolves to array of plays
  */
-export const getPlays = async () => {
+export const updatePlays = async () => {
   const res = await fetch("../../server/admin/plays.json", {
     method: "GET",
     headers: {
@@ -11,7 +13,7 @@ export const getPlays = async () => {
   });
   const data = await res.json();
   if (res.ok) {
-    let plays = [];
+    let playsData = [];
     data.forEach((play) => {
       const {
         _id: id,
@@ -26,8 +28,8 @@ export const getPlays = async () => {
         actexplain = "None",
       } = play;
       // console.log(play);
-      plays = [
-        ...plays,
+      playsData = [
+        ...playsData,
         {
           id,
           title,
@@ -42,9 +44,18 @@ export const getPlays = async () => {
         },
       ];
     });
-    return plays;
+    plays.set(playsData);
+    return playsData;
   } else {
-    console.error("Something went wrong with getPlays() ");
+    console.error("Something went wrong with updatePlays() ");
     return;
   }
+};
+
+export const updateEvaluators = async () => {
+  const res = await fetch("../../server/admin/manage.json", {
+    method: "GET",
+  });
+  const data = await res.json();
+  evaluators.set(data.evaluators);
 };

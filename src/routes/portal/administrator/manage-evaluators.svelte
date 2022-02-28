@@ -1,5 +1,5 @@
 <script>
-  import { pageTitle, sideProfile } from "$lib/stores";
+  import { evaluators, pageTitle, plays, sideProfile } from "$lib/stores";
   import { onMount } from "svelte";
   import DataTable, { Head, Body, Row, Cell, Pagination } from "@smui/data-table";
   import Button, { Label } from "@smui/button";
@@ -9,16 +9,11 @@
   import Select, { Option } from "@smui/select";
 
   import IconButton from "@smui/icon-button";
+  import { updateEvaluators } from "$lib/api-functions/admin";
 
-  let evaluators = [];
   onMount(async () => {
     $pageTitle = "Manage Evaluators";
-    const res = await fetch("../../server/admin/manage.json", {
-      method: "GET",
-    });
-    const data = await res.json();
-    evaluators = data.evaluators;
-    // console.log(evaluators);
+    await updateEvaluators();
   });
 
   // Add Evaluator
@@ -47,16 +42,26 @@
     password: "",
   };
   const submitEvaluatorEdit = async (e) => {
-    console.log({ editEvaluatorForm });
+    const res = await fetch(e.target.action, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editEvaluatorForm),
+    });
+    if (res.ok) {
+      openEditEvaluatorForm = false;
+      await updateEvaluators();
+    }
   };
 
   let rowsPerPage = 10;
   let currentPage = 0;
 
   $: start = currentPage * rowsPerPage;
-  $: end = Math.min(start + rowsPerPage, evaluators.length);
-  $: slice = evaluators.slice(start, end);
-  $: lastPage = Math.max(Math.ceil(evaluators.length / rowsPerPage) - 1, 0);
+  $: end = Math.min(start + rowsPerPage, $evaluators.length);
+  $: slice = $evaluators.slice(start, end);
+  $: lastPage = Math.max(Math.ceil($evaluators.length / rowsPerPage) - 1, 0);
 
   $: if (currentPage > lastPage) {
     currentPage = lastPage;
@@ -85,7 +90,11 @@
 <Dialog scrimClickAction="" escapeKeyAction="" bind:open={openEditEvaluatorForm}>
   <Title>Edit Evaluator</Title>
   <Content>
-    <form class="add-evaluator" on:submit|preventDefault={submitEvaluatorEdit}>
+    <form
+      class="add-evaluator"
+      action="../../server/admin/manage.json"
+      on:submit|preventDefault={submitEvaluatorEdit}
+    >
       <Textfield variant="outlined" label="First Name" bind:value={editEvaluatorForm.firstName} />
       <Textfield variant="outlined" label="Last Name" bind:value={editEvaluatorForm.lastName} />
       <Textfield variant="outlined" label="Email" bind:value={editEvaluatorForm.email} />
@@ -113,7 +122,7 @@
     </Row>
   </Head>
   <Body>
-    {#each evaluators as evaluator}
+    {#each $evaluators as evaluator}
       <Row>
         <Cell>{evaluator.firstName} {evaluator.lastName}</Cell>
         <Cell><a href="mailto:{evaluator.email}">{evaluator.email}</a></Cell>
@@ -149,7 +158,7 @@
       </Select>
     </svelte:fragment>
     <svelte:fragment slot="total">
-      {start + 1}-{end} of {evaluators.length}
+      {start + 1}-{end} of {$evaluators.length}
     </svelte:fragment>
     <IconButton
       class="material-icons"

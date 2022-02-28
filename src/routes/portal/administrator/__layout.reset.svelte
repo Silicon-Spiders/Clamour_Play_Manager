@@ -5,10 +5,10 @@
   import List, { Item, Text, Graphic, Separator, Subheader } from "@smui/list";
 
   import "$lib/portal-styles.scss";
-  import { pageTitle, plays } from "$lib/stores";
+  import { pageTitle } from "$lib/stores";
   import AppToolbar from "$lib/components/AppToolbar.svelte";
   import { onMount } from "svelte";
-  import { getPlays } from "$lib/api-functions/admin";
+  import { updatePlays } from "$lib/api-functions/admin";
   import "$lib/global.scss";
 
   function getCookie(cname) {
@@ -37,8 +37,7 @@
   }
 
   onMount(async () => {
-    const playsData = await getPlays();
-    $plays = playsData;
+    await updatePlays();
   });
 
   let open = false;
