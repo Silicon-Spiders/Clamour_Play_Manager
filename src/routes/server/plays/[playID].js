@@ -4,7 +4,6 @@ import fs from "fs";
 
 export async function get({params}) {
     let { filename } = await getPlayLocation(params.playID)
-    console.log(filename);
 
     let stream = fs.readFileSync(filename+".pdf", {encoding: ""});
     let name = "play.pdf";
@@ -14,9 +13,8 @@ export async function get({params}) {
     let header = new Headers({
         'Content-disposition':'inline; filename="' + name + '"',
         'Content-type':'application/pdf'
-    })
+    });
 
-    console.log(typeof stream);
     let body = new Uint8Array(stream);
     
     return {
