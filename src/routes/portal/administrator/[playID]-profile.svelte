@@ -44,6 +44,11 @@
     path: "",
     npx_profile: "",
   };
+
+  async function getPlay() {
+    window.open("/server/plays/"+playID, '_blank');
+  }
+
 </script>
 
 {#if play}
@@ -60,7 +65,7 @@
         Actors Needed: {play?.actorCount ? play.actorCount : "--"}
       </Cell>
       <Cell align="middle" span={3}>
-        <Button style="background-color: white;" variant="outlined">
+        <Button style="background-color: white;" variant="outlined" on:click={getPlay}>
           <!-- INSERT OPEN PDF HERE -->
           <Icon code="open_in_new" --icon-align="middle" --icon-size="1.5em" />
           View

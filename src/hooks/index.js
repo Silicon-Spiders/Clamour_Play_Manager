@@ -8,6 +8,9 @@ const publicPages = [
     '/server/submission/file.json',
     '/server/submission/form.json'
 ];
+
+const playroute = "/server/plays"
+
 const evaluatorPages = [
     '/',
     '/api/login',
@@ -34,9 +37,9 @@ export async function handle({ event, resolve }) {
     const token = cookie.parse(event.request.headers.get("cookie") || '');
     let isLoggedIn = verifyToken(token.token)
     if (!isLoggedIn && !publicPages.includes(event.url.pathname)) {
-        console.log("redir: "+event.url.pathname);
+        // console.log("redir: "+event.url.pathname);
         return Response.redirect(new URL("/login", event.request.url));
-    } else if (isLoggedIn && !evaluatorPages.includes(event.url.pathname) && token.role == "evaluator") {
+    } else if (isLoggedIn && (!evaluatorPages.includes(event.url.pathname) && !event.url.pathname.includes(playroute)) && token.role == "evaluator" ) {
         return Response.redirect(new URL("/portal/error", event.request.url));
     }
     const response = await resolve(event);
