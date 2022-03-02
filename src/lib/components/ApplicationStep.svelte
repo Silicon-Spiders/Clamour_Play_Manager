@@ -22,9 +22,7 @@
     {/if}
 
     {#if tab === applicationTabs.length - 1}
-      <Button variant="outlined" on:click$preventDefault={() => ($activeTab = "FINISHED")}
-        >Finish and Submit</Button
-      >
+      <Button variant="outlined" type="submit">Finish and Submit</Button>
     {:else}
       <Button variant="outlined" on:click$preventDefault={() => ($activeTab = applicationTabs[tab + 1])}>
         Next

@@ -77,6 +77,8 @@
   }
 
   async function submit(e) {
+    // console.log(e);
+    $activeTab = "FINISHED";
     const form = formDataBind;
     const [file] = formFile;
     const path = file ? await fileUpload(file, form) : null;
