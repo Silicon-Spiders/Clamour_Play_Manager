@@ -1,10 +1,15 @@
-import os from "os";
 import fs, { readFile } from "fs";
 import { PDFDocument } from 'pdf-lib';
 
 import sendEmail from "$lib/emailer";
 import config from "$lib/config";
 import { getAuthorFromEmail, addPlay, addAuthor } from "$lib/dbFunctions";
+import * as GoogleDriveService from '$lib/api-functions/googleDriveService';
+
+// FOR TESTING NEW GOOGLE DRIVE CODE
+// export async function get() {
+//   GoogleDriveService.find("Large_File_by_William_Relken.pdf");
+// }
 
 export async function post({params, request}) {
   let body = await request.json();
@@ -32,9 +37,11 @@ export async function post({params, request}) {
 
   if(i == 0){
     fs.writeFileSync(newFilePath + `.pdf`, data);
+    GoogleDriveService.saveFile(newFilePath.split('./')[1].split('/')[1] + `.pdf`);
     console.log("wrote file.");
   } else {
     fs.writeFileSync(newFilePath + `(${i}).pdf`, data);
+    GoogleDriveService.saveFile(newFilePath.split('./')[1].split('/')[1] + `(${i}).pdf`);
     console.log("copy found.");
   }
 

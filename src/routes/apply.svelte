@@ -49,10 +49,7 @@
   async function formUpload(form) {
     const formResponse = await fetch("server/submission/form.json", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
+      body: JSON.stringify(form)
     });
 
     const json = await formResponse.json();
