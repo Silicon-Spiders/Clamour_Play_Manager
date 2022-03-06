@@ -6,7 +6,9 @@ const publicPages = [
     '/apply',
     '/login',
     '/server/submission/file.json',
-    '/server/submission/form.json'
+    '/server/submission/form.json',
+    '/server/submission/file',
+    '/server/submission/form'
 ];
 
 const playroute = "/server/plays"
