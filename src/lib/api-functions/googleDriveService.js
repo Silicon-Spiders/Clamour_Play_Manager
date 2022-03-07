@@ -2,6 +2,8 @@ import { google } from 'googleapis';
 import dotenv from 'dotenv';
 import path from 'path';
 import fs from 'fs';
+import os from 'os';
+import { v4 } from "uuid";
 
 import config from '../config';
 
@@ -71,31 +73,32 @@ export async function find(fileName) {
 
 export async function getFile(fileId) {
   try {
-    let file = fs.createReadStream("./uploads/file.pdf");
-
-    let response = await drive.files.get(
+    let response = drive.files.get(
       {
         fileId,
         alt: 'media'
       },
       {
         responseType: 'stream'
-      },
-      (err, {data}) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        data
-          .on("end", () => console.log("Done."))
-          .on("error", (err) => {
-            console.log(err);
-            return process.exit();
-          })
-          .pipe(file);
       }
-    )
-  
+    ).then( res => {
+      return new Promise((resolve, reject) => {
+        const filePath = path.join(os.tmpdir(), v4() + '.pdf');
+        console.log(`writing to ${filePath}`);
+        const dest = fs.createWriteStream(filePath);
+        res.data
+          .on('end', () => {
+            console.log('Done downloading file.');
+            resolve(fs.readFileSync(filePath));
+          })
+          .on('error', err => {
+            console.error('Error downloading file.');
+            reject(err);
+          })
+          .pipe(dest);
+      })
+    })
+    return await response
   } catch (error) {
     console.log(error.message)
   }
