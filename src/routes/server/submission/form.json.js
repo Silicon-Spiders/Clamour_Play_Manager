@@ -7,9 +7,9 @@ import { getAuthorFromEmail, addPlay, addAuthor } from "$lib/dbFunctions";
 import * as GoogleDriveService from '$lib/api-functions/googleDriveService';
 
 // FOR TESTING NEW GOOGLE DRIVE CODE
-// export async function get() {
-//   GoogleDriveService.find("Large_File_by_William_Relken.pdf");
-// }
+export async function get() {
+  GoogleDriveService.getFile("109bg44MqmbaIxw8TPkDZCTvuj-48LnWC");
+}
 
 export async function post({params, request}) {
   let body = await request.json();
@@ -18,34 +18,20 @@ export async function post({params, request}) {
   fileTitle = fileTitle.split(' ').join('_');
   let oldFilePath = `./${config.uploadDir}/${path}` ;
   let newFilePath = `./${config.playSubmissionDir}/${fileTitle}`;
-  let filenames = fs.readdirSync(`./${config.playSubmissionDir}/`);
+  let filename = fileTitle + ".pdf"
 
   //read data from upload folder then write to play folder
   const data = fs.readFileSync(
     oldFilePath
   );
 
-  // checks for same file name
-  var i = 0;
-  filenames.forEach( file => {
-    let fileName = file.split(".")[0];
-    fileName = fileName.split("(")[0];
-    if(fileName == fileTitle){
-      i++;
-    }
-  });
+  fs.writeFileSync(newFilePath + `.pdf`, data);
 
-  if(i == 0){
-    fs.writeFileSync(newFilePath + `.pdf`, data);
-    GoogleDriveService.saveFile(newFilePath.split('./')[1].split('/')[1] + `.pdf`);
-    console.log("wrote file.");
-  } else {
-    fs.writeFileSync(newFilePath + `(${i}).pdf`, data);
-    GoogleDriveService.saveFile(newFilePath.split('./')[1].split('/')[1] + `(${i}).pdf`);
-    console.log("copy found.");
-  }
+  let fileId = await GoogleDriveService.saveFile(filename);
+  const pageCount = await getPages(newFilePath + `.pdf`);
 
   fs.unlinkSync(oldFilePath);
+  fs.unlinkSync(newFilePath+ `.pdf`);
 
   const author = await findAuthor(body.email);
   let authorID;
@@ -78,7 +64,6 @@ export async function post({params, request}) {
     authorID = author;
   }
 
-  const pageCount = await getPages(newFilePath + `.pdf`);
   const authorName = body.lname + ", " + body.fname;
   let playData = {
     title: body.title,
@@ -90,6 +75,7 @@ export async function post({params, request}) {
     either: body.actors_neutral,
     actexplain: body.actor_explain,
     filename: newFilePath,
+    gDrive: fileId,
     synopsis: body.synopsis,
     future: body.play_future,
     length: pageCount,
