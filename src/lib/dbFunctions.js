@@ -84,8 +84,8 @@ export async function updateEvaluator(evalData) {
 
 export async function getPlayLocation(id) {
   let db = await connectDB();
-  const playColl = await db.collection("plays");
-  return await playColl.findOne({ _id: ObjectId(id) }, { projection: { filename: 1 } });
+  const playColl = await db.collection('plays');
+  return await playColl.findOne({ _id: ObjectId(id) }, { projection: { gDrive: 1 }})
 }
 
 export async function getEvaluators() {
