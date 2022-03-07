@@ -42,7 +42,7 @@ export async function saveFile(fileName) {
       }
     });
 
-    console.log(response.data);
+    return response.data.id
 
   } catch (error) {
     console.log(error.message);
@@ -69,6 +69,34 @@ export async function find(fileName) {
   }
 }
 
-export async function getFile(id) {
+export async function getFile(fileId) {
+  try {
+    let file = fs.createReadStream("./uploads/file.pdf");
 
+    let response = await drive.files.get(
+      {
+        fileId,
+        alt: 'media'
+      },
+      {
+        responseType: 'stream'
+      },
+      (err, {data}) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        data
+          .on("end", () => console.log("Done."))
+          .on("error", (err) => {
+            console.log(err);
+            return process.exit();
+          })
+          .pipe(file);
+      }
+    )
+  
+  } catch (error) {
+    console.log(error.message)
+  }
 }
