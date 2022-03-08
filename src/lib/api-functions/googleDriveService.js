@@ -7,7 +7,7 @@ import { v4 } from "uuid";
 
 import config from '../config';
 
-__dirname = path.resolve();
+const __dirname = path.resolve();
 
 const driveClientId = process.env.GOOGLE_DRIVE_CLIENT_ID || '';
 const driveClientSecret = process.env.GOOGLE_DRIVE_CLIENT_SECRET || '';
