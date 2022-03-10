@@ -13,7 +13,7 @@
   import Alert from "$lib/components/Alert.svelte";
 
   function getCookie(cname) {
-    // onMount(() => {
+    onMount(() => {
       let name = cname + "=";
       let decodedCookie = decodeURIComponent(document.cookie);
       let ca = decodedCookie.split(";");
@@ -27,7 +27,7 @@
         }
       }
       return "";
-    // });
+    });
   }
 
   async function clearCookies() {
