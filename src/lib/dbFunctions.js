@@ -239,5 +239,4 @@ export async function updatePlayAssigned(playID , username) {
 
   return;
   }
-
 }
