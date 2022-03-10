@@ -1,11 +1,13 @@
 <script>
   import { onMount } from "svelte";
   import { pageTitle, plays } from "$lib/stores";
-  import DataTable, { Head, Body, Row, Cell, Pagination } from "@smui/data-table";
+  import DataTable, { Head, Body, Row, Cell as DCell, Pagination, SortValue } from "@smui/data-table";
   import { goto } from "$app/navigation";
   import IconButton from "@smui/icon-button";
   import Select, { Option } from "@smui/select";
-  import { Label } from "@smui/common";
+  import Textfield from "@smui/textfield";
+  import LayoutGrid, { Cell } from "@smui/layout-grid";
+  import Button, { Icon, Label } from "@smui/button";
 
   onMount(() => {
     $pageTitle = "View Plays";
@@ -22,28 +24,117 @@
   $: if (currentPage > lastPage) {
     currentPage = lastPage;
   }
+
+  let sort = "name";
+  let sortDirection = "ascending";
+
+  function handleSort() {
+    $plays.sort((a, b) => {
+      // console.log(sort);
+      // console.log(sortDirection);
+      const [aVal, bVal] = [a[sort], b[sort]][sortDirection === "ascending" ? "slice" : "reverse"]();
+      if (typeof aVal === "string" && typeof bVal === "string") {
+        return aVal.localeCompare(bVal);
+      }
+      return Number(aVal) - Number(bVal);
+    });
+    // console.log($plays);
+    $plays = $plays;
+  }
+  let search = "";
+  let searchField = "Title";
+  const handleSearch = () => {
+    if (search.length == 0) return;
+    let sortQueryRegex = new RegExp(`^(${search.toLowerCase().replaceAll(" ", "")})`);
+    const field = searchField == "Title" ? "title" : "author";
+    $plays.sort((first) => {
+      if (first[field].toLowerCase().replaceAll(" ", "").includes(search.toLowerCase().replaceAll(" ", ""))) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+    $plays = $plays;
+    $plays.sort((first) => {
+      if (sortQueryRegex.test(first[field].toLowerCase().replaceAll(" ", ""))) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+    $plays = $plays;
+  };
+  $: console.log($plays);
 </script>
 
-<DataTable stickyHeader table$aria-label="View Plays" style="width: 100%; height: 100%;">
+<!-- NEEDS NEW PLAYS AND BETTER TESTING -->
+
+<LayoutGrid style="padding-inline:0px">
+  <Cell span={2}>
+    <Select variant="outlined" label="Search Field" bind:value={searchField}>
+      <Option value="Title">Title</Option>
+      <Option value="Author">Author</Option>
+    </Select>
+  </Cell>
+  <Cell span={4}>
+    <Textfield
+      label="Search for {searchField}"
+      variant="outlined"
+      type="search"
+      bind:value={search}
+      on:input={handleSearch}
+    >
+      <Icon style="padding-left: 10px;" class="material-icons" slot="leadingIcon">search</Icon>
+    </Textfield>
+  </Cell>
+  <Cell span={6} />
+</LayoutGrid>
+<DataTable
+  stickyHeader
+  table$aria-label="View Plays"
+  style="width: 100%; height: 100%;"
+  sortable
+  bind:sort
+  bind:sortDirection
+  on:SMUIDataTable:sorted={handleSort}
+>
   <Head>
     <Row>
-      <Cell style="width:35%">Title</Cell>
-      <Cell>Rating</Cell>
-      <Cell>Tone</Cell>
-      <Cell>Actors</Cell>
-      <Cell>Pages</Cell>
-      <Cell>Author</Cell>
+      <DCell style="width:35%" columnId="title">
+        <Label>Title</Label>
+        <IconButton class="material-icons">arrow_upward</IconButton>
+      </DCell>
+      <DCell columnId="author">
+        <Label>Author</Label>
+        <IconButton class="material-icons">arrow_upward</IconButton>
+      </DCell>
+      <DCell columnId="rating">
+        <Label>Rating</Label>
+        <IconButton class="material-icons">arrow_upward</IconButton>
+      </DCell>
+      <DCell columnId="tone">
+        <Label>Tone</Label>
+        <IconButton class="material-icons">arrow_upward</IconButton>
+      </DCell>
+      <DCell columnId="actorCount">
+        <Label>Actors</Label>
+        <IconButton class="material-icons">arrow_upward</IconButton>
+      </DCell>
+      <DCell columnId="pages">
+        <Label>Pages</Label>
+        <IconButton class="material-icons">arrow_upward</IconButton>
+      </DCell>
     </Row>
   </Head>
   <Body>
     {#each slice as play}
       <Row on:click={() => goto(`${play.id}-profile`)}>
-        <Cell>{play.title}</Cell>
-        <Cell>{play.rating}/10</Cell>
-        <Cell>{play.tone}</Cell>
-        <Cell>{play.actorCount}</Cell>
-        <Cell>{play.pages}</Cell>
-        <Cell>{play.authorName}</Cell>
+        <DCell>{play.title}</DCell>
+        <DCell>{play.author}</DCell>
+        <DCell>{play.rating}/10</DCell>
+        <DCell>{play.tone}</DCell>
+        <DCell>{play.actorCount}</DCell>
+        <DCell>{play.pages}</DCell>
       </Row>
     {/each}
   </Body>
