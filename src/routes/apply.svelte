@@ -102,12 +102,12 @@
     </div>
   </div>
   <form on:submit|preventDefault={submit} style="display: {$activeTab === 'FINISHED' ? 'none' : 'block'}">
-    <!-- Tabular Navigation -->
     <TabBar tabs={applicationTabs} let:tab bind:active={$activeTab}>
-      <Tab {tab}>
+      <Tab on:click$preventDefault {tab}>
         <Label>{tab}</Label>
       </Tab>
     </TabBar>
+    <!-- Tabular Navigation -->
     <ApplicationStep tab={0}>
       <Cell span={4}>
         <div class="hide-file-ui">
@@ -147,7 +147,9 @@
           style="width: 100%; min-height: 150px;"
           bind:value={formDataBind.play_future}
         >
-          <HelperText slot="helper">Where do you think you can improve this play and why?</HelperText>
+          <HelperText slot="helper"
+            >Please enter what you think are your next steps in development of this play.</HelperText
+          >
         </Textfield>
       </Cell>
     </ApplicationStep>
@@ -193,6 +195,12 @@
         />
       </Cell>
       <Cell span={12}>
+        <p>
+          Please explain any difference between the number of characters listed in the script and the number
+          of actors needed to perform it. Plans for double-casting should be described specifically--i.e, John
+          Doe and Ronald Roe can be played by the same actor, or Actor Two plays Mrs. Simpson and Elizabeth
+          Bowes-Lyon, or the actor who plays the Giraffe can double as the offstage voice.
+        </p>
         <Textfield
           id="actor_explain"
           name="actor_explain"
@@ -244,7 +252,12 @@
           id="prof_intro"
           placeholder="What is you professional background?"
           bind:value={formDataBind.prof_intro}
-        />
+        >
+          <HelperText slot="helper"
+            >Please introduce yourself professionally -- i.e., productions, readings, awards, publications,
+            education, etc.</HelperText
+          >
+        </Textfield>
       </Cell>
       <Cell span={12}>
         <Textfield
@@ -256,7 +269,11 @@
           style="width: 100%; min-height: 150px;"
           placeholder="Tell us about yourself."
           bind:value={formDataBind.person_intro}
-        />
+        >
+          <HelperText slot="helper"
+            >Tell us something about yourself in addition to your theatre work.
+          </HelperText>
+        </Textfield>
       </Cell>
     </ApplicationStep>
     <ApplicationStep tab={3}>

@@ -7,11 +7,18 @@ export async function get() {
   };
 }
 
-export async function post(req) {
-  addEvaluator(req.body);
-  return {
-    status: 200,
-  };
+export async function post({ params, request }) {
+  const body = await request.json();
+  const res = await addEvaluator(body);
+  if (res.acknowledged) {
+    return {
+      status: 200,
+    };
+  } else {
+    return {
+      status: 400,
+    };
+  }
 }
 
 export async function put({ params, request }) {

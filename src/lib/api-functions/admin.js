@@ -21,12 +21,14 @@ export const updatePlays = async () => {
         rating = 0,
         tone = "Drama",
         actorCount = 0,
+        author = "Unknown",
         length: pages = 0,
-        authorName = "Unknown",
         synopsis = "None",
         dateOfSubmission = "Error",
         actexplain = "None",
       } = play;
+      // console.log(play);
+      // let authorName = `${firstName} ${lastName}`;
       // console.log(play);
       playsData = [
         ...playsData,
@@ -37,7 +39,7 @@ export const updatePlays = async () => {
           tone,
           actorCount,
           pages,
-          authorName,
+          author,
           synopsis,
           dateOfSubmission,
           actexplain,

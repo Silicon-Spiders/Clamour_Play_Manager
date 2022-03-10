@@ -1,15 +1,16 @@
 <script>
   import { evaluators, pageTitle, plays, sideProfile } from "$lib/stores";
   import { onMount } from "svelte";
-  import DataTable, { Head, Body, Row, Cell, Pagination } from "@smui/data-table";
-  import Button, { Label } from "@smui/button";
+  import DataTable, { Head, Body, Row, Cell as DCell, Pagination, SortValue } from "@smui/data-table";
+  import Button, { Icon, Label } from "@smui/button";
   import Dialog, { Title, Content, Actions } from "@smui/dialog";
   import Textfield from "@smui/textfield";
-  import LayoutGrid from "@smui/layout-grid";
+  import LayoutGrid, { Cell } from "@smui/layout-grid";
   import Select, { Option } from "@smui/select";
 
   import IconButton from "@smui/icon-button";
   import { updateEvaluators } from "$lib/api-functions/admin";
+  import { alert } from "$lib/components/Alert.svelte";
 
   onMount(async () => {
     $pageTitle = "Manage Evaluators";
@@ -25,9 +26,24 @@
     email: "",
     username: "",
     password: "",
+    plays: {},
   };
   const submitEvaluator = async (e) => {
     console.log({ addEvaluatorForm });
+    const res = await fetch(e.target.action, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(addEvaluatorForm),
+    });
+    console.log(res);
+    if (res.ok) {
+      openEvaluatorCreator = false;
+      await updateEvaluators();
+    } else {
+      alert.show("Unexpected Error in registering evaluator", "error");
+    }
   };
 
   // Edit Evaluator
@@ -66,14 +82,55 @@
   $: if (currentPage > lastPage) {
     currentPage = lastPage;
   }
+
+  let sort = "name";
+  let sortDirection = "ascending";
+
+  function handleSort() {
+    $evaluators.sort((a, b) => {
+      const [aVal, bVal] = [a[sort], b[sort]][sortDirection === "ascending" ? "slice" : "reverse"]();
+      console.log({ aVal, bVal });
+      if (typeof aVal === "string" && typeof bVal === "string") {
+        return aVal.localeCompare(bVal);
+      }
+      return Number(aVal) - Number(bVal);
+    });
+    $evaluators = $evaluators;
+  }
+  let search = "";
+  const handleSearch = () => {
+    if (search.length == 0) return;
+    let sortQueryRegex = new RegExp(`^(${search.toLowerCase().replaceAll(" ", "")})`);
+    $evaluators.sort((first) => {
+      if (
+        search.toLowerCase().replaceAll(" ", "").includes(first.firstName.toLowerCase().replaceAll(" ", ""))
+      ) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+    $evaluators = $evaluators;
+    $evaluators.sort((first) => {
+      if (sortQueryRegex.test(first.firstName.toLowerCase().replaceAll(" ", ""))) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+    $evaluators = $evaluators;
+  };
 </script>
 
-<Button variant="outlined" on:click={() => (openEvaluatorCreator = true)}>Add Evaluator</Button>
 <!-- Add Evaluator -->
 <Dialog scrimClickAction="" escapeKeyAction="" bind:open={openEvaluatorCreator}>
   <Title>Add Evaluator</Title>
   <Content>
-    <form class="add-evaluator" on:submit|preventDefault={submitEvaluator}>
+    <form
+      class="add-evaluator"
+      on:submit|preventDefault={submitEvaluator}
+      action="../../server/admin/manage.json"
+    >
       <Textfield variant="outlined" label="First Name" bind:value={addEvaluatorForm.firstName} />
       <Textfield variant="outlined" label="Last Name" bind:value={addEvaluatorForm.lastName} />
       <Textfield variant="outlined" label="Email" bind:value={addEvaluatorForm.email} />
@@ -112,22 +169,61 @@
     </form>
   </Content>
 </Dialog>
-<DataTable stickyHeader table$aria-label="Evaluators list" style="width: 100%;">
+<!-- Search -->
+<LayoutGrid style="padding-inline:0px">
+  <Cell span={4}>
+    <Textfield
+      label="Search First name"
+      variant="outlined"
+      type="search"
+      bind:value={search}
+      on:input={handleSearch}
+    >
+      <Icon style="padding-left: 10px;" class="material-icons" slot="leadingIcon">search</Icon>
+    </Textfield>
+  </Cell>
+  <Cell span={6} />
+  <Cell span={2}>
+    <Button variant="outlined" on:click={() => (openEvaluatorCreator = true)}>Add Evaluator</Button>
+  </Cell>
+</LayoutGrid>
+<!-- Table -->
+<DataTable
+  stickyHeader
+  table$aria-label="Evaluators list"
+  style="width: 100%;"
+  sortable
+  bind:sort
+  bind:sortDirection
+  on:SMUIDataTable:sorted={handleSort}
+>
   <Head>
     <Row>
-      <Cell>Name</Cell>
-      <Cell>Email</Cell>
-      <Cell>Phone Number</Cell>
-      <Cell />
+      <DCell columnId="firstName">
+        <Label>First</Label>
+        <IconButton class="material-icons">arrow_upward</IconButton>
+      </DCell>
+      <DCell columnId="lastName">
+        <Label>Last</Label>
+        <IconButton class="material-icons">arrow_upward</IconButton>
+      </DCell>
+      <DCell columnId="email" sortable={false}>
+        <Label>Email</Label>
+      </DCell>
+      <DCell columnId="phone" sortable={false}>
+        <Label>Phone Number</Label>
+      </DCell>
+      <DCell sortable={false} />
     </Row>
   </Head>
   <Body>
     {#each $evaluators as evaluator}
       <Row>
-        <Cell>{evaluator.firstName} {evaluator.lastName}</Cell>
-        <Cell><a href="mailto:{evaluator.email}">{evaluator.email}</a></Cell>
-        <Cell><a href="tel:{evaluator.phone}">{evaluator.phone}</a></Cell>
-        <Cell
+        <DCell>{evaluator.firstName}</DCell>
+        <DCell>{evaluator.lastName}</DCell>
+        <DCell><a href="mailto:{evaluator.email}">{evaluator.email}</a></DCell>
+        <DCell><a href="tel:{evaluator.phone}">{evaluator.phone}</a></DCell>
+        <DCell
           ><Button
             variant="outlined"
             on:click={() => {
@@ -143,7 +239,7 @@
               openEditEvaluatorForm = true;
               $sideProfile = evaluator;
             }}>Edit</Button
-          ></Cell
+          ></DCell
         >
       </Row>
     {/each}
