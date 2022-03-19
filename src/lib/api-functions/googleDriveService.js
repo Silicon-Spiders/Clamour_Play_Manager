@@ -27,12 +27,10 @@ const drive = google.drive({
   auth: oauth2Client
 })
 
-export async function saveFile(fileName) {
-
+// takes in UUID filename in tmpdir and replace with fileName before upload
+export async function saveFile(file, fileName) {
   try {
-
-    const filePath = path.join(__dirname, `${config.playSubmissionDir}\\${fileName}`)
-    
+    const filePath = path.join(os.tmpdir(), file);
     const response = await drive.files.create({
       requestBody: {
         name: fileName,
@@ -48,9 +46,7 @@ export async function saveFile(fileName) {
 
   } catch (error) {
     console.log(error.message);
-    
   }
-  
 }
 
 export async function find(fileName) {
