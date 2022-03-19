@@ -5,10 +5,6 @@ import fs from 'fs';
 import os from 'os';
 import { v4 } from "uuid";
 
-import config from '../config';
-
-const __dirname = path.resolve();
-
 const driveClientId = process.env.GOOGLE_DRIVE_CLIENT_ID || '';
 const driveClientSecret = process.env.GOOGLE_DRIVE_CLIENT_SECRET || '';
 const driveRedirectUri = process.env.GOOGLE_DRIVE_REDIRECT_URI || '';
