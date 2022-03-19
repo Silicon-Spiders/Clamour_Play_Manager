@@ -1,5 +1,7 @@
 import fs, { readFile } from "fs";
 import { PDFDocument } from 'pdf-lib';
+import path from 'path';
+import os from 'os';
 
 import sendEmail from "$lib/emailer";
 import config from "$lib/config";
@@ -30,25 +32,16 @@ import * as GoogleDriveService from '$lib/api-functions/googleDriveService';
 
 export async function post({params, request}) {
   let body = await request.json();
-  let path = body.path;
+  let loc = body.path;
   let fileTitle = body.title +"_by_"+ body.fname + `_` + body.lname;
   fileTitle = fileTitle.split(' ').join('_');
-  let oldFilePath = `./${config.uploadDir}/${path}` ;
-  let newFilePath = `./${config.playSubmissionDir}/${fileTitle}`;
+  let filePath = path.join(os.tmpdir(), loc);
   let filename = fileTitle + ".pdf"
 
-  //read data from upload folder then write to play folder
-  const data = fs.readFileSync(
-    oldFilePath
-  );
+  let fileId = await GoogleDriveService.saveFile(loc, filename);
+  const pageCount = await getPages(filePath);
 
-  fs.writeFileSync(newFilePath + `.pdf`, data);
-
-  let fileId = await GoogleDriveService.saveFile(filename);
-  const pageCount = await getPages(newFilePath + `.pdf`);
-
-  fs.unlinkSync(oldFilePath);
-  fs.unlinkSync(newFilePath+ `.pdf`);
+  fs.unlinkSync(filePath);
 
   const author = await findAuthor(body.email);
   let authorID;
@@ -91,7 +84,6 @@ export async function post({params, request}) {
     men: body.actors_men,
     either: body.actors_neutral,
     actexplain: body.actor_explain,
-    filename: newFilePath,
     gDrive: fileId,
     synopsis: body.synopsis,
     future: body.play_future,
