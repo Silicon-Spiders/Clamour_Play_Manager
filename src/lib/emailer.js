@@ -29,7 +29,7 @@ let transporter = nodemailer.createTransport({
 //   },
 // });
 
-message = {
+let message = {
   from: '"Clamour Theatre Group" <'+ config.from +'>',
   to: "",
   subject: "",
