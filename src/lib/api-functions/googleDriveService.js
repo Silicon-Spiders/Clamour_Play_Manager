@@ -72,22 +72,25 @@ export async function getFile(fileId) {
       },
       {
         responseType: 'stream'
-      },
-      (err, {data}) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        data
-          .on("end", () => console.log("Done."))
-          .on("error", (err) => {
-            console.log(err);
-            return process.exit();
-          })
-          .pipe(file);
       }
-    )
-  
+    ).then( res => {
+      return new Promise((resolve, reject) => {
+        const filePath = path.join(os.tmpdir(), v4() + '.pdf');
+        console.log(`writing to ${filePath}`);
+        const dest = fs.createWriteStream(filePath);
+        res.data
+          .on('end', () => {
+            console.log('Done downloading file.');
+            resolve(fs.readFileSync(filePath));
+          })
+          .on('error', err => {
+            console.error('Error downloading file.');
+            reject(err);
+          })
+          .pipe(dest);
+      })
+    })
+    return await response
   } catch (error) {
     console.log(error.message)
   }
