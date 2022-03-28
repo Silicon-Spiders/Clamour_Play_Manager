@@ -212,8 +212,9 @@ export async function getPlayByID(playID) {
    
     console.log(`getPlayByID is returning this ---> ${JSON.stringify(playColl.title)}`);
     const playTitle = JSON.stringify(playColl.title);
-    
-    return playTitle; 
+    console.log(`Trying to remove quotes it so it looks like ---> ${playTitle.replace(/['"]+/g, '')}`);
+    // return playTitle; 
+    return playTitle.replace(/['"]+/g, '');
   }
 }
 
