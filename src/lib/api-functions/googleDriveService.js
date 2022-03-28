@@ -9,14 +9,25 @@ const driveClientId = process.env.GOOGLE_DRIVE_CLIENT_ID || '';
 const driveClientSecret = process.env.GOOGLE_DRIVE_CLIENT_SECRET || '';
 const driveRedirectUri = process.env.GOOGLE_DRIVE_REDIRECT_URI || '';
 const driveRefreshToken = process.env.GOOGLE_DRIVE_REFRESH_TOKEN || '';
+const driveClient = process.env.GOOGLE_CLIENT || '';
 
-const oauth2Client = new google.auth.OAuth2(
-  driveClientId,
-  driveClientSecret,
-  driveRedirectUri
-);
+const SCOPES = ['https://www.googleapis.com/auth/drive'];
 
-oauth2Client.setCredentials({refresh_token: driveRefreshToken});
+let sapath = path.join(os.tmpdir(), v4() + '.json');
+fs.writeFileSync(sapath, driveClient);
+
+const oauth2Client = new google.auth.GoogleAuth({
+  keyFile: sapath,
+  scopes: SCOPES,
+})
+
+// const oauth2Client = new google.auth.OAuth2(
+//   driveClientId,
+//   driveClientSecret,
+//   driveRedirectUri
+// );
+
+// oauth2Client.setCredentials({refresh_token: driveRefreshToken});
 
 const drive = google.drive({
   version: 'v3',
