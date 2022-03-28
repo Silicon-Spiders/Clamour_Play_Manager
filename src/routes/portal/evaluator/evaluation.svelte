@@ -98,7 +98,8 @@
 
     //    await updatePlayAssigned(playID);
 
-        window.open('./main');  //maybe change this to .replace would be better so they wouldn't be able to go back. Replace state.
+        // window.open('./main');  //maybe change this to .replace would be better so they wouldn't be able to go back. Replace state.
+        window.location.replace('./main')
         return;
     }
 
