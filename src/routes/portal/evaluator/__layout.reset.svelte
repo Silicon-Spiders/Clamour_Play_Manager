@@ -1,9 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
-
   import "$lib/portal-styles.scss";
-
   function getCookie(cname) {
     onMount(() => {
       let name = cname + "=";
@@ -21,7 +19,6 @@
       return "";
     });
   }
-
   async function clearCookies() {
     let logout = await fetch("/api/logout", {
       method: "POST",
@@ -65,3 +62,6 @@
     cursor: pointer;
   }
 </style>
+© 2022 GitHub, Inc.
+Terms
+Priva
