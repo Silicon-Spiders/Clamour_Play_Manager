@@ -208,10 +208,12 @@ export async function getPlayByID(playID) {
     // console.log('My ID: ', id);
     let db = await connectDB();
     //you have to get the evaluator logged in, in order to get the plays assigned to them
-    const playColl = await db.collection('plays').findOne({ _id: playID } , {projection: {title: 1 , _id: 0} });
+    const playColl = await db.collection('plays').findOne({ _id: ObjectId(playID) } , {projection: {title: 1 , _id: 0} });
    
-    console.log(`getPlayByID is returning this ---> ${playColl}`);
-    return playColl; 
+    console.log(`getPlayByID is returning this ---> ${JSON.stringify(playColl.title)}`);
+    const playTitle = JSON.stringify(playColl.title);
+    
+    return playTitle; 
   }
 }
 
