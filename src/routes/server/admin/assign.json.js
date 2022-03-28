@@ -10,8 +10,11 @@ export async function get() {
 
 export async function post({params, request}) {
   let req = await request.json();
-  assignPlays(req);
+  await assignPlays(req);
   return {
     status: 200,
+    body: {
+      message: "Plays Assigned"
+    }
   }
 }
