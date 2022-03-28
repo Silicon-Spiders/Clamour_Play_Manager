@@ -75,10 +75,12 @@
 
     async function submit(e) {
      
-        console.log(`playID in submit func in evaluation is ---> ${playID.toString()}`);
+        console.log(`playID in submit func in evaluation is ---> ${playID}`);
         const playInfo = await getPlayInfo(playID);
 
-        // formsData.playID = playInfo._id;   
+
+        // formsData.playID = playInfo._id;  
+        formsData.title = playInfo; 
         // THIS IS THE NEW WAY TO SEND DATA ---> export const get = ({ params }) => fetch(`https://myapi.com/${params.path}`);
 
         //Before you insert an evaluation you have to get the playID, title, and get authorID to insert it with it!
