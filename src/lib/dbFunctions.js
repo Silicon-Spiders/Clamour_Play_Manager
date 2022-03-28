@@ -136,7 +136,6 @@ export async function assignPlays(array) {
   });
   return;
 }
-<<<<<<< HEAD
 
 
 
@@ -243,5 +242,3 @@ export async function updatePlayAssigned(req) {
   }
 
 }
-=======
->>>>>>> 4cb185227c48440293e1446d71354e86019f13f5

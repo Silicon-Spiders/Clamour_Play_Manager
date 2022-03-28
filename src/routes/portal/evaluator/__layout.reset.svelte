@@ -1,25 +1,8 @@
 <script>
   import { goto } from "$app/navigation";
-<<<<<<< HEAD
-  import { onMount } from "svelte/internal";
-=======
   import { onMount } from "svelte";
->>>>>>> 4cb185227c48440293e1446d71354e86019f13f5
-
   import "$lib/portal-styles.scss";
-
   function getCookie(cname) {
-<<<<<<< HEAD
-
-    onMount(() => {
-
-      let name = cname + "=";
-      let decodedCookie = decodeURIComponent(document.cookie);
-      let ca = decodedCookie.split(';');
-      for(let i = 0; i <ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-=======
     onMount(() => {
       let name = cname + "=";
       let decodedCookie = decodeURIComponent(document.cookie);
@@ -27,7 +10,6 @@
       for (let i = 0; i < ca.length; i++) {
         let c = ca[i];
         while (c.charAt(0) == " ") {
->>>>>>> 4cb185227c48440293e1446d71354e86019f13f5
           c = c.substring(1);
         }
         if (c.indexOf(name) == 0) {
@@ -37,7 +19,6 @@
       return "";
     });
   }
-
   async function clearCookies() {
     let logout = await fetch("/api/logout", {
       method: "POST",
@@ -81,3 +62,6 @@
     cursor: pointer;
   }
 </style>
+© 2022 GitHub, Inc.
+Terms
+Priva
