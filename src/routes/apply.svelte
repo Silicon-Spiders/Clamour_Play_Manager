@@ -83,7 +83,7 @@
     </div>
   </div>
   <form
-    on:submit|preventDefault={handleSubmit}
+    on:submit|preventDefault={submit}
     style="display: {$activeTab === 'FINISHED' ? 'none' : 'block'}"
   >
     <TabBar tabs={applicationTabs} let:tab bind:active={$activeTab}>
