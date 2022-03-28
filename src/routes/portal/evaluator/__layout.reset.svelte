@@ -118,3 +118,6 @@
     height: 100%;
   }
 </style>
+© 2022 GitHub, Inc.
+Terms
+Priva
