@@ -8,9 +8,8 @@
   export let playid = undefined;
   export let title = undefined;
   export let tone = undefined;
-  export let actors = undefined;
   export let pages = undefined;
-  export let author = undefined;
+  export let rating = undefined;
   export let play = undefined;
 </script>
 
@@ -22,10 +21,13 @@
         {title}
       </span>
       <span>
-        {author}
+        {tone}
       </span>
       <span>
         {pages}
+      </span>
+      <span>
+        {rating}
       </span>
     </div>
   </label>
