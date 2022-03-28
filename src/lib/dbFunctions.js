@@ -134,3 +134,109 @@ export async function assignPlays(array) {
   });
   return;
 }
+
+
+
+export async function insertEvaluation(evaluation) {
+
+  let db = await connectDB();
+  // console.log(db);
+  let insertEvaluation = await db.collection("evaluations").insertOne(evaluation);
+  
+  return;
+};
+
+export async function getEvaluations() {
+
+  let db = await connectDB();
+  let evaluations = await db.collection("evaluations").find({}).toArray();
+  // console.log(evaluations);
+
+  return evaluations;
+};
+
+export async function getPlaysAssigned(username) {
+  
+  let db = await connectDB();
+  let playsAssigned = await db.collection("evaluators").find({username: username} , {projection: {plays: 1, _id: 0} }).toArray();
+
+
+  // console.log(`obj keys is outputting --> ${Object.keys(playsAssigned[0].plays)}`);
+
+  const keyIDs = JSON.stringify( Object.keys(playsAssigned[0].plays) );
+
+  const keysArray = keyIDs.split(',');
+  
+  // console.log(`The values in the keysArray is: ${keysArray}`);
+  
+
+  let gettingPlaysByID = await findPlaysByID(Object.keys(playsAssigned[0].plays));
+
+  return gettingPlaysByID;
+}
+
+export async function findPlaysByID(playIDs) {
+
+  let db = await connectDB();
+
+  let mongoObjIDs = toMongoObject(playIDs);
+  
+  
+  // console.log(`The playIDS in the func being called is -----> ${playIDs}`);
+  let plays = await db.collection("plays").find({_id: { $in: mongoObjIDs } } ).toArray(); //remove toArray?  
+
+  return plays;
+}
+
+// export async function findPlaysByAuthorID(authorID) {
+
+//   let db = await connectDB();
+
+//   let plays = await db.collection("plays").find({authorID: ObjectId(authorID)}).toArray();
+
+//   console.log(`This is findPlaysByAuthorID ,and this is the result of query --> ${plays}`);
+
+//   return plays;
+// }
+
+export async function getPlayByID(playID) {
+
+  console.log(`playID in getPlayID is ---> ${playID}`);
+  if (playID && playID != 'null' && playID != null && playID != undefined && playID != 'undefined') {
+    // console.log('My ID: ', id);
+    let db = await connectDB();
+    //you have to get the evaluator logged in, in order to get the plays assigned to them
+    const playColl = await db.collection('plays').findOne({ _id: playID } , {projection: {title: 1 , _id: 0} });
+   
+    console.log(`getPlayByID is returning this ---> ${playColl}`);
+    return playColl; 
+  }
+}
+
+export async function deletePlayAssigned(req) {
+
+  // const id = req.query.get('id');    //this is getting the url and extracting the url's id
+  if (id && id != 'null' && id != null && id != undefined && id != 'undefined') {
+
+  let db = await connectDB();
+  let assignPlaysColl = await db.collection('plays-assigned').deleteOne({ _id: ObjectId(id)});;
+
+  console.log('HEY IM IN dbFunctions with an ID of: ' + id);
+
+  return;
+  }
+}
+
+export async function updatePlayAssigned(req) {
+
+  // const id = req.query.get('id');    //this is getting the url and extracting the url's id
+  if (id && id != 'null' && id != null && id != undefined && id != 'undefined') {
+
+  let db = await connectDB();
+  // This will be change so it could query in evaluator/plays and change them from unf to f after EVALUATION is submitted. Wrote this on 3/26/22.
+  let playAssigned = await db.collection('plays-assigned').updateOne({_id: ObjectId(id)} , {$set: {status:'completed'} });
+
+  return;
+  }
+
+}

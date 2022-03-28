@@ -13,28 +13,50 @@
 
   const { step } = getStepWizardContext();
   // $: console.log($step);
+
+  export let type = "apply";
 </script>
 
-<div class="progress">
-  <div class="progress-titles">
-    <span
-      >Play Info
-      <div class="progress-bar" style="width:{$step >= 1 ? '100' : '0'}%" />
-    </span>
-    <span
-      >Personal Details
-      <div class="progress-bar" style="width:{$step >= 2 ? '100' : '0'}%" />
-    </span>
-    <span
-      >Contact Info
-      <div class="progress-bar" style="width:{$step >= 3 ? '100' : '0'}%" />
-    </span>
-    <span
-      >Finish & Submit
-      <div class="progress-bar" style="width:{$step >= 4 ? '100' : '0'}%" />
-    </span>
+{#if type == "apply"}
+
+  <div class="progress">
+    <div class="progress-titles">
+      <span
+        >Play Info
+        <div class="progress-bar" style="width:{$step >= 1 ? '100' : '0'}%" />
+      </span>
+      <span
+        >Personal Details
+        <div class="progress-bar" style="width:{$step >= 2 ? '100' : '0'}%" />
+      </span>
+      <span
+        >Contact Info
+        <div class="progress-bar" style="width:{$step >= 3 ? '100' : '0'}%" />
+      </span>
+      <span
+        >Finish & Submit
+        <div class="progress-bar" style="width:{$step >= 4 ? '100' : '0'}%" />
+      </span>
+    </div>
   </div>
-</div>
+
+ {:else}
+
+  <div class="progress">
+    <div class="progress-titles">
+      <span
+        >Play Info
+        <div class="progress-bar" style="width:{$step >= 1 ? '100' : '0'}%" />
+      </span>
+      <span
+        >Finish & Submit
+        <div class="progress-bar" style="width:{$step >= 2 ? '100' : '0'}%" />
+      </span>
+    </div>
+  </div>
+
+{/if}
+
 
 <style lang="scss">
   .progress {
