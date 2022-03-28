@@ -16,8 +16,8 @@
 body,
 html {
   background-color: var(--secondary-color-light);
-  max-width: 100vw;
-  // overflow-x: hidden;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 // SMUI OVERRIDES
@@ -47,7 +47,7 @@ html {
 a:link,
 a:visited,
 a:active {
-  color: black;
+  // color: black;
   text-decoration: none;
 }
 

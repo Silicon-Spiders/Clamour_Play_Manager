@@ -1,5 +1,5 @@
-import clientPromise from '$lib/mongodb-client';
-import { ObjectId } from 'mongodb';
+import clientPromise from "$lib/mongodb-client";
+import { ObjectId } from "mongodb";
 
 async function connectDB() {
   const dbConnection = await clientPromise;
@@ -10,7 +10,7 @@ async function connectDB() {
 function toMongoObject(array) {
   let objects = [];
 
-  array.forEach(string => {
+  array.forEach((string) => {
     objects.push(ObjectId(string));
   });
 
@@ -19,38 +19,38 @@ function toMongoObject(array) {
 
 export async function addPlay(playData) {
   let db = await connectDB();
-  const playColl = await db.collection('plays');
+  const playColl = await db.collection("plays");
   return await playColl.insertOne(playData);
 }
 
 export async function getPlays() {
   let db = await connectDB();
-  const playColl = await db.collection('plays');
+  const playColl = await db.collection("plays");
   return await playColl.find({}).toArray();
 }
 
 export async function addAuthor(authorData) {
   let db = await connectDB();
-  const authorColl = await db.collection('authors');
+  const authorColl = await db.collection("authors");
   return await authorColl.insertOne(authorData);
 }
 
 export async function getAuthorFromEmail(email) {
   let db = await connectDB();
-  const authorColl = await db.collection('authors');
+  const authorColl = await db.collection("authors");
   return await authorColl.findOne({ homeEmail: email });
 }
 
 export async function getAuthorFromID(id) {
   let db = await connectDB();
-  const authorColl = await db.collection('authors');
+  const authorColl = await db.collection("authors");
   return await authorColl.findOne({ _id: ObjectId(id) });
 }
 
 export async function addEvaluator(evaluator) {
   let db = await connectDB();
-  const evalColl = await db.collection('evaluators');
-  return await evalColl.insertOne({evaluator});
+  const evalColl = await db.collection("evaluators");
+  return await evalColl.insertOne(evaluator);
 }
 /*
 Evaluators:
@@ -84,29 +84,29 @@ export async function updateEvaluator(evalData) {
 
 export async function getPlayLocation(id) {
   let db = await connectDB();
-  const playColl = await db.collection('plays');
-  return await playColl.findOne({ _id: ObjectId(id) }, { projection: { filename: 1 }})
+  const playColl = await db.collection("plays");
+  return await playColl.findOne({ _id: ObjectId(id) }, { projection: { filename: 1 } });
 }
 
 export async function getEvaluators() {
   let db = await connectDB();
-  const evalColl = await db.collection('evaluators');
+  const evalColl = await db.collection("evaluators");
   return await evalColl.find({}).toArray();
 }
 
 export async function getEvaluatorId(username, password) {
   let db = await connectDB();
-  const evalColl = await db.collection('evaluators');
+  const evalColl = await db.collection("evaluators");
   return await evalColl.findOne({ username, password });
 }
 
 export async function getAdmin(username, password) {
   let db = await connectDB();
-  const adminColl = await db.collection('admin');
+  const adminColl = await db.collection("admin");
   let data = await adminColl.findOne({ username, password });
   if (data == null) {
-    if (await adminColl.findOne({ username, password }) == null) {
-      await adminColl.insertOne({ username: "admin", password: "pass"});
+    if ((await adminColl.findOne({ username, password })) == null) {
+      await adminColl.insertOne({ username: "admin", password: "pass" });
     }
   }
   return data;
@@ -114,26 +114,29 @@ export async function getAdmin(username, password) {
 
 export async function getEvaluatorsSanitized() {
   let db = await connectDB();
-  const evalColl = await db.collection('evaluators');
-  return await evalColl.find({}, { projection: { _id: 1, firstName: 1, lastName: 1, email: 1, plays:1}}).toArray();
+  const evalColl = await db.collection("evaluators");
+  return await evalColl
+    .find({}, { projection: { _id: 1, firstName: 1, lastName: 1, email: 1, plays: 1 } })
+    .toArray();
 }
 
 export async function assignPlays(array) {
   let db = await connectDB();
-  const evalColl = await db.collection('evaluators');
+  const evalColl = await db.collection("evaluators");
   const evalid = toMongoObject(array.evaluators);
 
-  let evals = await evalColl.find({ _id:{ $in:evalid } }, { projection: { _id: 1, plays:1}}).toArray();
+  let evals = await evalColl.find({ _id: { $in: evalid } }, { projection: { _id: 1, plays: 1 } }).toArray();
 
-  evals.forEach(async evaluator => {
-    array.plays.forEach(id => {
+  evals.forEach(async (evaluator) => {
+    array.plays.forEach((id) => {
       evaluator.plays[id] = "unf";
     });
 
-    await evalColl.updateOne({ _id: evaluator._id }, { $set: { plays: evaluator.plays }}, { upsert: true });
+    await evalColl.updateOne({ _id: evaluator._id }, { $set: { plays: evaluator.plays } }, { upsert: true });
   });
   return;
 }
+<<<<<<< HEAD
 
 
 
@@ -240,3 +243,5 @@ export async function updatePlayAssigned(req) {
   }
 
 }
+=======
+>>>>>>> 4cb185227c48440293e1446d71354e86019f13f5

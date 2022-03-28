@@ -10,6 +10,7 @@
   import { onMount } from "svelte";
   import { updatePlays } from "$lib/api-functions/admin";
   import "$lib/global.scss";
+  import Alert from "$lib/components/Alert.svelte";
 
   function getCookie(cname) {
     onMount(() => {
@@ -97,6 +98,8 @@
     <slot />
   </div>
 </AppContent>
+
+<Alert />
 
 <style>
   .content {

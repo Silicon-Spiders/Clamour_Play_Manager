@@ -1,2 +1,32 @@
 // File that consists of objects/array that ui references
 export const applicationTabs = ["Play Info", "Actor Info", "Personal Details", "Contact Info"];
+
+export let applicationForm = {
+  title: "",
+  actors_men: 0,
+  actors_women: 0,
+  actors_neutral: 0,
+  actor_explain: "",
+  person_web: "",
+  work_web: "",
+  prof_intro: "",
+  person_intro: "",
+  fname: "",
+  mname: "",
+  lname: "",
+  country: "",
+  address1: "",
+  address2: "",
+  city: "",
+  state: "",
+  zip: "",
+  province: "",
+  postal_code: "",
+  phone: "",
+  email: "",
+  meet_pref: "",
+  synopsis: "",
+  play_future: "",
+  path: "",
+  npx_profile: "",
+};

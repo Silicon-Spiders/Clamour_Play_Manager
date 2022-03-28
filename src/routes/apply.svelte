@@ -13,43 +13,27 @@
   // Utils
   import "$lib/global.scss";
   import { activeTab } from "$lib/stores";
-  import { applicationTabs } from "$lib/ui/common";
+  import { applicationForm, applicationTabs } from "$lib/ui/common";
   import { statesCities, countries } from "$lib/utils/location-data";
+  import { validateApplication } from "$lib/validations/application";
+  import { createForm } from "svelte-forms-lib";
+  import ErrorMessage from "$lib/components/ErrorMessage.svelte";
+
+  const { form, errors, handleChange, handleSubmit } = createForm({
+    initialValues: { ...applicationForm },
+    validate: validateApplication,
+    onSubmit: () => {
+      console.log("Submitted");
+      return;
+    },
+  });
 
   let formFile = [];
-  let formDataBind = {
-    title: "",
-    actors_men: 0,
-    actors_women: 0,
-    actors_neutral: 0,
-    actor_explain: "",
-    person_web: "",
-    work_web: "",
-    prof_intro: "",
-    person_intro: "",
-    fname: "",
-    mname: "",
-    lname: "",
-    country: "",
-    address1: "",
-    address2: "",
-    city: "",
-    state: "",
-    zip: "",
-    province: "",
-    postal_code: "",
-    phone: "",
-    email: "",
-    meet_pref: "",
-    synopsis: "",
-    play_future: "",
-    path: "",
-    npx_profile: "",
-  };
+
   let totalActors = 0;
 
   function updateTotalAct() {
-    totalActors = formDataBind.actors_men + formDataBind.actors_women + formDataBind.actors_neutral;
+    totalActors = $form.actors_men + $form.actors_women + $form.actors_neutral;
   }
 
   async function fileUpload(file, form) {
@@ -77,14 +61,16 @@
   }
 
   async function submit(e) {
-    const form = formDataBind;
+    // console.log(e);
+    $activeTab = "FINISHED";
     const [file] = formFile;
-    const path = file ? await fileUpload(file, form) : null;
-    form.path = path;
-    const alert = await formUpload(form);
+    const path = file ? await fileUpload(file, $form) : null;
+    $form.path = path;
+    const alert = await formUpload($form);
     console.log(alert);
     console.log(alert.message);
   }
+  // $: console.log({ $errors });
 </script>
 
 <svelte:head>
@@ -99,13 +85,16 @@
       <h2>You should recieive an email confirming your application</h2>
     </div>
   </div>
-  <form on:submit|preventDefault={submit} style="display: {$activeTab === 'FINISHED' ? 'none' : 'block'}">
-    <!-- Tabular Navigation -->
+  <form
+    on:submit|preventDefault={handleSubmit}
+    style="display: {$activeTab === 'FINISHED' ? 'none' : 'block'}"
+  >
     <TabBar tabs={applicationTabs} let:tab bind:active={$activeTab}>
-      <Tab {tab}>
+      <Tab on:click$preventDefault {tab}>
         <Label>{tab}</Label>
       </Tab>
     </TabBar>
+    <!-- Tabular Navigation -->
     <ApplicationStep tab={0}>
       <Cell span={4}>
         <div class="hide-file-ui">
@@ -113,40 +102,55 @@
             variant="outlined"
             label="File"
             type="file"
-            input$placeholder="file"
+            input$name="file"
+            on:change={handleChange}
             bind:files={formFile}
           />
+          <ErrorMessage error={$errors?.file} />
         </div>
       </Cell>
       <Cell span={8}>
-        <Textfield variant="outlined" label="Title" type="text" bind:value={formDataBind.title} />
+        <Textfield
+          variant="outlined"
+          label="Title"
+          type="text"
+          input$name="title"
+          on:change={handleChange}
+          bind:value={$form.title}
+        />
+        <ErrorMessage error={$errors?.title} />
       </Cell>
       <Cell span={12}>
         <Textfield
           label="Synopsis"
           variant="outlined"
           textarea
-          name="synopsis"
           style="width: 100%; min-height: 150px;"
-          id="synopsis"
           placeholder="Write a brief synopsis of you play."
-          bind:value={formDataBind.synopsis}
+          input$name="synopsis"
+          on:change={handleChange}
+          bind:value={$form.synopsis}
         >
           <HelperText slot="helper">Write a brief synopsis of your play.</HelperText>
         </Textfield>
+        <ErrorMessage error={$errors?.synopsis} />
       </Cell>
       <Cell span={12}>
         <Textfield
           textarea
           variant="outlined"
           label="Next Steps in Development"
-          name="play_future"
           id="play_future"
           style="width: 100%; min-height: 150px;"
-          bind:value={formDataBind.play_future}
+          input$name="play_future"
+          on:change={handleChange}
+          bind:value={$form.play_future}
         >
-          <HelperText slot="helper">Where do you think you can improve this play and why?</HelperText>
+          <HelperText slot="helper">
+            Please enter what you think are your next steps in development of this play.
+          </HelperText>
         </Textfield>
+        <ErrorMessage error={$errors?.play_future} />
       </Cell>
     </ApplicationStep>
     <ApplicationStep tab={1}>
@@ -157,25 +161,32 @@
       <Cell span={4}>
         <Textfield
           id="actor_count"
-          name="actor_count"
           variant="outlined"
           type="number"
           label="Men"
           min="0"
-          bind:value={formDataBind.actors_men}
-          on:change={updateTotalAct}
+          input$name="actors_men"
+          bind:value={$form.actors_men}
+          on:change={(e) => {
+            handleChange(e);
+            updateTotalAct();
+          }}
         />
+        <ErrorMessage error={$errors?.actors_men} />
       </Cell>
       <Cell span={4}>
         <Textfield
           label="Women"
-          type="number"
           id="actor_count"
           min="0"
           variant="outlined"
-          name="actor_count"
-          bind:value={formDataBind.actors_women}
-          on:change={updateTotalAct}
+          type="number"
+          input$name="actors_women"
+          bind:value={$form.actors_women}
+          on:change={(e) => {
+            handleChange(e);
+            updateTotalAct();
+          }}
         />
       </Cell>
       <Cell span={4}>
@@ -185,21 +196,31 @@
           min="0"
           label="Neutral"
           variant="outlined"
-          name="actor_count"
-          bind:value={formDataBind.actors_neutral}
-          on:change={updateTotalAct}
+          input$name="actors_neutral"
+          bind:value={$form.actors_neutral}
+          on:change={(e) => {
+            handleChange(e);
+            updateTotalAct();
+          }}
         />
       </Cell>
       <Cell span={12}>
+        <p>
+          Please explain any difference between the number of characters listed in the script and the number
+          of actors needed to perform it. Plans for double-casting should be described specifically--i.e, John
+          Doe and Ronald Roe can be played by the same actor, or Actor Two plays Mrs. Simpson and Elizabeth
+          Bowes-Lyon, or the actor who plays the Giraffe can double as the offstage voice.
+        </p>
         <Textfield
           id="actor_explain"
-          name="actor_explain"
+          input$name="actor_explain"
           label="Actor Count Explanation"
           style="width: 100%; min-height: 150px;"
           textarea
           input$maxlength={180}
           placeholder="Please explain why this many actors can perform this play."
-          bind:value={formDataBind.actor_explain}
+          bind:value={$form.actor_explain}
+          on:change={handleChange}
         >
           <CharacterCounter slot="internalCounter" />
         </Textfield>
@@ -212,7 +233,8 @@
           label="Work Website"
           type="text"
           name="work_web"
-          bind:value={formDataBind.work_web}
+          on:change={handleChange}
+          bind:value={$form.work_web}
         />
       </Cell>
       <Cell span={12}>
@@ -221,7 +243,8 @@
           type="text"
           variant="outlined"
           name="person_web"
-          bind:value={formDataBind.person_web}
+          on:change={handleChange}
+          bind:value={$form.person_web}
         />
       </Cell>
       <Cell span={12}>
@@ -230,7 +253,8 @@
           type="text"
           variant="outlined"
           name="npx_profile"
-          bind:value={formDataBind.npx_profile}
+          on:change={handleChange}
+          bind:value={$form.npx_profile}
         />
       </Cell>
       <Cell span={12}>
@@ -241,8 +265,14 @@
           style="width: 100%; min-height: 150px;"
           id="prof_intro"
           placeholder="What is you professional background?"
-          bind:value={formDataBind.prof_intro}
-        />
+          on:change={handleChange}
+          bind:value={$form.prof_intro}
+        >
+          <HelperText slot="helper"
+            >Please introduce yourself professionally -- i.e., productions, readings, awards, publications,
+            education, etc.</HelperText
+          >
+        </Textfield>
       </Cell>
       <Cell span={12}>
         <Textfield
@@ -253,8 +283,13 @@
           id="person_intro"
           style="width: 100%; min-height: 150px;"
           placeholder="Tell us about yourself."
-          bind:value={formDataBind.person_intro}
-        />
+          on:change={handleChange}
+          bind:value={$form.person_intro}
+        >
+          <HelperText slot="helper"
+            >Tell us something about yourself in addition to your theatre work.
+          </HelperText>
+        </Textfield>
       </Cell>
     </ApplicationStep>
     <ApplicationStep tab={3}>
@@ -264,18 +299,13 @@
           variant="outlined"
           type="text"
           name="fname"
-          bind:value={formDataBind.fname}
+          on:change={handleChange}
+          bind:value={$form.fname}
           required
         />
       </Cell>
       <Cell span={4}>
-        <Textfield
-          variant="outlined"
-          label="Middle Name"
-          type="text"
-          name="mname"
-          bind:value={formDataBind.mname}
-        />
+        <Textfield variant="outlined" label="Middle Name" type="text" name="mname" bind:value={$form.mname} />
       </Cell>
       <Cell span={4}>
         <Textfield
@@ -283,7 +313,8 @@
           variant="outlined"
           type="text"
           name="lname"
-          bind:value={formDataBind.lname}
+          on:change={handleChange}
+          bind:value={$form.lname}
           required
         />
       </Cell>
@@ -294,15 +325,17 @@
           options={countries}
           textfield$variant="outlined"
           name="country"
-          bind:value={formDataBind.country}
+          on:change={handleChange}
+          bind:value={$form.country}
         />
       </Cell>
-      {#if formDataBind.country === "United States"}
+      {#if $form.country === "United States"}
         <!-- content here -->
         <Cell span={4}>
           <Autocomplete
             options={Object.keys(statesCities)}
-            bind:value={formDataBind.state}
+            on:change={handleChange}
+            bind:value={$form.state}
             label="State"
             textfield$variant="outlined"
             name="state"
@@ -310,21 +343,29 @@
           />
         </Cell>
       {/if}
-      {#if formDataBind.country === "United States"}
+      {#if $form.country === "United States"}
         <Cell span={4}>
           <Autocomplete
             combobox
-            options={statesCities[formDataBind.state]}
+            options={statesCities[$form.state]}
             label="City"
             textfield$variant="outlined"
             name="city"
-            bind:value={formDataBind.city}
+            bind:value={$form.city}
+            on:change={handleChange}
             required
           />
         </Cell>
       {:else}
         <Cell span={4}>
-          <Textfield label="City" variant="outlined" name="city" bind:value={formDataBind.city} required />
+          <Textfield
+            label="City"
+            variant="outlined"
+            name="city"
+            on:change={handleChange}
+            bind:value={$form.city}
+            required
+          />
         </Cell>
       {/if}
       <Cell span={12}>
@@ -333,7 +374,8 @@
           variant="outlined"
           label="Address (Line 1)"
           name="address"
-          bind:value={formDataBind.address1}
+          on:change={handleChange}
+          bind:value={$form.address1}
           required
         />
       </Cell>
@@ -343,27 +385,22 @@
           label="Address (Line 2)"
           type="text"
           name="address"
-          bind:value={formDataBind.address2}
+          on:change={handleChange}
+          bind:value={$form.address2}
         />
       </Cell>
       <Cell span={4}>
-        <Textfield
-          variant="outlined"
-          label="Zip"
-          type="text"
-          name="zip"
-          bind:value={formDataBind.zip}
-          required
-        />
+        <Textfield variant="outlined" label="Zip" type="text" name="zip" bind:value={$form.zip} required />
       </Cell>
-      {#if formDataBind.country !== "United States" && !!formDataBind.country}
+      {#if $form.country !== "United States" && !!$form.country}
         <Cell span={4}>
           <Textfield
             variant="outlined"
             label="Province"
             type="text"
             name="province"
-            bind:value={formDataBind.province}
+            on:change={handleChange}
+            bind:value={$form.province}
           />
         </Cell>
         <Cell span={4}>
@@ -372,7 +409,8 @@
             label="Postal Code"
             type="text"
             name="postal_code"
-            bind:value={formDataBind.postal_code}
+            on:change={handleChange}
+            bind:value={$form.postal_code}
           />
         </Cell>
       {/if}
@@ -382,7 +420,8 @@
           label="Primary Phone Number"
           type="text"
           name="phone"
-          bind:value={formDataBind.phone}
+          on:change={handleChange}
+          bind:value={$form.phone}
           required
         />
       </Cell>
@@ -392,7 +431,8 @@
           label="Email"
           name="email"
           type="email"
-          bind:value={formDataBind.email}
+          on:change={handleChange}
+          bind:value={$form.email}
           required
         />
       </Cell>
@@ -401,7 +441,7 @@
           label="Meeting Preference"
           variant="outlined"
           name="meet_preferences"
-          bind:value={formDataBind.meet_pref}
+          bind:value={$form.meet_pref}
         >
           <Option value="physical">In person</Option>
           <Option value="online">Online</Option>
