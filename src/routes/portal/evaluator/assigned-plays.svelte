@@ -63,7 +63,7 @@ let convertPlaysToArray = [];
    
     convertPlaysToArray = data[0];
     convertPlaysToArray.forEach(assignedPlay => {        
-      const {
+      let {
       _id: id,
       title = "Unknown",
       author = "Unknown",
@@ -98,6 +98,15 @@ let convertPlaysToArray = [];
     ];
 });
     loading = false;
+
+//     const selectElement = document.getElementById('status');
+
+//     selectElement.addEventListener('change', (event) => {
+
+//     let value = event.target.value;
+//     playsAssigned = playsAssigned.filter(x => )
+// });
+
   }); //end onMount
    
   
@@ -193,10 +202,17 @@ let convertPlaysToArray = [];
     };
 
 
+  
 </script>
 
 <h1 class="header">Assigned Plays</h1>
 
+<div style="float:right"> 
+  <select name="status" id="status">
+    <option value="f">Finished</option>
+    <option value="unf">Unfinished</option>
+     </select>
+</div>
 <div class="assigned-plays-heading">
   <span/>
   <span class="title">Title</span>

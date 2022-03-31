@@ -30,6 +30,26 @@
     };
     let totalActors = 0;
   
+    function getCookie(cname) {
+    
+
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+
+}
+
+    
     function updateTotalAct() {
       totalActors =
         formsData.numOfMales +
@@ -57,11 +77,11 @@
       }
 
     }
-    async function updatePlayAssigned(id) {
+    async function updatePlayAssigned(id , username) {  //
 
-      // console.log('updatePlayAssigned received id of: ' + id);
-      const res = await fetch('../../server/evaluator/updatePlayAssigned.json?id=' + id , { 
-
+      console.log('updatePlayAssigned received id of: ' + id + 'and username of ' + username);
+      const res = await fetch('../../server/evaluator/updatePlayAssigned.json?id='+ id  + '&username=' + username  , { //figure OUT how you will parse two params
+                                                                                                                //edit the middleware hook
         method:'GET',
         credentials:'same-origin',
         headers:{
@@ -70,12 +90,12 @@
 
       });
       
+      console.log(res);
     }
 
 
     async function submit(e) {
      
-        console.log(`playID in submit func in evaluation is ---> ${playID}`);
         const playInfo = await getPlayInfo(playID);
 
 
@@ -95,12 +115,12 @@
             body:JSON.stringify(formsData)
         });
 
+        let username = getCookie("user");
 
-        // await deleteAssignedPlay(playID);
+        console.log(`playID in submit func in evaluation is ---> ${playID}`);
 
-    //    await updatePlayAssigned(playID);
+       await updatePlayAssigned(playID , username);
 
-        // window.open('./main');  //maybe change this to .replace would be better so they wouldn't be able to go back. Replace state.
         window.location.replace('./main')
         return;
     }

@@ -20,6 +20,7 @@ const evaluatorPages = [
     '/server/evaluator/playsAssigned.json',
     '/server/evaluator/evaluations.json',
     '/server/evaluator/getPlayAssignedByID.json',
+    '/server/evaluator/updatePlayAssigned.json',
     '/portal/error',
     '/apply',
     '/login',

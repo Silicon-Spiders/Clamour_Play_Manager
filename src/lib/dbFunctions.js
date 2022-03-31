@@ -160,7 +160,7 @@ export async function getEvaluations() {
 export async function getPlaysAssigned(username) {
   
   let db = await connectDB();
-  let playsAssigned = await db.collection("evaluators").find({username: username} , {projection: {plays: 1, _id: 0} }).toArray();
+  let playsAssigned = await db.collection("evaluators").find({username} , {projection: {plays: 1, _id: 0} }).toArray();
 
 
   // console.log(`obj keys is outputting --> ${Object.keys(playsAssigned[0].plays)}`);
@@ -210,9 +210,9 @@ export async function getPlayByID(playID) {
     //you have to get the evaluator logged in, in order to get the plays assigned to them
     const playColl = await db.collection('plays').findOne({ _id: ObjectId(playID) } , {projection: {title: 1 , _id: 0} });
    
-    console.log(`getPlayByID is returning this ---> ${JSON.stringify(playColl.title)}`);
+    // console.log(`getPlayByID is returning this ---> ${JSON.stringify(playColl.title)}`);
     const playTitle = JSON.stringify(playColl.title);
-    console.log(`Trying to remove quotes it so it looks like ---> ${playTitle.replace(/['"]+/g, '')}`);
+    // console.log(`Trying to remove quotes it so it looks like ---> ${playTitle.replace(/['"]+/g, '')}`);
     // return playTitle; 
     return playTitle.replace(/['"]+/g, '');
   }
@@ -232,14 +232,18 @@ export async function deletePlayAssigned(req) {
   }
 }
 
-export async function updatePlayAssigned(req) {
+export async function updatePlayAssigned(playID , username) {
 
   // const id = req.query.get('id');    //this is getting the url and extracting the url's id
-  if (id && id != 'null' && id != null && id != undefined && id != 'undefined') {
+  if (playID && playID != 'null' && playID != null && playID != undefined && playID != 'undefined') {
 
   let db = await connectDB();
   // This will be change so it could query in evaluator/plays and change them from unf to f after EVALUATION is submitted. Wrote this on 3/26/22.
-  let playAssigned = await db.collection('plays-assigned').updateOne({_id: ObjectId(id)} , {$set: {status:'completed'} });
+  //To update, you first need the evaluatorID
+  let path = 'plays.' + playID;
+  let playAssigned = await db.collection('evaluators').updateOne({username: username} , {$set: {[path]:'f'} });
+
+  console.log(`updatePlayAssigned db func returns this -----> ${JSON.stringify(playAssigned)}`);
 
   return;
   }

@@ -25,9 +25,9 @@
         <span>
           {author}
         </span>
-        <!-- <span>
+        <span>
           {pages}
-        </span> -->
+        </span>
        
       </div>
     </label>
