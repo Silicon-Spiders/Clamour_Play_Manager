@@ -213,6 +213,18 @@ export async function getPlayByID(playID) {
   }
 }
 
+export async function deletePlayAssigned(req) {
+
+  // const id = req.query.get('id');    //this is getting the url and extracting the url's id
+  if (id && id != 'null' && id != null && id != undefined && id != 'undefined') {
+
+  let db = await connectDB();
+  let assignPlaysColl = await db.collection('plays-assigned').deleteOne({ _id: ObjectId(id)});;
+
+
+  return;
+  }
+}
 
 export async function updatePlayAssigned(playID , username) {
 

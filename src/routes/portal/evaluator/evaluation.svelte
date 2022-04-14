@@ -80,8 +80,8 @@
     async function updatePlayAssigned(id , username) {  //
 
       // console.log('updatePlayAssigned received id of: ' + id + 'and username of ' + username);
-      const res = await fetch('../../server/evaluator/updatePlayAssigned.json?id='+ id  + '&username=' + username  , { //figure OUT how you will parse two params edit the middleware hook
-
+      const res = await fetch('../../server/evaluator/updatePlayAssigned.json?id='+ id  + '&username=' + username  , { //figure OUT how you will parse two params
+                                                                                                                //edit the middleware hook
         method:'GET',
         credentials:'same-origin',
         headers:{
