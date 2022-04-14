@@ -208,10 +208,10 @@ let convertPlaysToArray = [];
 <h1 class="header">Assigned Plays</h1>
 
 <div style="float:right"> 
-  <select name="status" id="status">
+  <!-- <select name="status" id="status">
     <option value="f">Finished</option>
     <option value="unf">Unfinished</option>
-     </select>
+     </select> -->
 </div>
 <div class="assigned-plays-heading">
   <span/>

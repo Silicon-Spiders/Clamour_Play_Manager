@@ -5,7 +5,24 @@ import { is_empty, onMount } from "svelte/internal";
     //import { getPlayByID } from "$lib/dbFunctions";
  
   
+    function getCookie(cname) {
+    
 
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+
+}
   let evaluation = {
     id:0,
     title:'',
@@ -37,7 +54,10 @@ import { is_empty, onMount } from "svelte/internal";
     }
     
     async function getEvaluations() {
-      let response = await fetch('../../server/evaluator/evaluations.json', {
+
+      let username = getCookie("user");
+
+      let response = await fetch('../../server/evaluator/evaluations.json?username=' + username, {
         method:'GET',
         credentials:'same-origin',
         headers:{

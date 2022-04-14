@@ -13,13 +13,17 @@ export const post = async ({request}) => {
 
     const res = await request.json();
     insertEvaluation(res);
-    console.log(`Evaluations hook request is --> ${res}`);
+
     return {};
 };
 
- export async function get() {
+ export async function get(username) {
 
-    let evaluations = await getEvaluations();
+    let urlParam = username.url;
+    urlParam = String(urlParam);
+    const paramValue = urlParam.substring(urlParam.indexOf('=') + 1);
+
+    let evaluations = await getEvaluations(paramValue);
 
     return {
         body:evaluations,
