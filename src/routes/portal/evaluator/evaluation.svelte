@@ -26,7 +26,7 @@
       evaluatorComments: "",
       rating: 0,
       title:"",
-      evaluatorID:""
+      evaluatorUsername:""
     };
     let totalActors = 0;
   
@@ -79,7 +79,7 @@
     }
     async function updatePlayAssigned(id , username) {  //
 
-      console.log('updatePlayAssigned received id of: ' + id + 'and username of ' + username);
+      // console.log('updatePlayAssigned received id of: ' + id + 'and username of ' + username);
       const res = await fetch('../../server/evaluator/updatePlayAssigned.json?id='+ id  + '&username=' + username  , { //figure OUT how you will parse two params
                                                                                                                 //edit the middleware hook
         method:'GET',
@@ -97,12 +97,13 @@
     async function submit(e) {
      
         const playInfo = await getPlayInfo(playID);
-
+        let username = getCookie("user");
 
         // formsData.playID = playInfo._id;  
         formsData.title = playInfo; 
+        formsData.evaluatorUsername = username;
         // THIS IS THE NEW WAY TO SEND DATA ---> export const get = ({ params }) => fetch(`https://myapi.com/${params.path}`);
-
+        console.log(e.target.action);
         //Before you insert an evaluation you have to get the playID, title, and get authorID to insert it with it!
         const insertEvaluation = await fetch("../../server/evaluator/evaluations.json", {
 
@@ -115,7 +116,6 @@
             body:JSON.stringify(formsData)
         });
 
-        let username = getCookie("user");
 
         console.log(`playID in submit func in evaluation is ---> ${playID}`);
 
