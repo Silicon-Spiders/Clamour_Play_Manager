@@ -80,8 +80,8 @@
     async function updatePlayAssigned(id , username) {  //
 
       // console.log('updatePlayAssigned received id of: ' + id + 'and username of ' + username);
-      const res = await fetch('../../server/evaluator/updatePlayAssigned.json?id='+ id  + '&username=' + username  , { //figure OUT how you will parse two params
-                                                                                                                //edit the middleware hook
+      const res = await fetch('../../server/evaluator/updatePlayAssigned.json?id='+ id  + '&username=' + username  , { //figure OUT how you will parse two params edit the middleware hook
+
         method:'GET',
         credentials:'same-origin',
         headers:{
@@ -90,7 +90,6 @@
 
       });
       
-      console.log(res);
     }
 
 
@@ -98,13 +97,16 @@
      
         const playInfo = await getPlayInfo(playID);
         let username = getCookie("user");
+        let url = e.target.action;
+        const paramPlayID = url.substring(url.indexOf('=') + 1);
 
-        // formsData.playID = playInfo._id;  
-        formsData.title = playInfo; 
+        formsData.title = String(playInfo); 
         formsData.evaluatorUsername = username;
+        formsData.playID = paramPlayID;
         // THIS IS THE NEW WAY TO SEND DATA ---> export const get = ({ params }) => fetch(`https://myapi.com/${params.path}`);
-        console.log(e.target.action);
-        //Before you insert an evaluation you have to get the playID, title, and get authorID to insert it with it!
+        
+        //Before you insert an evaluation you have to get the playID, title, and get authorID/name to insert it with it!
+        
         const insertEvaluation = await fetch("../../server/evaluator/evaluations.json", {
 
             method:'POST',
@@ -116,16 +118,11 @@
             body:JSON.stringify(formsData)
         });
 
-
-        console.log(`playID in submit func in evaluation is ---> ${playID}`);
-
        await updatePlayAssigned(playID , username);
 
         window.location.replace('./main')
         return;
     }
-
-
     
     let finish = false;
   </script>
@@ -162,6 +159,7 @@
                   type="number"
                   id="numOfActors"
                   min="0"
+                  max="20"
                   name="numOfActors"
                   bind:value={formsData.numOfMales}
                   on:change={updateTotalAct}
@@ -173,6 +171,7 @@
                   type="number"
                   id="numOfActors"
                   min="0"
+                  max="20"
                   name="numOfActors"
                   bind:value={formsData.numOfFemales}
                   on:change={updateTotalAct}
@@ -184,6 +183,7 @@
                   type="number"
                   id="numOfActors"
                   min="0"
+                  max="20"
                   name="numOfActors"
                   bind:value={formsData.numOfNonSpecific}
                   on:change={updateTotalAct}
@@ -198,8 +198,10 @@
                 <input
                   type="number"
                   id="numOfActors"
-                  min="0"
+                  min="1"
+                  max="100"
                   name="numOfpages"
+                  required
                   bind:value={formsData.numOfPages}
                   on:change={updateTotalAct}
                   
@@ -210,12 +212,12 @@
               
               <label for="toneOfPlay">Tone of Play:</label>
               
-              <select class="filebox" name="toneOfPlay" id="toneOfPlay" bind:value={formsData.toneOfPlay} >
+              <select class="filebox" name="toneOfPlay" id="toneOfPlay" required bind:value={formsData.toneOfPlay} >
                   
-                <option value="comedy">Comedy</option>
-                <option value="drama">Drama</option>
-                <option value="classical">Classical</option>
-                <option value="comedy">Comedy</option>
+                <option value="Serio-Comedy">Serio-Comedy</option>
+                <option value="Musical">Musical</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Drama">Drama</option>
             
               </select>
 
@@ -240,6 +242,7 @@
                 cols="50%"
                 rows="10"
                 placeholder="Write a brief synopsis of your play."
+                required
                 bind:value={formsData.synopsis}
                 
               />
@@ -252,6 +255,7 @@
                 cols="50%"
                 rows="10"
                 placeholder="What is the evaluator's opinion about the playwright?"
+                required
                 bind:value={formsData.evaluatorComments}
                 
               />
@@ -262,6 +266,7 @@
                 id="rating"
                 min="1"
                 max="10"
+                required
                 bind:value={formsData.rating}
                 
               />

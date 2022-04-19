@@ -7,12 +7,9 @@
     export let visibility = undefined;
     export let playid = undefined;
     export let title = undefined;
-    export let tone = undefined;
-    export let actors = undefined;
-    export let pages = undefined;
+    export let length;
     export let author = undefined;
-    export let play = undefined;
-    export let status = undefined;
+    export let synopsis;
   </script>
   
   {#if half}
@@ -26,13 +23,16 @@
           {author}
         </span>
         <span>
-          {pages}
+          {length}
+        </span>
+        <span>
+          {synopsis}
         </span>
        
       </div>
     </label>
   {:else}
-    <a href="{play.id}-profile">
+    <!-- <a href="{play.id}-profile">
       <div class="play-container">
         <span>
           {play.title}
@@ -62,7 +62,7 @@
           {play.authorRegion}
         </span>
       </div>
-    </a>
+    </a> -->
   {/if}
   
   <style>

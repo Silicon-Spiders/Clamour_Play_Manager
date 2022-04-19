@@ -213,18 +213,6 @@ export async function getPlayByID(playID) {
   }
 }
 
-export async function deletePlayAssigned(req) {
-
-  // const id = req.query.get('id');    //this is getting the url and extracting the url's id
-  if (id && id != 'null' && id != null && id != undefined && id != 'undefined') {
-
-  let db = await connectDB();
-  let assignPlaysColl = await db.collection('plays-assigned').deleteOne({ _id: ObjectId(id)});;
-
-
-  return;
-  }
-}
 
 export async function updatePlayAssigned(playID , username) {
 
@@ -240,4 +228,33 @@ export async function updatePlayAssigned(playID , username) {
   return;
   }
 
+}
+
+
+export async function getFinishedPlays(username) {
+  
+  let db = await connectDB();
+  let playsAssignedFinished = await db.collection("evaluators").find({username} , {projection: {plays: 1, _id: 0} }).toArray();
+  
+  let playsAry = playsAssignedFinished[0].plays;
+  let finishedPlays = [];
+
+  Object.keys(playsAry).forEach(play => {
+    if (playsAry[play] == "f") {
+
+      finishedPlays.push(play);
+      // console.log(`This is the ID of finished play: ${play}`);
+    }
+  });
+  
+
+  const keyIDs = JSON.stringify( Object.keys(playsAssignedFinished[0].plays) );
+  
+  const keysArray = keyIDs.split(',');
+  const Ids = Object.keys(playsAssignedFinished[0].plays);
+  
+  let gettingPlaysByID = await findPlaysByID(finishedPlays);
+
+  // console.log(JSON.stringify(gettingPlaysByID));
+  return gettingPlaysByID;
 }

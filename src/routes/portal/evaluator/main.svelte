@@ -1,11 +1,17 @@
 <script>
 import Play from "$lib/components/play.svelte";
+import DataTable, { Head, Body, Row, Cell as Cell, Pagination, SortValue } from "@smui/data-table";
+import { is_empty, onMount } from "svelte/internal"; 
+import LinearProgress from '@smui/linear-progress';
+import List, { Item, Text, Graphic, Separator, Subheader } from "@smui/list";
+import Icon from "$lib/components/Icon.svelte";
+import { pageTitle } from '$lib/stores';
 
-import { is_empty, onMount } from "svelte/internal";
-    //import { getPlayByID } from "$lib/dbFunctions";
- 
-  
-    function getCookie(cname) {
+onMount(() => {
+    $pageTitle = "Evaluations Completed";
+  });
+
+  function getCookie(cname) {
     
 
     let name = cname + "=";
@@ -94,105 +100,57 @@ import { is_empty, onMount } from "svelte/internal";
     // })
     let search;
     let dropdown;
-
-    
+    let loaded = true;
    
+   console.log(`EvaluationAry length is : ${evaluationsAry.length}`);
 </script>
 
 <svelte:head>
     <title>Evaluator Menu</title>
 </svelte:head>
 
-<h1>Evaluations</h1>
-<div class="evaluation-heading-container-half">
-    <span />
-    <span>Title</span>
-    <span>Tone</span>
-    <span>Pages</span>
-    <span>Rating</span>
-  </div>
- 
-  {#each evaluationsAry as evall}
+  <DataTable table$aria-label="Evaluation list" style="width: 100%;">
+    <Head>
+      <Row>
+        <Cell style="width: 100%;">Title</Cell>
+        <Cell>Tone</Cell>
+        <Cell numeric>Page Number</Cell>
+        <Cell numeric>
+          Rating
+          <Icon code="star"></Icon>
+        </Cell>
+      </Row>
+    </Head>
+    <Body>
+      {#if evaluationsAry.length > 0}
 
-    <Play half checkbox
-    playid={evall.id}
-    title={evall.title}
-    tone={evall.toneOfPlay}
-    pages={evall.numOfPages}
-    rating = {evall.rating}
-        />
+      {#each evaluationsAry as evall}
+      
+      <Row>
+        <Cell> {evall.title}</Cell>
+        <Cell> {evall.toneOfPlay}</Cell>
+        <Cell numeric> {evall.numOfPages}</Cell>
+        <Cell numeric> {evall.rating}/10</Cell>
+      </Row>
 
-  <!-- {:else}
-  <p style="text-align: center;">Loading...</p>
-  {/if} -->
+      {/each}
 
-  {/each}
+      {:else}
 
-  <style>
+      <Row>
+        <Cell> No Evaluations Completed </Cell>
+      </Row>
 
-body-style {
-      height: 99%;
-    }
-    .form {
-      height: inherit;
-    }
-    .submit {
-      position: absolute;
-      right: 5%;
-      bottom: 5%;
-      background-color: rgb(240, 178, 178);
-      border-radius: 5px;
-      height: 5%;
-      width: 15%;
-    }
-    .half-container {
-      width: 47%;
-      height: 100%;
-      padding: 15px;
-      margin: auto;
-      background-color: lightgray;
-      border-radius: 15px;
-      display: inline-block;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-    .half-container h2{
-      margin: 10px;
-    }
-    .full-container {
-      height: 80%;
-      display: flex;
-    }
-    ::-webkit-scrollbar {
-    width: 10px;
-    }
-    ::-webkit-scrollbar-thumb {
-    background: darkgray;
-    border-radius: 20px;
-    }
-    .evaluation-heading-container-half {
-      display: grid;
-      grid-template-columns: 5% 35% 35% 15% 10%;
-      text-align: left;
-      padding-right: 4.2%;
-      border-bottom: thin solid var(--secondary-color-dark);
-      border-radius: 15px;
-      background-color: var(--primary-color-dark);
-    }
-    .evaluation-heading-container-half span {
-      font-size: 14pt;
-      padding: 5px;
-      color: white;
-    }
-    .search-bar {
-      padding: 6px;
-      border: none;
-      border-radius: 4px;
-    }
-    .dropdown-field {
-      padding: 6px;
-      border: none;
-      border-radius: 4px;
-    }
+      {/if}
 
-  </style>
+      
+    </Body>
+  
+    <LinearProgress
+      indeterminate
+      bind:closed={loaded}
+      aria-label="Data is being loaded..."
+      slot="progress"
+    />
+  </DataTable>
+

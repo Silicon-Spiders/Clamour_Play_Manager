@@ -21,12 +21,16 @@ const evaluatorPages = [
     '/server/evaluator/evaluations.json',
     '/server/evaluator/getPlayAssignedByID.json',
     '/server/evaluator/updatePlayAssigned.json',
+    '/server/evaluator/getFinishedPlays.json',
     '/portal/error',
     '/apply',
     '/login',
     '/portal/evaluator/assigned-plays',
     '/portal/evaluator/main',
-    '/portal/evaluator/evaluation'
+    '/portal/evaluator/evaluation',
+    '/portal/evaluator/assigned-plays-new',
+    '/portal/evaluator/view-past-plays'
+
 ];
 
 function verifyToken(token) {

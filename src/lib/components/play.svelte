@@ -27,7 +27,7 @@
         {pages}
       </span>
       <span>
-        {rating}
+        {rating}/10
       </span>
     </div>
   </label>
