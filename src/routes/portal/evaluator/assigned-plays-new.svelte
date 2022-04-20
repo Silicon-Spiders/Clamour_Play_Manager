@@ -11,6 +11,7 @@
   import Button, { Label } from "@smui/button";
   import LinearProgress from '@smui/linear-progress';
 
+
 onMount(() => {
     $pageTitle = "Assigned Plays";
   });
@@ -119,7 +120,6 @@ let convertPlaysToArray = [];
 
 let loaded = true;
 
-console.log(`PlaysAssigned length is ---> ${playsAssigned.length}`);
 </script>
 
 <div style="margin-bottom: 1em;">

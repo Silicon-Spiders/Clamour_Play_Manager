@@ -6,6 +6,7 @@ import LinearProgress from '@smui/linear-progress';
 import List, { Item, Text, Graphic, Separator, Subheader } from "@smui/list";
 import Icon from "$lib/components/Icon.svelte";
 import { pageTitle } from '$lib/stores';
+import { goto } from "$app/navigation";
 
 onMount(() => {
     $pageTitle = "Evaluations Completed";
@@ -42,22 +43,7 @@ onMount(() => {
     rating:0,
     playID: ''
   };
-    async function getAssignedPlayByID(id) {
-      let res = await fetch('../../server/evaluator/getPlayAssignedByID.json?id=' + id , {
-        method:'GET',
-        credentials:'same-origin',
-        headers:{
-             'Content-Type':'application/json'
-        },
-      });
-      
-      const playID = await res.json();
-      if(res.ok) {
-        return playID;
-      } else {
-        throw new Error('Something wrong with getting the evaluations response!!');
-      }
-    }
+  
     
     async function getEvaluations() {
 
@@ -83,14 +69,15 @@ onMount(() => {
     onMount(async() => {
       let data = await getEvaluations();
       console.log(data);
-      for (let i = 0; i < data.length; i++) {
-        console.log(data[i]);
+      // for (let i = 0; i < data.length; i++) {
+      //   console.log(data[i]);
        
-      }
+      // }
       evaluationsAry = data;
       
       loading = false;
     }); //end onMount
+
     // let playVis = {};
     // data.plays.forEach( play => {
     //     playVis[play.playid] = "visible";
@@ -102,7 +89,6 @@ onMount(() => {
     let dropdown;
     let loaded = true;
    
-   console.log(`EvaluationAry length is : ${evaluationsAry.length}`);
 </script>
 
 <svelte:head>
@@ -126,7 +112,7 @@ onMount(() => {
 
       {#each evaluationsAry as evall}
       
-      <Row>
+      <Row on:click = {() => goto(`${evall._id}-evalInfo`)}>
         <Cell> {evall.title}</Cell>
         <Cell> {evall.toneOfPlay}</Cell>
         <Cell numeric> {evall.numOfPages}</Cell>
