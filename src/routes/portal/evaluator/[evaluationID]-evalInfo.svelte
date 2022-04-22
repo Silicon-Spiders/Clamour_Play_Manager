@@ -60,6 +60,7 @@
     }// end getEvaluations()
     let loading = true;
     let evaluationsAry = [];
+    let actors = 0;
 
     onMount(async() => {
       let data = await getEvaluations();
@@ -72,14 +73,14 @@
 
       loading = false;
       singleEvaluation = evaluationsAry.find((evall) => evall._id == evaluationID);
-
+      actors = singleEvaluation.numOfMales + singleEvaluation.numOfFemales + singleEvaluation.numOfNonSpecific;
     }); //end onMount
 
     
   </script>
   
   {#if singleEvaluation}
-    <h1>{singleEvaluation?.title} by {singleEvaluation.evaluatorUsername}</h1>
+    <h1>{singleEvaluation?.title}</h1>
     <Card style="padding: 0px; background-color: var(--primary-color); color:white">
       <LayoutGrid>
         <Cell align="middle" span={3}>
@@ -89,7 +90,7 @@
           Tone: {singleEvaluation?.toneOfPlay ? singleEvaluation.toneOfPlay : "--"}
         </Cell>
         <Cell align="middle" span={3}>
-          Actors Needed: {singleEvaluation?.numOfMales ? singleEvaluation.numOfMales : "--"}
+          Actors: {actors ? actors : "--"}
         </Cell>
         <Cell align="middle" span={3}>
           <Button style="background-color: white;" variant="outlined" on:click>

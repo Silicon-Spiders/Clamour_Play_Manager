@@ -43,7 +43,7 @@
  {:else}
 
   <div class="progress">
-    <div class="progress-titles">
+     <div class="progress-extra-titles">
       <span
         >Play Info
         <div class="progress-bar" style="width:{$step >= 1 ? '100' : '0'}%" />
@@ -75,4 +75,22 @@
       transition: all 1s ease;
     }
   }
+
+  #center-form {
+
+    margin: 0 auto;
+  }
+
+  .progress-extra {
+    &-titles {
+      display: flex;
+      font-size: 14pt;
+      column-gap: 1vw;
+      span {
+        text-align: center;
+        flex-basis: 50%;
+      }
+    }
+  }
+  
 </style>

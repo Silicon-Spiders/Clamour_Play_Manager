@@ -3,6 +3,7 @@
     import { bind } from "svelte/internal";
     import StepWizard from "svelte-step-wizard";
     import { page } from '$app/stores'
+    import { pageTitle } from '$lib/stores';
   
     // import OutsideLayout from "../lib/components/layouts/Outside-layout.svelte";
     import ApplicationProgress from "$lib/components/apply/ApplicationProgress.svelte";
@@ -13,8 +14,7 @@
    
     let url = $page.url.search;
     let playID = url.substring(url.indexOf('=') + 1);
-    console.log(`playID in evaluation.svelte IS : ${playID}`);    
-  
+    
     let formsData = {
       playID:"",
       numOfPages: 0,
@@ -142,7 +142,7 @@
         <ApplicationProgress type = "evaluator"/>
         <StepWizard.Step num={1} let:nextStep>
           <div class="step">
-            <h2>Play Info</h2>
+            <h2>About Play</h2>
             <div class="scroll">
               
               <div>
@@ -270,13 +270,12 @@
                 bind:value={formsData.rating}
                 
               />
-              
+              <br/>
+              <div class="step-btns">
+                <button on:click={previousStep}>Previous</button>
+                <button on:click={() => (finish = true)} type="submit">Submit</button>
+              </div>
             </div>
-          </div>
-  
-          <div class="step-btns">
-            <button on:click={previousStep}>Previous</button>
-            <button on:click={() => (finish = true)} type="submit">Submit</button>
           </div>
         </StepWizard.Step>
       </StepWizard>
@@ -287,6 +286,7 @@
     .evaluation {
       display: flex;
       height: 100vh;
+      margin: 0 auto; 
     }
     .sideimage {
       display: flex;
@@ -305,7 +305,7 @@
     form {
       padding: 15vh 0px;
       flex-basis: 60vw;
-      margin: 0px 5vw;
+      margin: 0 auto;
     }
     .filebox {
       border: black solid 2px;
@@ -333,7 +333,6 @@
     }
     .scroll {
       height: 100%;
-      overflow-y: scroll;
     }
     input {
       border-radius: 10pt;
@@ -352,6 +351,7 @@
     }
     .step {
       margin: 8vh 0px;
+      text-align: center;
       height: 55vh;
       &-btns {
         display: flex;
