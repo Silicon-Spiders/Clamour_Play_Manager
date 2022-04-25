@@ -199,7 +199,7 @@
                   type="number"
                   id="numOfActors"
                   min="1"
-                  max="100"
+                  max="120"
                   name="numOfpages"
                   required
                   bind:value={formsData.numOfPages}
