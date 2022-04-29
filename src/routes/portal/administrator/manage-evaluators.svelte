@@ -233,8 +233,8 @@
                 lastName: evaluator.lastName,
                 email: evaluator.email,
                 phone: evaluator.phone,
-                username: "",
-                password: "",
+                username: evaluator.username || "",
+                password: evaluator.password || "",
               };
               openEditEvaluatorForm = true;
               $sideProfile = evaluator;

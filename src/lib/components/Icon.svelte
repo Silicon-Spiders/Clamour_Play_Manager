@@ -2,7 +2,7 @@
   export let code = undefined;
 </script>
 
-<span class="material-icons">
+<span class="material-icons-outlined">
   {code}
 </span>
 

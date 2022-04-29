@@ -17,3 +17,14 @@
   display: flex;
   align-items: center;
 }
+.mdc-layout-grid__inner {
+  gap: 12px;
+}
+html,
+body,
+main,
+div#svelte {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+}
