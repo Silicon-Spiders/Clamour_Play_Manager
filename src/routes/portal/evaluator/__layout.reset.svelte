@@ -13,7 +13,6 @@
   import Alert from "$lib/components/Alert.svelte";
 
   function getCookie(cname) {
-    onMount(() => {
       let name = cname + "=";
       let decodedCookie = decodeURIComponent(document.cookie);
       let ca = decodedCookie.split(";");
@@ -27,7 +26,6 @@
         }
       }
       return "";
-    });
   }
 
   async function clearCookies() {
@@ -36,14 +34,14 @@
     });
     location.reload();
   }
+  let user = '';
 
   onMount(async () => {
-    await updatePlays();
+    user = getCookie("user");
   });
 
   let open = false;
 
-  let user = getCookie("user");
 </script>
 
 <svelte:head>
@@ -75,10 +73,6 @@
         <Text>View Past Assigned Plays</Text>
       </Item>
       
-      <!-- <Item href="/portal/evaluator/view-past-plays" on:click={() => (open = false)}>
-        <Graphic class="material-icons">add</Graphic>
-        <Text>Assigned Plays</Text>
-      </Item> -->
 
       <Separator />
      
@@ -109,7 +103,6 @@
   </div>
 </AppContent>
 
-<!-- <Alert /> -->
 
 <style>
   .content {
@@ -118,6 +111,3 @@
     height: 100%;
   }
 </style>
-© 2022 GitHub, Inc.
-Terms
-Priva

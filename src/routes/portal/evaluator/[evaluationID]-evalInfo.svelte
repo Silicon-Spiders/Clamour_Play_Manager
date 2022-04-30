@@ -9,20 +9,11 @@
     import Spinner from "$lib/components/Spinner.svelte";
     import { onMount } from "svelte/internal"; 
 
-  
-    // $pageTitle = "View Plays";
-  
-  let singleEvaluation = undefined;
+    
+    let singleEvaluation = undefined;
     const { evaluationID } = $page.params;
-    // $: singleEvaluation = $evaluationsAry.find((singleEvaluation) => singleEvaluation.id == playID);
   
-    
-    // async function getPlay() {
-    //   window.open("/server/plays/"+playID, '_blank');
-    // }
-
     function getCookie(cname) {
-    
 
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -37,7 +28,6 @@
         }
       }
       return "";
-
     }
   
     async function getEvaluations() {
@@ -61,22 +51,20 @@
     let loading = true;
     let evaluationsAry = [];
     let actors = 0;
-
+    let singlePlayID;
     onMount(async() => {
-      let data = await getEvaluations();
-      console.log(data);
-      // for (let i = 0; i < data.length; i++) {
-      //   console.log(data[i]);
-      
-      // }
+      let data = await getEvaluations();      
       evaluationsAry = data;
 
       loading = false;
       singleEvaluation = evaluationsAry.find((evall) => evall._id == evaluationID);
+      singlePlayID = singleEvaluation.playID;
       actors = singleEvaluation.numOfMales + singleEvaluation.numOfFemales + singleEvaluation.numOfNonSpecific;
     }); //end onMount
 
-    
+    async function getPlay() {
+      window.open("/server/plays/"+singlePlayID, '_blank');
+    }
   </script>
   
   {#if singleEvaluation}
@@ -93,7 +81,7 @@
           Actors: {actors ? actors : "--"}
         </Cell>
         <Cell align="middle" span={3}>
-          <Button style="background-color: white;" variant="outlined" on:click>
+          <Button style="background-color: white;" variant="outlined" on:click="{getPlay}">
             <!-- INSERT OPEN PDF HERE -->
             <Icon code="open_in_new" --icon-align="middle" --icon-size="1.5em" />
             View
@@ -129,12 +117,10 @@
         <Cell span={7}>
           <LayoutGrid class="sub-content-grid">
             <Cell span={12}>
-              <h3>What's next for the play?</h3>
+              <h3>Evaluator Comments</h3>
             </Cell>
             <Cell span={12}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae perferendis maxime aliquid
-              alias fugit quaerat ipsa iste fugiat commodi. Est ipsum veritatis voluptatibus. Officiis
-              recusandae assumenda quia. Itaque, qui ad.
+              {singleEvaluation.evaluatorComments}
             </Cell>
           </LayoutGrid>
         </Cell>
@@ -153,16 +139,6 @@
               <p>Neutral: {singleEvaluation.numOfNonSpecific}</p>
             </Cell>
             
-          </LayoutGrid>
-        </Cell>
-        <Cell span={6}>
-          <LayoutGrid class="sub-content-grid">
-            <Cell span={12}>
-              <h3>Evaluator Comments</h3>
-            </Cell>
-            <Cell span={12}>
-              {singleEvaluation.evaluatorComments}
-            </Cell>
           </LayoutGrid>
         </Cell>
       </LayoutGrid>
