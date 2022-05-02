@@ -70,7 +70,6 @@
       input.checked = false;
     });
     updateMessage();
-    location.reload();
   }
 
   function updateMessage() {
